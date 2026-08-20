@@ -33,7 +33,7 @@ Work proceeds in gated phases. Each phase stops for review before the next.
 | **B** | Calais boundary & basemap tiles | Complete |
 | **C** | Place-name search (Calais-only; no municipality filter) | Complete |
 | **D** | Calais geometry + commitment join | Complete |
-| **E** | Assessed-total percentile choropleth, legend, tests | Planned |
+| **E** | Assessed-total percentile choropleth, legend, tests | Complete |
 
 ## Stack (v1)
 

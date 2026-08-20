@@ -2,8 +2,12 @@
  * Build parcel PMTiles from Calais organized parcel GeoJSON.
  */
 import path from "node:path";
-import { classifyParcelSymbology } from "@/lib/map/parcel-coverage";
 import { CALAIS_BBOX } from "@/lib/geo/calais";
+import {
+  NO_VALUE_PCT,
+  computeCalaisValuePercentiles,
+  valuePctOrMissing,
+} from "@/lib/map/parcel-valuation";
 import { buildPmtilesFromLayers, readBbox, readGeoJson } from "./build-pmtiles";
 import { ORGANIZED_PARCELS_GEOJSON } from "../etl/tax/paths";
 import { PROCESSED_DIR, TILES_DIR, ensureDirs, readJson } from "../etl/paths";
@@ -24,15 +28,12 @@ async function main() {
     Array<{
       id: string;
       municipalityId: string;
-      ownerName: string | null;
       assessedTotalValue: string | null;
-      assessedExemptionValue?: string | null;
-      hasTreeGrowth?: boolean | null;
-      joinConfidence?: number | null;
-      attrsRaw?: Record<string, unknown> | null;
+      valuePct?: number | null;
     }>
   >(path.join(PROCESSED_DIR, "parcels.json"));
 
+  const ranks = computeCalaisValuePercentiles(parcels);
   const parcelMeta = new Map(parcels.map((p) => [p.id, p]));
 
   const tileFeatures: GeoJSON.FeatureCollection = {
@@ -40,26 +41,16 @@ async function main() {
     features: geojson.features.map((f) => {
       const id = String(f.properties?.id ?? "");
       const meta = parcelMeta.get(id);
-      const symbology = classifyParcelSymbology({
-        ownerName: meta?.ownerName,
-        assessedTotalValue: meta?.assessedTotalValue,
-        assessedExemptionValue: meta?.assessedExemptionValue,
-        hasTreeGrowth: meta?.hasTreeGrowth,
-        attrsRaw: meta?.attrsRaw,
-        joinConfidence: meta?.joinConfidence,
-      });
+      const valuePct = valuePctOrMissing(
+        meta?.valuePct ?? ranks.get(id) ?? NO_VALUE_PCT,
+      );
       return {
         type: "Feature",
         properties: {
           id,
           municipalityId: String(f.properties?.municipalityId ?? meta?.municipalityId ?? ""),
-          mapLot: String(
-            f.properties?.mapBkLot ?? f.properties?.planLot ?? meta?.mapLot ?? "",
-          ),
-          tpl: f.properties?.tpl != null ? String(f.properties.tpl) : "",
-          coverageTier: symbology.coverageTier,
-          program: symbology.program,
-          joinLow: symbology.joinLow,
+          mapLot: String(f.properties?.mapBkLot ?? ""),
+          valuePct,
         },
         geometry: f.geometry!,
       };
@@ -88,7 +79,7 @@ async function main() {
     maxZoom: 14,
     bbox,
     attribution: "Maine GeoLibrary / City of Calais assessing",
-    description: "City of Calais parcel boundaries",
+    description: "City of Calais parcel boundaries colored by assessed-total percentile",
   });
   console.log("Done.");
 }

@@ -1,9 +1,9 @@
 import type { StyleSpecification } from "maplibre-gl";
 import { LAYER_IDS, SOURCE_IDS } from "./layers";
 import {
-  parcelCoverageFillExpression,
-  parcelCoverageLineExpression,
-} from "./parcel-coverage";
+  parcelValuationFillExpression,
+  parcelValuationLineExpression,
+} from "./parcel-valuation";
 
 function resolveTilesBase(origin?: string): string {
   const path =
@@ -26,25 +26,15 @@ function parcelLayers(): StyleSpecification["layers"] {
       "source-layer": "parcels",
       minzoom: 10,
       paint: {
-        "fill-color": parcelCoverageFillExpression(),
+        "fill-color": parcelValuationFillExpression(),
         "fill-opacity": [
           "interpolate",
           ["linear"],
           ["zoom"],
           10,
-          [
-            "case",
-            ["==", ["get", "joinLow"], 1],
-            0.06,
-            0.08,
-          ],
+          0.08,
           13,
-          [
-            "case",
-            ["==", ["get", "joinLow"], 1],
-            0.18,
-            0.22,
-          ],
+          0.22,
         ],
       },
     },
@@ -55,7 +45,7 @@ function parcelLayers(): StyleSpecification["layers"] {
       "source-layer": "parcels",
       minzoom: 10,
       paint: {
-        "line-color": parcelCoverageLineExpression(),
+        "line-color": parcelValuationLineExpression(),
         "line-width": [
           "interpolate",
           ["linear"],
@@ -96,7 +86,7 @@ export function buildAtlasStyle(origin?: string): StyleSpecification {
 
   return {
     version: 8,
-    name: "washington-county-atlas",
+    name: "calais-atlas",
     glyphs: "https://protomaps.github.io/basemaps-assets/fonts/{fontstack}/{range}.pbf",
     sources: {
       [SOURCE_IDS.BASEMAP]: {

@@ -23,6 +23,11 @@
   --color-parcel-owner-muted: #4a8075;
   --color-parcel-none: #8aa4b0;
   --color-parcel-none-line: #4a6a72;
+  --color-value-low: #2166ac;
+  --color-value-low-mid: #67a9cf;
+  --color-value-mid: #f7f7f7;
+  --color-value-high-mid: #ef8a62;
+  --color-value-high: #b2182b;
   --color-text-primary: #1a2a32;
   --color-text-secondary: #4a5a62;
   --color-text-inverse: #f5f3ee;

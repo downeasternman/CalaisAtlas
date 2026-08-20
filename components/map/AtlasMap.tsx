@@ -15,7 +15,7 @@ import {
 } from "@/lib/map/interactions";
 import type { MapFlyTarget } from "@/lib/types/explorer";
 import { MapAttribution } from "./MapAttribution";
-import { ParcelCoverageLegend } from "./ParcelCoverageLegend";
+import { ParcelValuationLegend } from "./ParcelValuationLegend";
 
 let protocolRegistered = false;
 
@@ -132,7 +132,7 @@ export function AtlasMap({
         <NavigationControl position="top-right" showCompass={false} />
       </Map>
       <MapAttribution asOfDate={asOfDate} />
-      <ParcelCoverageLegend />
+      <ParcelValuationLegend />
     </div>
   );
 }

@@ -24,6 +24,19 @@ function isUtAccountNumber(account: string): boolean {
   return /^\d{4}-\d{4}$/.test(account.trim());
 }
 
+function formatOrdinalPercentile(value: number): string {
+  const rounded = Math.round(value);
+  const mod100 = rounded % 100;
+  const mod10 = rounded % 10;
+  let suffix = "th";
+  if (mod100 < 11 || mod100 > 13) {
+    if (mod10 === 1) suffix = "st";
+    else if (mod10 === 2) suffix = "nd";
+    else if (mod10 === 3) suffix = "rd";
+  }
+  return `${rounded}${suffix}`;
+}
+
 function formatCurrency(value: string | null): string | null {
   if (!value) return null;
   const num = Number(value);
@@ -154,6 +167,12 @@ export function ParcelDetailPanel({
                 {formatCurrency(parcel.assessedTotalValue)}
                 {parcel.taxYear ? ` (${parcel.taxYear})` : ""}
               </dd>
+              {parcel.valuePct != null && parcel.valuePct >= 0 ? (
+                <dd className="mt-1 text-xs text-[var(--color-text-secondary)]">
+                  Assessed total percentile in Calais:{" "}
+                  {formatOrdinalPercentile(parcel.valuePct)}
+                </dd>
+              ) : null}
             </div>
           ) : parcel.ownerName ? (
             <div>

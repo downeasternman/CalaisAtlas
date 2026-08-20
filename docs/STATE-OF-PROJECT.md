@@ -1,7 +1,7 @@
 # Calais Atlas — State of Project
 
 **As of:** 2026-08-20  
-**Working tree:** Phase D Calais tax join  
+**Working tree:** Phase E valuation choropleth  
 **Local path:** `C:\Users\mclancy\CalaisAtlas`  
 **Remote:** https://github.com/downeasternman/CalaisAtlas
 
@@ -16,8 +16,8 @@ This document is a review snapshot: what ships today, gaps, and next gates.
 | Phase A (identity / repo) | **Complete** (pushed `56a7908`) |
 | Phase B (Calais basemap) | **Complete** |
 | Phase C (place search) | **Complete** (pushed `a65a618`) |
-| Phase D (Calais tax join) | **Complete** |
-| Phase E (valuation choropleth) | Not started |
+| Phase D (Calais tax join) | **Complete** (pushed `3289dcd`) |
+| Phase E (valuation choropleth) | **Complete** |
 
 **Product identity:** Hybrid atlas + parcel detail; City of Calais, Maine only; free public data.
 
@@ -33,7 +33,7 @@ Map story (Phase E): assessed total percentile among Calais parcels — lowest b
 | **B** | Calais boundary + OSM clip + tiles | Complete |
 | **C** | Place search; remove municipality filter | Complete |
 | **D** | Calais geometry + commitment parse/join | Complete |
-| E | `valuePct` choropleth, legend, tests | Pending |
+| **E** | `valuePct` choropleth, legend, tests | Complete |
 
 ---
 
@@ -43,7 +43,7 @@ Map story (Phase E): assessed total percentile among Calais parcels — lowest b
 - Tax: City of Calais 2025-26 Real Estate Tax Commitment — **2,027** parsed rows
 - Owner joins: **2,678 / 2,771** (96.6%)
 - Quality joins (owner + assessment): **2,530 / 2,771** (91.3%)
-- Map fill is still coverage/program colors until Phase E
+- Map fill is assessed-total percentile among Calais parcels with a parsed total (lowest blue, highest red). Unassessed parcels are gray.
 
 ---
 
@@ -58,11 +58,11 @@ Map story (Phase E): assessed total percentile among Calais parcels — lowest b
 
 ## 5. Next gate
 
-**Phase E** — `valuePct` choropleth (lowest blue, highest red), valuation legend, detail percentile line, tests.
+v1 complete. Next work is out of scope unless requested (per-acre coloring, other towns, branding).
 
 Review checklist:
 - [x] Phase A complete (identity + repo remote)
 - [x] Phase B (Calais METWP boundary, OSM clip, basemap/boundary tiles, map opens on Calais)
 - [x] Phase C (Calais place search; no municipality filter)
 - [x] Phase D (Calais geometry + 2025-26 commitment join)
-- [ ] Phase E
+- [x] Phase E (`valuePct` choropleth, legend, detail percentile)

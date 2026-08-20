@@ -13,6 +13,7 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 - Map initial view uses Calais bbox `[-67.3056, 45.0720, -67.1227, 45.1918]`
 - Phase C: Calais-only place search; municipality filter removed; chrome title Calais Atlas
 - Phase D: Calais GeoLibrary parcels + 2025-26 commitment join (2,678 owner joins; 2,530 quality joins of 2,771)
+- Phase E: assessed-total percentile choropleth (lowest blue, highest red); unassessed parcels gray
 
 ## [0.1.0] - 2026-08-20
 

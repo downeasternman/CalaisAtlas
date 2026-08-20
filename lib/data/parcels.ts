@@ -108,7 +108,7 @@ export async function getParcelById(id: string): Promise<ParcelWithSources | nul
   ]);
 
   const taxSourceId = parcel.taxSourceId ?? parcel.sourceId;
-  const geometrySourceId = parcel.geometrySourceId ?? "mrs-ut-parcels";
+  const geometrySourceId = parcel.geometrySourceId ?? "megis-organized-parcels";
 
   return {
     ...parcel,
@@ -123,8 +123,8 @@ export async function getParcelById(id: string): Promise<ParcelWithSources | nul
       taxSources.get(geometrySourceId) ??
       sources.get(geometrySourceId) ?? {
         id: geometrySourceId,
-        name: "Maine Revenue Services UT Parcels",
-        url: "https://gis.maine.gov/mapservices/rest/services/mrs/Maine_Parcels_Unorganized_Territory/MapServer",
+        name: "Maine GeoLibrary — Calais parcels",
+        url: "https://services1.arcgis.com/RbMX0mRVOFNTdLzd/arcgis/rest/services/Maine_Parcels_Organized_Towns/FeatureServer",
         asOfDate: null,
         licenseNote: null,
         ingestedAt: null,

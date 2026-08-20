@@ -223,7 +223,7 @@ export function buildOwnershipLayer(input: OwnershipBuildInput): OwnershipLayer 
     if (!row.ownerNorm) continue;
     const agg = byNorm.get(row.ownerNorm) ?? {
       raws: new Set<string>(),
-      parcelIds: [],
+      parcelIds: [] as string[],
       gisAcres: 0,
       taxable: 0,
       townships: new Map(),

@@ -4,6 +4,7 @@
 import path from "node:path";
 import { ensureDirs, readJson, writeJson } from "../paths";
 import { ORGANIZED_PARCELS_JOINED_JSON, PARCELS_JSON } from "./paths";
+import { NO_VALUE_PCT, computeCalaisValuePercentiles } from "@/lib/map/parcel-valuation";
 
 type ParcelRecord = Record<string, unknown>;
 
@@ -40,7 +41,17 @@ async function main() {
   const calaisParcels = organizedParcels.filter(
     (p) => String(p.municipalityId ?? "") === "calais",
   );
-  const merged = calaisParcels;
+  const ranks = computeCalaisValuePercentiles(
+    calaisParcels.map((p) => ({
+      id: String(p.id ?? ""),
+      assessedTotalValue:
+        p.assessedTotalValue == null ? null : String(p.assessedTotalValue),
+    })),
+  );
+  const merged = calaisParcels.map((p) => ({
+    ...p,
+    valuePct: ranks.get(String(p.id ?? "")) ?? NO_VALUE_PCT,
+  }));
 
   await writeJson(PARCELS_JSON, merged);
   console.log(`  wrote ${merged.length} Calais parcels`);
