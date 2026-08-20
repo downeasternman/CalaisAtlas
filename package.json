@@ -27,7 +27,7 @@
     "etl:org:report": "tsx scripts/etl/tax/report-organized-coverage.ts",
     "etl:merge:parcels": "tsx scripts/etl/tax/merge-parcel-datasets.ts",
     "tiles:parcels": "tsx scripts/tiles/build-parcels.ts",
-    "phase:calais": "pnpm etl:org:download --town=calais && pnpm etl:org:parse --town=calais && pnpm etl:org:join --town=calais && pnpm etl:merge:parcels && pnpm tiles:parcels && pnpm etl:org:report --town=calais"
+    "phase:calais": "pnpm etl:org:geometry && pnpm etl:org:download --town=calais && pnpm etl:org:parse --town=calais && pnpm etl:org:join --town=calais && pnpm etl:merge:parcels && pnpm tiles:parcels && pnpm etl:org:report --town=calais"
   },
   "dependencies": {
     "@types/geojson": "^7946.0.16",

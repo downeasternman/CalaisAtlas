@@ -112,7 +112,7 @@ export function buildAtlasStyle(origin?: string): StyleSpecification {
       [SOURCE_IDS.PARCELS]: {
         type: "vector",
         url: parcelsUrl,
-        attribution: "Maine Revenue Services UT Parcels",
+        attribution: "Maine GeoLibrary / City of Calais assessing",
       },
     },
     layers: [

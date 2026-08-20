@@ -1,21 +1,12 @@
 /**
- * Build parcel PMTiles from joined UT + organized parcel GeoJSON.
+ * Build parcel PMTiles from Calais organized parcel GeoJSON.
  */
 import path from "node:path";
 import { classifyParcelSymbology } from "@/lib/map/parcel-coverage";
+import { CALAIS_BBOX } from "@/lib/geo/calais";
 import { buildPmtilesFromLayers, readBbox, readGeoJson } from "./build-pmtiles";
-import { ORGANIZED_PARCELS_GEOJSON, UT_PARCELS_GEOJSON } from "../etl/tax/paths";
+import { ORGANIZED_PARCELS_GEOJSON } from "../etl/tax/paths";
 import { PROCESSED_DIR, TILES_DIR, ensureDirs, readJson } from "../etl/paths";
-
-function mergeGeoJson(
-  ut: GeoJSON.FeatureCollection,
-  organized: GeoJSON.FeatureCollection,
-): GeoJSON.FeatureCollection {
-  return {
-    type: "FeatureCollection",
-    features: [...ut.features, ...organized.features],
-  };
-}
 
 async function loadOrganizedGeoJson(): Promise<GeoJSON.FeatureCollection> {
   try {
@@ -28,9 +19,7 @@ async function loadOrganizedGeoJson(): Promise<GeoJSON.FeatureCollection> {
 async function main() {
   await ensureDirs(TILES_DIR);
 
-  const utGeojson = await readGeoJson(UT_PARCELS_GEOJSON);
-  const organizedGeojson = await loadOrganizedGeoJson();
-  const geojson = mergeGeoJson(utGeojson, organizedGeojson);
+  const geojson = await loadOrganizedGeoJson();
   const parcels = await readJson<
     Array<{
       id: string;
@@ -79,9 +68,9 @@ async function main() {
 
   let bbox: [number, number, number, number];
   try {
-    bbox = await readBbox(path.join(PROCESSED_DIR, "county-bbox.json"));
+    bbox = await readBbox(path.join(PROCESSED_DIR, "calais-bbox.json"));
   } catch {
-    bbox = [-67.95, 44.45, -67.0, 45.35];
+    bbox = CALAIS_BBOX;
   }
 
   console.log("Building parcel PMTiles...");
@@ -98,8 +87,8 @@ async function main() {
     minZoom: 10,
     maxZoom: 14,
     bbox,
-    attribution: "Maine GeoLibrary / Maine Revenue Services",
-    description: "Washington County UT and organized-town parcel boundaries",
+    attribution: "Maine GeoLibrary / City of Calais assessing",
+    description: "City of Calais parcel boundaries",
   });
   console.log("Done.");
 }

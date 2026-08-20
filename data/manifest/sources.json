@@ -47,7 +47,7 @@
       "name": "Maine GeoLibrary — Organized Town Parcels",
       "url": "https://services1.arcgis.com/RbMX0mRVOFNTdLzd/arcgis/rest/services/Maine_Parcels_Organized_Towns/FeatureServer",
       "phase": "D2",
-      "notes": "Organized-town parcel polygon geometry for Washington County",
+      "notes": "City of Calais parcel polygon geometry (GEOCODE 29070)",
       "asOfDate": "2026-07-26"
     }
   ]

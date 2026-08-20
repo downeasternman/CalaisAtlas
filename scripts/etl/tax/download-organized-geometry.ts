@@ -1,5 +1,5 @@
 /**
- * Download Washington County organized-town parcel polygons from Maine GeoLibrary.
+ * Download City of Calais organized-town parcel polygons from Maine GeoLibrary.
  */
 import path from "node:path";
 import {
@@ -7,12 +7,14 @@ import {
   organizedParcelId,
 } from "@/lib/tax/organized-join";
 import {
-  DEFAULT_COUNTY_BBOX,
+  CALAIS_GEOCODE,
+  CALAIS_MUNICIPALITY_ID,
+} from "@/lib/geo/calais";
+import {
   PROCESSED_DIR,
   bboxFromFeatureCollection,
   ensureDirs,
   fetchJson,
-  readJson,
   slugify,
   writeJson,
 } from "../paths";
@@ -32,21 +34,14 @@ function ringsToPolygon(rings: number[][][]): GeoJSON.Polygon {
   return { type: "Polygon", coordinates: rings };
 }
 
-async function fetchOrganizedParcels(
-  bbox: [number, number, number, number],
-): Promise<ArcgisFeature[]> {
+async function fetchCalaisParcels(): Promise<ArcgisFeature[]> {
   const features: ArcgisFeature[] = [];
   let offset = 0;
   const pageSize = 2000;
-  const [west, south, east, north] = bbox;
 
   while (true) {
     const params = new URLSearchParams({
-      where: "COUNTY='WASHINGTON'",
-      geometry: `${west},${south},${east},${north}`,
-      geometryType: "esriGeometryEnvelope",
-      inSR: "4326",
-      spatialRel: "esriSpatialRelIntersects",
+      where: `GEOCODE='${CALAIS_GEOCODE}'`,
       outFields: "TOWN,COUNTY,GEOCODE,STATE_ID,MAP_BK_LOT,PROP_LOC,FMUPDAT,OBJECTID",
       returnGeometry: "true",
       outSR: "4326",
@@ -59,7 +54,7 @@ async function fetchOrganizedParcels(
     if (!page.exceededTransferLimit && page.features.length < pageSize) break;
     if (page.features.length === 0) break;
     offset += page.features.length;
-    console.log(`  fetched ${features.length} organized parcel features...`);
+    console.log(`  fetched ${features.length} Calais parcel features...`);
   }
 
   return features;
@@ -68,18 +63,8 @@ async function fetchOrganizedParcels(
 async function main() {
   await ensureDirs(PROCESSED_DIR, path.dirname(ORGANIZED_PARCELS_GEOJSON));
 
-  let bbox = DEFAULT_COUNTY_BBOX;
-  try {
-    const countyBbox = await readJson<{ bbox: [number, number, number, number] }>(
-      path.join(PROCESSED_DIR, "county-bbox.json"),
-    );
-    bbox = countyBbox.bbox;
-  } catch {
-    console.warn("  county-bbox.json missing; using default bbox");
-  }
-
-  console.log("Downloading Washington County organized-town parcels...");
-  const rawFeatures = await fetchOrganizedParcels(bbox);
+  console.log(`Downloading Calais organized parcels (GEOCODE ${CALAIS_GEOCODE})...`);
+  const rawFeatures = await fetchCalaisParcels();
 
   const geojson: GeoJSON.FeatureCollection = {
     type: "FeatureCollection",
@@ -88,11 +73,11 @@ async function main() {
 
   for (const feature of rawFeatures) {
     const attrs = feature.attributes;
-    const townName = String(attrs.TOWN ?? "").trim();
-    if (!townName) continue;
-
-    const municipalityId = slugify(townName);
+    const townName = String(attrs.TOWN ?? "Calais").trim();
     const geocode = String(attrs.GEOCODE ?? "").trim();
+    if (geocode !== CALAIS_GEOCODE) continue;
+
+    const municipalityId = slugify(townName) || CALAIS_MUNICIPALITY_ID;
     const mapBkLot = attrs.MAP_BK_LOT != null ? String(attrs.MAP_BK_LOT).trim() : null;
     const stateId = attrs.STATE_ID != null ? String(attrs.STATE_ID).trim() : null;
     const id = organizedParcelId(municipalityId, stateId, mapBkLot);
@@ -119,7 +104,7 @@ async function main() {
 
   await writeJson(ORGANIZED_PARCELS_GEOJSON, geojson);
   const refinedBbox = bboxFromFeatureCollection(geojson);
-  console.log(`  ${geojson.features.length} organized parcels kept`);
+  console.log(`  ${geojson.features.length} Calais parcels kept`);
   console.log(`  wrote ${ORGANIZED_PARCELS_GEOJSON}`);
   console.log(`  bbox: [${refinedBbox.join(", ")}]`);
 }

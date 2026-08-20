@@ -1,13 +1,9 @@
 /**
- * Merge UT and organized joined parcel datasets into parcels.json + coverage.
+ * Write Calais joined parcels into parcels.json + coverage.
  */
 import path from "node:path";
 import { ensureDirs, readJson, writeJson } from "../paths";
-import {
-  ORGANIZED_PARCELS_JOINED_JSON,
-  PARCELS_JSON,
-  UT_PARCELS_JOINED_JSON,
-} from "./paths";
+import { ORGANIZED_PARCELS_JOINED_JSON, PARCELS_JSON } from "./paths";
 
 type ParcelRecord = Record<string, unknown>;
 
@@ -40,14 +36,14 @@ async function readJoinedOrEmpty(filePath: string): Promise<ParcelRecord[]> {
 async function main() {
   await ensureDirs(path.dirname(PARCELS_JSON));
 
-  const utParcels = await readJoinedOrEmpty(UT_PARCELS_JOINED_JSON);
   const organizedParcels = await readJoinedOrEmpty(ORGANIZED_PARCELS_JOINED_JSON);
-  const merged = [...utParcels, ...organizedParcels];
+  const calaisParcels = organizedParcels.filter(
+    (p) => String(p.municipalityId ?? "") === "calais",
+  );
+  const merged = calaisParcels;
 
   await writeJson(PARCELS_JSON, merged);
-  console.log(
-    `  merged ${merged.length} parcels (${utParcels.length} UT + ${organizedParcels.length} organized)`,
-  );
+  console.log(`  wrote ${merged.length} Calais parcels`);
   console.log(`  wrote ${PARCELS_JSON}`);
 
   const coveragePath = path.join(process.cwd(), "data", "manifest", "coverage.json");
@@ -78,19 +74,12 @@ async function main() {
       muniParcels.length > 0 ? withTax.length / muniParcels.length : null;
 
     if (territoryType === "organized") {
-      const noteExtra =
-        muniId === "lubec"
-          ? " GIS uses -000 lot padding; 2024 commitment book used (2025 PDF not text-extractable)."
-          : "";
       if (withTax.length > 0) {
-        entry.notes = `Organized town; tax from commitment book (${withTax.length}/${muniParcels.length} joined).${noteExtra}`;
+        entry.notes = `Calais parcels; tax from 2025-26 RE commitment book (${withTax.length}/${muniParcels.length} joined).`;
       } else if (withOwner.length > 0) {
-        entry.notes =
-          muniId === "robbinston"
-            ? `owner index + transfer overrides from 2024/08 and 24-25 PDFs (${withOwner.length}/${muniParcels.length} owner joins; assessments not published)`
-            : `Organized town; owner-only joins (${withOwner.length}/${muniParcels.length}); assessments not published.${noteExtra}`;
+        entry.notes = `Calais parcels; owner-only joins (${withOwner.length}/${muniParcels.length}); assessments not published.`;
       } else {
-        entry.notes = `Organized parcel geometry available; tax join pending.${noteExtra}`;
+        entry.notes = "Calais parcel geometry available; tax join pending.";
       }
       continue;
     }
