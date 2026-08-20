@@ -1,0 +1,22 @@
+34 Homestead
+0 	08 Post WW I Vet-NME
+0
+0
+0
+0
+0
+0
+0 	10,100
+512 	SMITH, JOHN A 	45,000 	120,000 	34 	121,600
+12 MAIN STREET
+LUBEC ME 04652
+COUNTY ROAD
+005-001
+Acres 	1.00
+Soft:
+Mixed:
+Hard:
+45,000
+0.00
+0.00
+0.00

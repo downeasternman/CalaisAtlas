@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "description": "MRS tax map sheet registry for Washington County UT join and municipality assignment",
+  "sheets": {
+    "WA011": {
+      "mapCode": "WA011",
+      "divisionName": "Day Block Township",
+      "geometryMunicipalityIds": ["day-block-twp"],
+      "taxMunicipalityIds": ["day-block-twp", "baring-plt"],
+      "notes": "Valuation mail addresses often reference Baring Plt while the tax map sheet is Day Block (WA011)."
+    },
+    "WA029": {
+      "mapCode": "WA029",
+      "divisionName": "Edmunds Township",
+      "geometryMunicipalityIds": ["edmunds-twp"],
+      "taxMunicipalityIds": ["edmunds-twp", "baring-plt"],
+      "notes": "Some Baring Plt mail addresses appear on WA029 lots in the valuation book."
+    }
+  }
+}

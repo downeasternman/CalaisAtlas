@@ -1,0 +1,192 @@
+{
+  "generatedAt": "2026-08-15T01:48:52.060Z",
+  "crs": "EPSG:26919",
+  "snapM": 2,
+  "knnK": 25,
+  "parcels": 5396,
+  "withGeometry": 5396,
+  "withTouches": 5168,
+  "neighborRows": 154867,
+  "knnRows": 134900,
+  "touchRows": 19967,
+  "lagTaxableKnnSet": 3400,
+  "lagResidualKnnSet": 2352,
+  "unjoinedNotScoredAsColdSpots": 2224,
+  "mostIsolated": [
+    {
+      "parcelId": "ut-wa023013",
+      "nnDistanceM": 5022.667630908314,
+      "touchCount": 2,
+      "compactness": 0.7771180406090921,
+      "lagSkipReason": null
+    },
+    {
+      "parcelId": "ut-wa002011",
+      "nnDistanceM": 4773.051858529486,
+      "touchCount": 5,
+      "compactness": 0.17310260469591965,
+      "lagSkipReason": null
+    },
+    {
+      "parcelId": "ut-wap03016",
+      "nnDistanceM": 4502.814948964367,
+      "touchCount": 71,
+      "compactness": 0.2075274518104252,
+      "lagSkipReason": "unjoined"
+    },
+    {
+      "parcelId": "ut-wap030122",
+      "nnDistanceM": 4502.814948964367,
+      "touchCount": 1,
+      "compactness": 0.5322128764109337,
+      "lagSkipReason": "unjoined"
+    },
+    {
+      "parcelId": "ut-wa028011",
+      "nnDistanceM": 4456.051355202723,
+      "touchCount": 1,
+      "compactness": 0.22940752267142597,
+      "lagSkipReason": null
+    },
+    {
+      "parcelId": "ut-wa003011",
+      "nnDistanceM": 4365.693854077171,
+      "touchCount": 61,
+      "compactness": 0.08451039930124662,
+      "lagSkipReason": "copied_full_assessment"
+    },
+    {
+      "parcelId": "ut-wa003011",
+      "nnDistanceM": 4365.693854077171,
+      "touchCount": 61,
+      "compactness": 0.21888721190327579,
+      "lagSkipReason": "copied_full_assessment"
+    },
+    {
+      "parcelId": "ut-wa003011",
+      "nnDistanceM": 4365.693854077171,
+      "touchCount": 61,
+      "compactness": 0.20290221773946573,
+      "lagSkipReason": "copied_full_assessment"
+    },
+    {
+      "parcelId": "ut-wa003011",
+      "nnDistanceM": 4365.693854077171,
+      "touchCount": 61,
+      "compactness": 0.4982140894454894,
+      "lagSkipReason": "copied_full_assessment"
+    },
+    {
+      "parcelId": "ut-wa005014",
+      "nnDistanceM": 4107.142823451723,
+      "touchCount": 1,
+      "compactness": 0.05062146769715959,
+      "lagSkipReason": null
+    },
+    {
+      "parcelId": "ut-wa026011",
+      "nnDistanceM": 4064.81834564659,
+      "touchCount": 4,
+      "compactness": 0.15806918290695526,
+      "lagSkipReason": null
+    },
+    {
+      "parcelId": "ut-wa005011",
+      "nnDistanceM": 4034.1868061655427,
+      "touchCount": 12,
+      "compactness": 0.10070449758506707,
+      "lagSkipReason": null
+    },
+    {
+      "parcelId": "ut-arp120dic",
+      "nnDistanceM": 3989.8259388289293,
+      "touchCount": 40,
+      "compactness": 0.013254623799911725,
+      "lagSkipReason": "unjoined"
+    },
+    {
+      "parcelId": "ut-ha011013",
+      "nnDistanceM": 3914.824094615314,
+      "touchCount": 4,
+      "compactness": 0.11269896500381697,
+      "lagSkipReason": "unjoined"
+    },
+    {
+      "parcelId": "ut-wa026011-1",
+      "nnDistanceM": 3801.7656231468463,
+      "touchCount": 3,
+      "compactness": 0.7784258498286782,
+      "lagSkipReason": null
+    },
+    {
+      "parcelId": "ut-ar110081",
+      "nnDistanceM": 3774.4712726676053,
+      "touchCount": 6,
+      "compactness": null,
+      "lagSkipReason": "unjoined"
+    },
+    {
+      "parcelId": "ut-ha011012",
+      "nnDistanceM": 3666.9543999927023,
+      "touchCount": 4,
+      "compactness": 0.09922292520733014,
+      "lagSkipReason": "unjoined"
+    },
+    {
+      "parcelId": "ut-ha011011",
+      "nnDistanceM": 3666.9543999927023,
+      "touchCount": 4,
+      "compactness": 0.34924629658588136,
+      "lagSkipReason": "unjoined"
+    },
+    {
+      "parcelId": "ut-wa021011",
+      "nnDistanceM": 3613.8634840689683,
+      "touchCount": 16,
+      "compactness": 0.09796733871693919,
+      "lagSkipReason": "copied_full_assessment"
+    },
+    {
+      "parcelId": "ut-wa035011",
+      "nnDistanceM": 3580.613107032249,
+      "touchCount": 3,
+      "compactness": 0.3414663580608614,
+      "lagSkipReason": null
+    },
+    {
+      "parcelId": "ut-wa033011",
+      "nnDistanceM": 3544.787213148921,
+      "touchCount": 3,
+      "compactness": 0.32351216391136767,
+      "lagSkipReason": "copied_full_assessment"
+    },
+    {
+      "parcelId": "ut-wa035013",
+      "nnDistanceM": 3357.261401761783,
+      "touchCount": 2,
+      "compactness": 0.5149139671242661,
+      "lagSkipReason": null
+    },
+    {
+      "parcelId": "ut-wa005013-1",
+      "nnDistanceM": 3292.385980908689,
+      "touchCount": 0,
+      "compactness": 0.5386664059579374,
+      "lagSkipReason": null
+    },
+    {
+      "parcelId": "ut-ha002014",
+      "nnDistanceM": 3270.9883121339867,
+      "touchCount": 4,
+      "compactness": 0.41782902703628044,
+      "lagSkipReason": "unjoined"
+    },
+    {
+      "parcelId": "ut-wa026011-2",
+      "nnDistanceM": 3257.2885585664935,
+      "touchCount": 1,
+      "compactness": 0.6456910156888017,
+      "lagSkipReason": null
+    }
+  ]
+}

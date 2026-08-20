@@ -1,0 +1,132 @@
+@import "tailwindcss";
+
+:root {
+  /* Coastal Maine atlas palette */
+  --color-ocean-deep: #1a3a4a;
+  --color-ocean-mid: #2d5a6b;
+  --color-ocean-light: #4a8a9e;
+  --color-land-paper: #e8e4d9;
+  --color-land-warm: #d4cfc0;
+  --color-land-muted: #b8b3a4;
+  --color-accent-gold: #c9a227;
+  --color-parcel-full: #c9a227;
+  --color-parcel-full-line: #8a7020;
+  --color-parcel-full-muted: #a68b2a;
+  --color-parcel-exempt: #f2845c;
+  --color-parcel-exempt-line: #d46540;
+  --color-parcel-exempt-muted: #d97050;
+  --color-parcel-tree-growth: #4d6b4a;
+  --color-parcel-tree-growth-line: #354a32;
+  --color-parcel-tree-growth-muted: #3f563d;
+  --color-parcel-owner: #5a9a8c;
+  --color-parcel-owner-line: #3d6b62;
+  --color-parcel-owner-muted: #4a8075;
+  --color-parcel-none: #8aa4b0;
+  --color-parcel-none-line: #4a6a72;
+  --color-text-primary: #1a2a32;
+  --color-text-secondary: #4a5a62;
+  --color-text-inverse: #f5f3ee;
+  --color-surface: #f5f3ee;
+  --color-surface-elevated: #ffffff;
+  --color-border: #c8c3b4;
+
+  /* Motion tokens */
+  --motion-fast: 150ms;
+  --motion-normal: 250ms;
+  --motion-slow: 400ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@theme inline {
+  --color-ocean-deep: var(--color-ocean-deep);
+  --color-ocean-mid: var(--color-ocean-mid);
+  --color-ocean-light: var(--color-ocean-light);
+  --color-land-paper: var(--color-land-paper);
+  --color-land-warm: var(--color-land-warm);
+  --color-land-muted: var(--color-land-muted);
+  --color-accent-gold: var(--color-accent-gold);
+  --color-text-primary: var(--color-text-primary);
+  --color-text-secondary: var(--color-text-secondary);
+  --color-text-inverse: var(--color-text-inverse);
+  --color-surface: var(--color-surface);
+  --color-surface-elevated: var(--color-surface-elevated);
+  --color-border: var(--color-border);
+  --font-display: var(--font-fraunces);
+  --font-sans: var(--font-source-sans);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  font-family: var(--font-source-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Subtle coastal atmosphere behind chrome only */
+.atlas-chrome-bg {
+  background:
+  radial-gradient(ellipse at 20% 0%, rgba(74, 138, 158, 0.08) 0%, transparent 50%),
+  radial-gradient(ellipse at 80% 100%, rgba(26, 58, 74, 0.06) 0%, transparent 50%),
+  var(--color-surface);
+}
+
+/* Paper grain overlay for header chrome */
+.atlas-grain::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.03;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+}
+
+/* Map container fills available space */
+.map-container {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+}
+
+/* Motion utilities */
+@media (prefers-reduced-motion: no-preference) {
+  .motion-fade-in {
+    animation: fadeIn var(--motion-normal) var(--ease-out) forwards;
+  }
+
+  .motion-slide-up {
+    animation: slideUp var(--motion-normal) var(--ease-out) forwards;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

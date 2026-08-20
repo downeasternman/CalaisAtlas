@@ -1,0 +1,51 @@
+{
+  "generatedAt": "2026-08-15T01:18:21.610Z",
+  "taxYear": 2025,
+  "sources": {
+    "geometry": "mrs-ut-parcels",
+    "valuation": "mrs-ut-valuation-2025",
+    "mapLotIndex": "mrs-ut-map-lot-index-2024",
+    "indexAsOf": "2024-01-01"
+  },
+  "counts": {
+    "geometryFeatures": 5396,
+    "uniqueGeometryIds": 5347,
+    "duplicateGeometryIdExtras": 49,
+    "joinedParcelRows": 5396,
+    "taxRecords": 3891,
+    "taxRecordsWithGeomParcelId": 3142,
+    "indexRows": 3114,
+    "withOwner": 3172,
+    "withAssessedTotal": 3172,
+    "unjoined": 2224,
+    "acreageDiscrepancies": 1546,
+    "withExemption": 593,
+    "multiLotCopiedAssessmentRows": 820
+  },
+  "joinByTplFamily": {
+    "wa_map": {
+      "total": 3302,
+      "joined": 3172
+    },
+    "unknown": {
+      "total": 62,
+      "joined": 0
+    },
+    "pe_plat": {
+      "total": 948,
+      "joined": 0
+    },
+    "ha_plat": {
+      "total": 463,
+      "joined": 0
+    },
+    "wap_plat": {
+      "total": 437,
+      "joined": 0
+    },
+    "arp_plat": {
+      "total": 184,
+      "joined": 0
+    }
+  }
+}

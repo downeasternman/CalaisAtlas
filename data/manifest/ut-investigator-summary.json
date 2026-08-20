@@ -1,0 +1,13 @@
+{
+  "generatedAt": "2026-08-15T02:31:21.106Z",
+  "taxYear": 2025,
+  "packets": 172,
+  "hypotheses": 172,
+  "byClass": {
+    "artifact": 131,
+    "unexplained": 30,
+    "institutional_baseline": 5,
+    "ordinary": 6
+  },
+  "note": "Cite-only investigator. No new statistics. Not findings of error or wrongdoing."
+}

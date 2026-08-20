@@ -1,0 +1,320 @@
+{
+  "generatedAt": "2026-08-15T01:59:46.593Z",
+  "taxYear": 2025,
+  "entities": 2052,
+  "clusters": 2559,
+  "graphNodes": 11429,
+  "graphEdges": 23584,
+  "similarNameEdges": 53,
+  "possibleRelatedEdges": 1,
+  "sameEntityRule": "exact_normalized_string_only",
+  "utTop10GisAcres": [
+    {
+      "scope": "ut",
+      "scopeId": "ut",
+      "rank": 1,
+      "nameNormalized": "TYPHOON LLC",
+      "metric": "gis_acres",
+      "value": 356591.59946472006,
+      "share": 0.2749792199009839,
+      "parcelCount": 57,
+      "institutionalBaseline": true
+    },
+    {
+      "scope": "ut",
+      "scopeId": "ut",
+      "rank": 2,
+      "nameNormalized": "BASKAHEGAN CO",
+      "metric": "gis_acres",
+      "value": 41743.67889417,
+      "share": 0.03218988970953504,
+      "parcelCount": 31,
+      "institutionalBaseline": true
+    },
+    {
+      "scope": "ut",
+      "scopeId": "ut",
+      "rank": 3,
+      "nameNormalized": "DOWNEAST LAKES LAND TRUST",
+      "metric": "gis_acres",
+      "value": 36962.04099944999,
+      "share": 0.028502615359514417,
+      "parcelCount": 13,
+      "institutionalBaseline": false
+    },
+    {
+      "scope": "ut",
+      "scopeId": "ut",
+      "rank": 4,
+      "nameNormalized": "VERSANT POWER",
+      "metric": "gis_acres",
+      "value": 35477.893871399996,
+      "share": 0.027358141905562926,
+      "parcelCount": 3,
+      "institutionalBaseline": false
+    },
+    {
+      "scope": "ut",
+      "scopeId": "ut",
+      "rank": 5,
+      "nameNormalized": "PENOBSCOT FOREST LLC",
+      "metric": "gis_acres",
+      "value": 27958.18578664,
+      "share": 0.02155945380933647,
+      "parcelCount": 25,
+      "institutionalBaseline": true
+    },
+    {
+      "scope": "ut",
+      "scopeId": "ut",
+      "rank": 6,
+      "nameNormalized": "STETSON HOLDINGS LLC ET AL",
+      "metric": "gis_acres",
+      "value": 22108.74964033,
+      "share": 0.017048765978250648,
+      "parcelCount": 1,
+      "institutionalBaseline": false
+    },
+    {
+      "scope": "ut",
+      "scopeId": "ut",
+      "rank": 7,
+      "nameNormalized": "WOOD CRAIG SR",
+      "metric": "gis_acres",
+      "value": 21641.74121125,
+      "share": 0.016688640799451232,
+      "parcelCount": 2,
+      "institutionalBaseline": false
+    },
+    {
+      "scope": "ut",
+      "scopeId": "ut",
+      "rank": 8,
+      "nameNormalized": "WORCESTER OWEN",
+      "metric": "gis_acres",
+      "value": 20961.28899136,
+      "share": 0.016163922267421547,
+      "parcelCount": 1,
+      "institutionalBaseline": false
+    },
+    {
+      "scope": "ut",
+      "scopeId": "ut",
+      "rank": 9,
+      "nameNormalized": "WATTS BEN",
+      "metric": "gis_acres",
+      "value": 20831.64257035,
+      "share": 0.01606394775381607,
+      "parcelCount": 1,
+      "institutionalBaseline": false
+    },
+    {
+      "scope": "ut",
+      "scopeId": "ut",
+      "rank": 10,
+      "nameNormalized": "WOOD TYLER",
+      "metric": "gis_acres",
+      "value": 20179.66138415,
+      "share": 0.015561184149063427,
+      "parcelCount": 1,
+      "institutionalBaseline": false
+    }
+  ],
+  "similarNameSample": [
+    {
+      "source": "owner:DAVIS CONSTANCE",
+      "target": "owner:MANES CONSTANCE",
+      "score": 0.92,
+      "evidence": {
+        "status": "similar_name",
+        "tokenSortJaroWinkler": 0.92,
+        "sameTownship": true,
+        "adjacent": false,
+        "sharedMail": true,
+        "note": "Potential ownership relationship requiring review; not same_entity"
+      }
+    },
+    {
+      "source": "owner:WINIARSKI ELAINE M & KENNETH J JR",
+      "target": "owner:WINIARSKI KENNETH JR & ELAINE",
+      "score": 0.9447230929989551,
+      "evidence": {
+        "status": "similar_name",
+        "tokenSortJaroWinkler": 0.9447230929989551,
+        "sameTownship": true,
+        "adjacent": false,
+        "sharedMail": true,
+        "note": "Potential ownership relationship requiring review; not same_entity"
+      }
+    },
+    {
+      "source": "owner:WINIARSKI ELAINE M & KENNETH J JR",
+      "target": "owner:WINIARSKI KENNETH J ELAINE M &",
+      "score": 0.9318181818181818,
+      "evidence": {
+        "status": "similar_name",
+        "tokenSortJaroWinkler": 0.9318181818181818,
+        "sameTownship": true,
+        "adjacent": true,
+        "sharedMail": false,
+        "note": "Potential ownership relationship requiring review; not same_entity"
+      }
+    },
+    {
+      "source": "owner:WINIARSKI KENNETH J ELAINE M &",
+      "target": "owner:WINIARSKI KENNETH JR & ELAINE",
+      "score": 0.9797701149425287,
+      "evidence": {
+        "status": "similar_name",
+        "tokenSortJaroWinkler": 0.9797701149425287,
+        "sameTownship": true,
+        "adjacent": true,
+        "sharedMail": false,
+        "note": "Potential ownership relationship requiring review; not same_entity"
+      }
+    },
+    {
+      "source": "owner:COLE STEPHEN M & BRENDA",
+      "target": "owner:COLE STEPHEN M & BRENDA S",
+      "score": 0.984,
+      "evidence": {
+        "status": "similar_name",
+        "tokenSortJaroWinkler": 0.984,
+        "sameTownship": true,
+        "adjacent": true,
+        "sharedMail": false,
+        "note": "Potential ownership relationship requiring review; not same_entity"
+      }
+    },
+    {
+      "source": "owner:GRIFFITH DIANE P REV TRUST",
+      "target": "owner:GRIFFITH DIANE REVOCABLE TRUST",
+      "score": 0.9279487179487179,
+      "evidence": {
+        "status": "similar_name",
+        "tokenSortJaroWinkler": 0.9279487179487179,
+        "sameTownship": true,
+        "adjacent": false,
+        "sharedMail": true,
+        "note": "Potential ownership relationship requiring review; not same_entity"
+      }
+    },
+    {
+      "source": "owner:JOYCE CINDY L & JEFFREY W",
+      "target": "owner:JOYCE JEFFREY W & CINDY L",
+      "score": 1,
+      "evidence": {
+        "status": "similar_name",
+        "tokenSortJaroWinkler": 1,
+        "sameTownship": true,
+        "adjacent": true,
+        "sharedMail": true,
+        "note": "Potential ownership relationship requiring review; not same_entity"
+      }
+    },
+    {
+      "source": "owner:JANS ANTHONY & KATHERINE",
+      "target": "owner:JANS ANTHONY M & KATHERINE B",
+      "score": 0.9505952380952382,
+      "evidence": {
+        "status": "similar_name",
+        "tokenSortJaroWinkler": 0.9505952380952382,
+        "sameTownship": true,
+        "adjacent": false,
+        "sharedMail": true,
+        "note": "Potential ownership relationship requiring review; not same_entity"
+      }
+    },
+    {
+      "source": "owner:MELNIK PATRICK J & ALICE E TTEE",
+      "target": "owner:MELNIK PATRICK J ALICE E & THOMAS",
+      "score": 0.9503421309872923,
+      "evidence": {
+        "status": "similar_name",
+        "tokenSortJaroWinkler": 0.9503421309872923,
+        "sameTownship": true,
+        "adjacent": true,
+        "sharedMail": false,
+        "note": "Potential ownership relationship requiring review; not same_entity"
+      }
+    },
+    {
+      "source": "owner:MELNIK PATRICK J & ALICE E",
+      "target": "owner:MELNIK PATRICK J & ALICE E TTEE",
+      "score": 0.967741935483871,
+      "evidence": {
+        "status": "similar_name",
+        "tokenSortJaroWinkler": 0.967741935483871,
+        "sameTownship": true,
+        "adjacent": true,
+        "sharedMail": true,
+        "note": "Potential ownership relationship requiring review; not same_entity"
+      }
+    },
+    {
+      "source": "owner:HAZARD WILLIAM",
+      "target": "owner:HAZARD WILLIAM J",
+      "score": 0.975,
+      "evidence": {
+        "status": "similar_name",
+        "tokenSortJaroWinkler": 0.975,
+        "sameTownship": true,
+        "adjacent": true,
+        "sharedMail": true,
+        "note": "Potential ownership relationship requiring review; not same_entity"
+      }
+    },
+    {
+      "source": "owner:LAVIGNE STEVE R & STEPHANIE L",
+      "target": "owner:LAVIGNE STEVEN & STEPHANIE L",
+      "score": 0.94202700237183,
+      "evidence": {
+        "status": "similar_name",
+        "tokenSortJaroWinkler": 0.94202700237183,
+        "sameTownship": true,
+        "adjacent": false,
+        "sharedMail": true,
+        "note": "Potential ownership relationship requiring review; not same_entity"
+      }
+    },
+    {
+      "source": "owner:GUISINGER PENNY & KARA",
+      "target": "owner:GUISINGER PENNY L & KARA J",
+      "score": 0.9465034965034965,
+      "evidence": {
+        "status": "similar_name",
+        "tokenSortJaroWinkler": 0.9465034965034965,
+        "sameTownship": true,
+        "adjacent": true,
+        "sharedMail": true,
+        "note": "Potential ownership relationship requiring review; not same_entity"
+      }
+    },
+    {
+      "source": "owner:TODD DONOVAN & CYNTHIA",
+      "target": "owner:TODD DONOVAN E III & CYNTHIA J",
+      "score": 0.9466666666666667,
+      "evidence": {
+        "status": "similar_name",
+        "tokenSortJaroWinkler": 0.9466666666666667,
+        "sameTownship": true,
+        "adjacent": false,
+        "sharedMail": true,
+        "note": "Potential ownership relationship requiring review; not same_entity"
+      }
+    },
+    {
+      "source": "owner:LORD MAUREEN",
+      "target": "owner:LORD MAUREEN T",
+      "score": 0.9714285714285714,
+      "evidence": {
+        "status": "similar_name",
+        "tokenSortJaroWinkler": 0.9714285714285714,
+        "sameTownship": true,
+        "adjacent": true,
+        "sharedMail": true,
+        "note": "Potential ownership relationship requiring review; not same_entity"
+      }
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "description": "Per-municipality coverage status for parcel geometry, ownership, and tax data",
+  "updatedAt": "2026-08-20T14:45:31.370Z",
+  "municipalities": {
+    "calais": {
+      "name": "Calais",
+      "hasParcelGeometry": false,
+      "hasOwnership": false,
+      "hasTaxAssessment": false,
+      "parcelCount": 0,
+      "notes": "Boundary geometry available; ownership/tax pending Phase D"
+    }
+  }
+}

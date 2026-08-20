@@ -1,0 +1,1846 @@
+{
+  "generatedAt": "2026-08-15T02:09:29.145Z",
+  "taxYear": 2025,
+  "count": 172,
+  "byType": {
+    "copied_multilot_acre_spread": 101,
+    "high_local_share_low_vpa": 5,
+    "similar_name_adjacent": 25,
+    "township_join_gap": 11,
+    "unjoined_plat_hole": 18,
+    "unjoined_tax_records": 1,
+    "vacant_tract_among_improved": 11
+  },
+  "note": "Deterministic combination scans. Not findings of error or wrongdoing. Unjoined plat gaps are data-quality classes.",
+  "catalogue": [
+    {
+      "id": "obs:copied_multilot_acre_spread:290800006",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "290800006",
+      "priority": "low",
+      "parcelCount": 4,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:291100083",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "291100083",
+      "priority": "low",
+      "parcelCount": 2,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:293300050",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "293300050",
+      "priority": "low",
+      "parcelCount": 7,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:293300127",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "293300127",
+      "priority": "low",
+      "parcelCount": 6,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:293300215",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "293300215",
+      "priority": "low",
+      "parcelCount": 5,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:293300232",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "293300232",
+      "priority": "low",
+      "parcelCount": 4,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:293400033",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "293400033",
+      "priority": "low",
+      "parcelCount": 3,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:293400283",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "293400283",
+      "priority": "low",
+      "parcelCount": 2,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298010006",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298010006",
+      "priority": "low",
+      "parcelCount": 3,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298010043",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298010043",
+      "priority": "low",
+      "parcelCount": 2,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298010054",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298010054",
+      "priority": "low",
+      "parcelCount": 2,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298010082",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298010082",
+      "priority": "low",
+      "parcelCount": 2,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298010098",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298010098",
+      "priority": "low",
+      "parcelCount": 2,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298020034",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298020034",
+      "priority": "low",
+      "parcelCount": 4,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298020063",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298020063",
+      "priority": "low",
+      "parcelCount": 2,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298040051",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298040051",
+      "priority": "low",
+      "parcelCount": 4,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298040112",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298040112",
+      "priority": "low",
+      "parcelCount": 2,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298040124",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298040124",
+      "priority": "low",
+      "parcelCount": 3,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298040173",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298040173",
+      "priority": "low",
+      "parcelCount": 3,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298040184",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298040184",
+      "priority": "low",
+      "parcelCount": 4,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298040205",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298040205",
+      "priority": "low",
+      "parcelCount": 2,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298040215",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298040215",
+      "priority": "low",
+      "parcelCount": 2,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298042021",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298042021",
+      "priority": "low",
+      "parcelCount": 4,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298042042",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298042042",
+      "priority": "low",
+      "parcelCount": 3,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298050024",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298050024",
+      "priority": "low",
+      "parcelCount": 3,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298050064",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298050064",
+      "priority": "low",
+      "parcelCount": 2,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298060042",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298060042",
+      "priority": "low",
+      "parcelCount": 2,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298062018",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298062018",
+      "priority": "low",
+      "parcelCount": 2,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298070009",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298070009",
+      "priority": "low",
+      "parcelCount": 2,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298080036",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298080036",
+      "priority": "low",
+      "parcelCount": 3,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298080037",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298080037",
+      "priority": "low",
+      "parcelCount": 2,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298090024",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298090024",
+      "priority": "low",
+      "parcelCount": 2,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298090061",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298090061",
+      "priority": "low",
+      "parcelCount": 6,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298090099",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298090099",
+      "priority": "low",
+      "parcelCount": 3,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298090109",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298090109",
+      "priority": "low",
+      "parcelCount": 2,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298100001",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298100001",
+      "priority": "low",
+      "parcelCount": 3,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298100010",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298100010",
+      "priority": "low",
+      "parcelCount": 3,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298100013",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298100013",
+      "priority": "low",
+      "parcelCount": 2,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298100015",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298100015",
+      "priority": "low",
+      "parcelCount": 5,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298100067",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298100067",
+      "priority": "low",
+      "parcelCount": 2,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298100073",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298100073",
+      "priority": "low",
+      "parcelCount": 3,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298100085",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298100085",
+      "priority": "low",
+      "parcelCount": 2,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298100094",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298100094",
+      "priority": "low",
+      "parcelCount": 2,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298100097",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298100097",
+      "priority": "low",
+      "parcelCount": 3,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298100140",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298100140",
+      "priority": "low",
+      "parcelCount": 6,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298100149",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298100149",
+      "priority": "low",
+      "parcelCount": 2,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298100150",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298100150",
+      "priority": "low",
+      "parcelCount": 3,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298100195",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298100195",
+      "priority": "low",
+      "parcelCount": 10,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298102017",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298102017",
+      "priority": "low",
+      "parcelCount": 2,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298102052",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298102052",
+      "priority": "low",
+      "parcelCount": 5,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298102056",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298102056",
+      "priority": "low",
+      "parcelCount": 2,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298102065",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298102065",
+      "priority": "low",
+      "parcelCount": 2,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298102066",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298102066",
+      "priority": "low",
+      "parcelCount": 2,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298110003",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298110003",
+      "priority": "low",
+      "parcelCount": 3,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298110006",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298110006",
+      "priority": "low",
+      "parcelCount": 5,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298110020",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298110020",
+      "priority": "low",
+      "parcelCount": 2,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298110041",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298110041",
+      "priority": "low",
+      "parcelCount": 3,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298110100",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298110100",
+      "priority": "low",
+      "parcelCount": 4,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298110105",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298110105",
+      "priority": "low",
+      "parcelCount": 2,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298110119",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298110119",
+      "priority": "low",
+      "parcelCount": 3,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298110122",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298110122",
+      "priority": "low",
+      "parcelCount": 3,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298110127",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298110127",
+      "priority": "low",
+      "parcelCount": 2,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298110142",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298110142",
+      "priority": "low",
+      "parcelCount": 2,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298110156",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298110156",
+      "priority": "low",
+      "parcelCount": 3,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298110162",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298110162",
+      "priority": "low",
+      "parcelCount": 4,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298110165",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298110165",
+      "priority": "low",
+      "parcelCount": 4,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298110223",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298110223",
+      "priority": "low",
+      "parcelCount": 2,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298110272",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298110272",
+      "priority": "low",
+      "parcelCount": 2,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298110277",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298110277",
+      "priority": "low",
+      "parcelCount": 2,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298110310",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298110310",
+      "priority": "low",
+      "parcelCount": 4,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298110312",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298110312",
+      "priority": "low",
+      "parcelCount": 2,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298110327",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298110327",
+      "priority": "low",
+      "parcelCount": 2,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298110339",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298110339",
+      "priority": "low",
+      "parcelCount": 2,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298110359",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298110359",
+      "priority": "low",
+      "parcelCount": 2,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298110363",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298110363",
+      "priority": "low",
+      "parcelCount": 2,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298110381",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298110381",
+      "priority": "low",
+      "parcelCount": 2,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298110408",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298110408",
+      "priority": "low",
+      "parcelCount": 3,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298110506",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298110506",
+      "priority": "low",
+      "parcelCount": 2,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298110525",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298110525",
+      "priority": "low",
+      "parcelCount": 2,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298112075",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298112075",
+      "priority": "low",
+      "parcelCount": 3,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298112078",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298112078",
+      "priority": "low",
+      "parcelCount": 2,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298120035",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298120035",
+      "priority": "low",
+      "parcelCount": 2,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298120039",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298120039",
+      "priority": "low",
+      "parcelCount": 4,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298122003",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298122003",
+      "priority": "low",
+      "parcelCount": 3,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298130052",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298130052",
+      "priority": "low",
+      "parcelCount": 5,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298140006",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298140006",
+      "priority": "low",
+      "parcelCount": 2,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298140011",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298140011",
+      "priority": "low",
+      "parcelCount": 3,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298170002",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298170002",
+      "priority": "low",
+      "parcelCount": 7,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298180037",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298180037",
+      "priority": "low",
+      "parcelCount": 3,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298182008",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298182008",
+      "priority": "low",
+      "parcelCount": 2,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298210009",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298210009",
+      "priority": "low",
+      "parcelCount": 3,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298210038",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298210038",
+      "priority": "low",
+      "parcelCount": 3,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298212001",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298212001",
+      "priority": "low",
+      "parcelCount": 4,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298220015",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298220015",
+      "priority": "low",
+      "parcelCount": 2,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298230015",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298230015",
+      "priority": "low",
+      "parcelCount": 2,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298240042",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298240042",
+      "priority": "low",
+      "parcelCount": 6,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298250049",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298250049",
+      "priority": "low",
+      "parcelCount": 3,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298270006",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298270006",
+      "priority": "low",
+      "parcelCount": 2,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298270024",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298270024",
+      "priority": "low",
+      "parcelCount": 4,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298310015",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298310015",
+      "priority": "low",
+      "parcelCount": 3,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:copied_multilot_acre_spread:298310031",
+      "observationType": "copied_multilot_acre_spread",
+      "unit": "cluster",
+      "scope": "298310031",
+      "priority": "low",
+      "parcelCount": 2,
+      "ownerIds": [],
+      "hypothesis": "Copied full assessment across lots whose GIS acres differ widely. Per-lot value/acre is undefined until allocated."
+    },
+    {
+      "id": "obs:high_local_share_low_vpa:BOWES BILL~kossuth-twp",
+      "observationType": "high_local_share_low_vpa",
+      "unit": "owner",
+      "scope": "kossuth-twp",
+      "priority": "medium",
+      "parcelCount": 1,
+      "ownerIds": [
+        "BOWES BILL"
+      ],
+      "hypothesis": "High local GIS-acre share with low value per GIS acre versus vacant township peers. Not a finding of error or wrongdoing."
+    },
+    {
+      "id": "obs:high_local_share_low_vpa:DONNELLY STEPHEN~brookton-twp",
+      "observationType": "high_local_share_low_vpa",
+      "unit": "owner",
+      "scope": "brookton-twp",
+      "priority": "medium",
+      "parcelCount": 1,
+      "ownerIds": [
+        "DONNELLY STEPHEN"
+      ],
+      "hypothesis": "High local GIS-acre share with low value per GIS acre versus vacant township peers. Not a finding of error or wrongdoing."
+    },
+    {
+      "id": "obs:high_local_share_low_vpa:TYPHOON LLC~big-lake-twp",
+      "observationType": "high_local_share_low_vpa",
+      "unit": "owner",
+      "scope": "big-lake-twp",
+      "priority": "suppressed",
+      "parcelCount": 1,
+      "ownerIds": [
+        "TYPHOON LLC"
+      ],
+      "hypothesis": "Looked extreme; explained by institutional ownership and vacant land."
+    },
+    {
+      "id": "obs:high_local_share_low_vpa:UNITED STATES OF AMERICA~edmunds-twp",
+      "observationType": "high_local_share_low_vpa",
+      "unit": "owner",
+      "scope": "edmunds-twp",
+      "priority": "suppressed",
+      "parcelCount": 33,
+      "ownerIds": [
+        "UNITED STATES OF AMERICA"
+      ],
+      "hypothesis": "Looked extreme; explained by institutional ownership and vacant land."
+    },
+    {
+      "id": "obs:high_local_share_low_vpa:VERSANT POWER~t24-md-bpp",
+      "observationType": "high_local_share_low_vpa",
+      "unit": "owner",
+      "scope": "t24-md-bpp",
+      "priority": "medium",
+      "parcelCount": 1,
+      "ownerIds": [
+        "VERSANT POWER"
+      ],
+      "hypothesis": "High local GIS-acre share with low value per GIS acre versus vacant township peers. Not a finding of error or wrongdoing."
+    },
+    {
+      "id": "obs:similar_name_adjacent:BARNES WILLIAM S & JANET C~BARNES WILLIAM S JR & JANET C",
+      "observationType": "similar_name_adjacent",
+      "unit": "cluster",
+      "scope": "ut",
+      "priority": "medium",
+      "parcelCount": 2,
+      "ownerIds": [
+        "BARNES WILLIAM S & JANET C",
+        "BARNES WILLIAM S JR & JANET C"
+      ],
+      "hypothesis": "Potential ownership relationship requiring review. Exact normalized strings differ, so these are not the same entity."
+    },
+    {
+      "id": "obs:similar_name_adjacent:BEAL CALVIN S & VONDELL L~BEAL VONDELL LEA & CALVIN S",
+      "observationType": "similar_name_adjacent",
+      "unit": "cluster",
+      "scope": "ut",
+      "priority": "medium",
+      "parcelCount": 4,
+      "ownerIds": [
+        "BEAL CALVIN S & VONDELL L",
+        "BEAL VONDELL LEA & CALVIN S"
+      ],
+      "hypothesis": "Potential ownership relationship requiring review. Exact normalized strings differ, so these are not the same entity."
+    },
+    {
+      "id": "obs:similar_name_adjacent:CAMPBELL JANET M & LLEWELLYN C~CAMPBELL LLEWELLYN C & JANET M",
+      "observationType": "similar_name_adjacent",
+      "unit": "cluster",
+      "scope": "ut",
+      "priority": "medium",
+      "parcelCount": 2,
+      "ownerIds": [
+        "CAMPBELL JANET M & LLEWELLYN C",
+        "CAMPBELL LLEWELLYN C & JANET M"
+      ],
+      "hypothesis": "Potential ownership relationship requiring review. Exact normalized strings differ, so these are not the same entity."
+    },
+    {
+      "id": "obs:similar_name_adjacent:CLOUGH HOMER & CHRISTOPHER~CLOUGH HOMER W & CHRISTOPHER R",
+      "observationType": "similar_name_adjacent",
+      "unit": "cluster",
+      "scope": "ut",
+      "priority": "medium",
+      "parcelCount": 2,
+      "ownerIds": [
+        "CLOUGH HOMER & CHRISTOPHER",
+        "CLOUGH HOMER W & CHRISTOPHER R"
+      ],
+      "hypothesis": "Potential ownership relationship requiring review. Exact normalized strings differ, so these are not the same entity."
+    },
+    {
+      "id": "obs:similar_name_adjacent:COLE STEPHEN M & BRENDA~COLE STEPHEN M & BRENDA S",
+      "observationType": "similar_name_adjacent",
+      "unit": "cluster",
+      "scope": "ut",
+      "priority": "medium",
+      "parcelCount": 2,
+      "ownerIds": [
+        "COLE STEPHEN M & BRENDA",
+        "COLE STEPHEN M & BRENDA S"
+      ],
+      "hypothesis": "Potential ownership relationship requiring review. Exact normalized strings differ, so these are not the same entity."
+    },
+    {
+      "id": "obs:similar_name_adjacent:DURLING GLEN P~DURLING GLENN",
+      "observationType": "similar_name_adjacent",
+      "unit": "cluster",
+      "scope": "ut",
+      "priority": "medium",
+      "parcelCount": 4,
+      "ownerIds": [
+        "DURLING GLEN P",
+        "DURLING GLENN"
+      ],
+      "hypothesis": "Potential ownership relationship requiring review. Exact normalized strings differ, so these are not the same entity."
+    },
+    {
+      "id": "obs:similar_name_adjacent:FOGG JOSHUA J & LATISHA M~FOGG LATISHA & JOSHUA",
+      "observationType": "similar_name_adjacent",
+      "unit": "cluster",
+      "scope": "ut",
+      "priority": "medium",
+      "parcelCount": 2,
+      "ownerIds": [
+        "FOGG JOSHUA J & LATISHA M",
+        "FOGG LATISHA & JOSHUA"
+      ],
+      "hypothesis": "Potential ownership relationship requiring review. Exact normalized strings differ, so these are not the same entity."
+    },
+    {
+      "id": "obs:similar_name_adjacent:GRANT BAYLEY & REBECCA A~GRANT BAYLEY C & REBECCA A",
+      "observationType": "similar_name_adjacent",
+      "unit": "cluster",
+      "scope": "ut",
+      "priority": "medium",
+      "parcelCount": 2,
+      "ownerIds": [
+        "GRANT BAYLEY & REBECCA A",
+        "GRANT BAYLEY C & REBECCA A"
+      ],
+      "hypothesis": "Potential ownership relationship requiring review. Exact normalized strings differ, so these are not the same entity."
+    },
+    {
+      "id": "obs:similar_name_adjacent:GRIFFEN BRENT~GRIFFIN BRENT",
+      "observationType": "similar_name_adjacent",
+      "unit": "cluster",
+      "scope": "ut",
+      "priority": "medium",
+      "parcelCount": 2,
+      "ownerIds": [
+        "GRIFFEN BRENT",
+        "GRIFFIN BRENT"
+      ],
+      "hypothesis": "Potential ownership relationship requiring review. Exact normalized strings differ, so these are not the same entity."
+    },
+    {
+      "id": "obs:similar_name_adjacent:GUISINGER PENNY & KARA~GUISINGER PENNY L & KARA J",
+      "observationType": "similar_name_adjacent",
+      "unit": "cluster",
+      "scope": "ut",
+      "priority": "medium",
+      "parcelCount": 2,
+      "ownerIds": [
+        "GUISINGER PENNY & KARA",
+        "GUISINGER PENNY L & KARA J"
+      ],
+      "hypothesis": "Potential ownership relationship requiring review. Exact normalized strings differ, so these are not the same entity."
+    },
+    {
+      "id": "obs:similar_name_adjacent:HAZARD WILLIAM~HAZARD WILLIAM J",
+      "observationType": "similar_name_adjacent",
+      "unit": "cluster",
+      "scope": "ut",
+      "priority": "medium",
+      "parcelCount": 3,
+      "ownerIds": [
+        "HAZARD WILLIAM",
+        "HAZARD WILLIAM J"
+      ],
+      "hypothesis": "Potential ownership relationship requiring review. Exact normalized strings differ, so these are not the same entity."
+    },
+    {
+      "id": "obs:similar_name_adjacent:HILLS DEBORAH J & RAYMOND E~HILLS RAYMOND E JR & DEBORAH J",
+      "observationType": "similar_name_adjacent",
+      "unit": "cluster",
+      "scope": "ut",
+      "priority": "medium",
+      "parcelCount": 2,
+      "ownerIds": [
+        "HILLS DEBORAH J & RAYMOND E",
+        "HILLS RAYMOND E JR & DEBORAH J"
+      ],
+      "hypothesis": "Potential ownership relationship requiring review. Exact normalized strings differ, so these are not the same entity."
+    },
+    {
+      "id": "obs:similar_name_adjacent:JOYCE CINDY L & JEFFREY W~JOYCE JEFFREY W & CINDY L",
+      "observationType": "similar_name_adjacent",
+      "unit": "cluster",
+      "scope": "ut",
+      "priority": "medium",
+      "parcelCount": 3,
+      "ownerIds": [
+        "JOYCE CINDY L & JEFFREY W",
+        "JOYCE JEFFREY W & CINDY L"
+      ],
+      "hypothesis": "Potential ownership relationship requiring review. Exact normalized strings differ, so these are not the same entity."
+    },
+    {
+      "id": "obs:similar_name_adjacent:KNIGHTS EDWIN & RUSTI LYNN JR~KNIGHTS EDWIN JR & RUSTI LYNN",
+      "observationType": "similar_name_adjacent",
+      "unit": "cluster",
+      "scope": "ut",
+      "priority": "medium",
+      "parcelCount": 2,
+      "ownerIds": [
+        "KNIGHTS EDWIN & RUSTI LYNN JR",
+        "KNIGHTS EDWIN JR & RUSTI LYNN"
+      ],
+      "hypothesis": "Potential ownership relationship requiring review. Exact normalized strings differ, so these are not the same entity."
+    },
+    {
+      "id": "obs:similar_name_adjacent:LORD MAUREEN~LORD MAUREEN T",
+      "observationType": "similar_name_adjacent",
+      "unit": "cluster",
+      "scope": "ut",
+      "priority": "medium",
+      "parcelCount": 2,
+      "ownerIds": [
+        "LORD MAUREEN",
+        "LORD MAUREEN T"
+      ],
+      "hypothesis": "Potential ownership relationship requiring review. Exact normalized strings differ, so these are not the same entity."
+    },
+    {
+      "id": "obs:similar_name_adjacent:MAINOR JOHN C & LUCY A~MAINOR LUCY A & JOHN C",
+      "observationType": "similar_name_adjacent",
+      "unit": "cluster",
+      "scope": "ut",
+      "priority": "medium",
+      "parcelCount": 2,
+      "ownerIds": [
+        "MAINOR JOHN C & LUCY A",
+        "MAINOR LUCY A & JOHN C"
+      ],
+      "hypothesis": "Potential ownership relationship requiring review. Exact normalized strings differ, so these are not the same entity."
+    },
+    {
+      "id": "obs:similar_name_adjacent:MCGUIRE SHAWN N & MARY A~MCQUIRE SHAWN N & MARY A",
+      "observationType": "similar_name_adjacent",
+      "unit": "cluster",
+      "scope": "ut",
+      "priority": "medium",
+      "parcelCount": 2,
+      "ownerIds": [
+        "MCGUIRE SHAWN N & MARY A",
+        "MCQUIRE SHAWN N & MARY A"
+      ],
+      "hypothesis": "Potential ownership relationship requiring review. Exact normalized strings differ, so these are not the same entity."
+    },
+    {
+      "id": "obs:similar_name_adjacent:MCKAY ROBERT J II & SHARON P~MCKAY SHARON P & ROBERT J II",
+      "observationType": "similar_name_adjacent",
+      "unit": "cluster",
+      "scope": "ut",
+      "priority": "medium",
+      "parcelCount": 2,
+      "ownerIds": [
+        "MCKAY ROBERT J II & SHARON P",
+        "MCKAY SHARON P & ROBERT J II"
+      ],
+      "hypothesis": "Potential ownership relationship requiring review. Exact normalized strings differ, so these are not the same entity."
+    },
+    {
+      "id": "obs:similar_name_adjacent:MCRORIE JOHNSON JR & SUSAN C~MCRORIE SUSAN C & JOHNSON JR",
+      "observationType": "similar_name_adjacent",
+      "unit": "cluster",
+      "scope": "ut",
+      "priority": "medium",
+      "parcelCount": 3,
+      "ownerIds": [
+        "MCRORIE JOHNSON JR & SUSAN C",
+        "MCRORIE SUSAN C & JOHNSON JR"
+      ],
+      "hypothesis": "Potential ownership relationship requiring review. Exact normalized strings differ, so these are not the same entity."
+    },
+    {
+      "id": "obs:similar_name_adjacent:MELNIK PATRICK J & ALICE E~MELNIK PATRICK J & ALICE E TTEE~MELNIK PATRICK J ALICE E & THOMAS",
+      "observationType": "similar_name_adjacent",
+      "unit": "cluster",
+      "scope": "ut",
+      "priority": "medium",
+      "parcelCount": 6,
+      "ownerIds": [
+        "MELNIK PATRICK J & ALICE E",
+        "MELNIK PATRICK J & ALICE E TTEE",
+        "MELNIK PATRICK J ALICE E & THOMAS"
+      ],
+      "hypothesis": "Potential ownership relationship requiring review. Exact normalized strings differ, so these are not the same entity."
+    },
+    {
+      "id": "obs:similar_name_adjacent:MOORES JONATHAN L~MOORES JONATHON L",
+      "observationType": "similar_name_adjacent",
+      "unit": "cluster",
+      "scope": "ut",
+      "priority": "medium",
+      "parcelCount": 3,
+      "ownerIds": [
+        "MOORES JONATHAN L",
+        "MOORES JONATHON L"
+      ],
+      "hypothesis": "Potential ownership relationship requiring review. Exact normalized strings differ, so these are not the same entity."
+    },
+    {
+      "id": "obs:similar_name_adjacent:SNOW DAVID B JR REVOCABLE TRUST~THE DAVID B SNOW JR REVOCABLE",
+      "observationType": "similar_name_adjacent",
+      "unit": "cluster",
+      "scope": "ut",
+      "priority": "medium",
+      "parcelCount": 4,
+      "ownerIds": [
+        "SNOW DAVID B JR REVOCABLE TRUST",
+        "THE DAVID B SNOW JR REVOCABLE"
+      ],
+      "hypothesis": "Potential ownership relationship requiring review. Exact normalized strings differ, so these are not the same entity."
+    },
+    {
+      "id": "obs:similar_name_adjacent:STEVENS TERRY & KELLY~STEVENS TERRY W & KELLY",
+      "observationType": "similar_name_adjacent",
+      "unit": "cluster",
+      "scope": "ut",
+      "priority": "medium",
+      "parcelCount": 4,
+      "ownerIds": [
+        "STEVENS TERRY & KELLY",
+        "STEVENS TERRY W & KELLY"
+      ],
+      "hypothesis": "Potential ownership relationship requiring review. Exact normalized strings differ, so these are not the same entity."
+    },
+    {
+      "id": "obs:similar_name_adjacent:TENAN GLEN A & HEATHER M~TENAN HEATHER M HENRY & GLEN A",
+      "observationType": "similar_name_adjacent",
+      "unit": "cluster",
+      "scope": "ut",
+      "priority": "medium",
+      "parcelCount": 2,
+      "ownerIds": [
+        "TENAN GLEN A & HEATHER M",
+        "TENAN HEATHER M HENRY & GLEN A"
+      ],
+      "hypothesis": "Potential ownership relationship requiring review. Exact normalized strings differ, so these are not the same entity."
+    },
+    {
+      "id": "obs:similar_name_adjacent:WINIARSKI ELAINE M & KENNETH J JR~WINIARSKI KENNETH J ELAINE M &~WINIARSKI KENNETH JR & ELAINE",
+      "observationType": "similar_name_adjacent",
+      "unit": "cluster",
+      "scope": "ut",
+      "priority": "medium",
+      "parcelCount": 3,
+      "ownerIds": [
+        "WINIARSKI ELAINE M & KENNETH J JR",
+        "WINIARSKI KENNETH J ELAINE M &",
+        "WINIARSKI KENNETH JR & ELAINE"
+      ],
+      "hypothesis": "Potential ownership relationship requiring review. Exact normalized strings differ, so these are not the same entity."
+    },
+    {
+      "id": "obs:township_join_gap:bancroft-twp",
+      "observationType": "township_join_gap",
+      "unit": "cluster",
+      "scope": "bancroft-twp",
+      "priority": "low",
+      "parcelCount": 61,
+      "ownerIds": [],
+      "hypothesis": "Township has little or no tax join while adjacent townships exceed 90% join. Plat-key / map-system mismatch, not ownerless land."
+    },
+    {
+      "id": "obs:township_join_gap:carroll-plt",
+      "observationType": "township_join_gap",
+      "unit": "cluster",
+      "scope": "carroll-plt",
+      "priority": "low",
+      "parcelCount": 385,
+      "ownerIds": [],
+      "hypothesis": "Township has little or no tax join while adjacent townships exceed 90% join. Plat-key / map-system mismatch, not ownerless land."
+    },
+    {
+      "id": "obs:township_join_gap:drew-twp",
+      "observationType": "township_join_gap",
+      "unit": "cluster",
+      "scope": "drew-twp",
+      "priority": "low",
+      "parcelCount": 84,
+      "ownerIds": [],
+      "hypothesis": "Township has little or no tax join while adjacent townships exceed 90% join. Plat-key / map-system mismatch, not ownerless land."
+    },
+    {
+      "id": "obs:township_join_gap:grand-lake-stream-plt",
+      "observationType": "township_join_gap",
+      "unit": "cluster",
+      "scope": "grand-lake-stream-plt",
+      "priority": "low",
+      "parcelCount": 251,
+      "ownerIds": [],
+      "hypothesis": "Township has little or no tax join while adjacent townships exceed 90% join. Plat-key / map-system mismatch, not ownerless land."
+    },
+    {
+      "id": "obs:township_join_gap:oqiton-twp",
+      "observationType": "township_join_gap",
+      "unit": "cluster",
+      "scope": "oqiton-twp",
+      "priority": "low",
+      "parcelCount": 8,
+      "ownerIds": [],
+      "hypothesis": "Township has little or no tax join while adjacent townships exceed 90% join. Plat-key / map-system mismatch, not ownerless land."
+    },
+    {
+      "id": "obs:township_join_gap:prentiss-twp-t7-r3-nbpp",
+      "observationType": "township_join_gap",
+      "unit": "cluster",
+      "scope": "prentiss-twp-t7-r3-nbpp",
+      "priority": "low",
+      "parcelCount": 439,
+      "ownerIds": [],
+      "hypothesis": "Township has little or no tax join while adjacent townships exceed 90% join. Plat-key / map-system mismatch, not ownerless land."
+    },
+    {
+      "id": "obs:township_join_gap:pukakon-twp",
+      "observationType": "township_join_gap",
+      "unit": "cluster",
+      "scope": "pukakon-twp",
+      "priority": "low",
+      "parcelCount": 38,
+      "ownerIds": [],
+      "hypothesis": "Township has little or no tax join while adjacent townships exceed 90% join. Plat-key / map-system mismatch, not ownerless land."
+    },
+    {
+      "id": "obs:township_join_gap:t28-md-bpp",
+      "observationType": "township_join_gap",
+      "unit": "cluster",
+      "scope": "t28-md-bpp",
+      "priority": "low",
+      "parcelCount": 12,
+      "ownerIds": [],
+      "hypothesis": "Township has little or no tax join while adjacent townships exceed 90% join. Plat-key / map-system mismatch, not ownerless land."
+    },
+    {
+      "id": "obs:township_join_gap:t34-md-bpp",
+      "observationType": "township_join_gap",
+      "unit": "cluster",
+      "scope": "t34-md-bpp",
+      "priority": "low",
+      "parcelCount": 3,
+      "ownerIds": [],
+      "hypothesis": "Township has little or no tax join while adjacent townships exceed 90% join. Plat-key / map-system mismatch, not ownerless land."
+    },
+    {
+      "id": "obs:township_join_gap:t35-md-bpp",
+      "observationType": "township_join_gap",
+      "unit": "cluster",
+      "scope": "t35-md-bpp",
+      "priority": "low",
+      "parcelCount": 38,
+      "ownerIds": [],
+      "hypothesis": "Township has little or no tax join while adjacent townships exceed 90% join. Plat-key / map-system mismatch, not ownerless land."
+    },
+    {
+      "id": "obs:township_join_gap:t41-md-bpp",
+      "observationType": "township_join_gap",
+      "unit": "cluster",
+      "scope": "t41-md-bpp",
+      "priority": "low",
+      "parcelCount": 77,
+      "ownerIds": [],
+      "hypothesis": "Township has little or no tax join while adjacent townships exceed 90% join. Plat-key / map-system mismatch, not ownerless land."
+    },
+    {
+      "id": "obs:unjoined_plat_hole:berry-twp",
+      "observationType": "unjoined_plat_hole",
+      "unit": "cluster",
+      "scope": "berry-twp",
+      "priority": "low",
+      "parcelCount": 1,
+      "ownerIds": [],
+      "hypothesis": "Unexpected absence of a tax join. Plat-key hypothesis listed first: TPL family is not wa_map, so this is a data-quality class, not a missing owner."
+    },
+    {
+      "id": "obs:unjoined_plat_hole:big-lake-twp",
+      "observationType": "unjoined_plat_hole",
+      "unit": "cluster",
+      "scope": "big-lake-twp",
+      "priority": "low",
+      "parcelCount": 6,
+      "ownerIds": [],
+      "hypothesis": "Unexpected absence of a tax join. Plat-key hypothesis listed first: TPL family is not wa_map, so this is a data-quality class, not a missing owner."
+    },
+    {
+      "id": "obs:unjoined_plat_hole:brookton-twp",
+      "observationType": "unjoined_plat_hole",
+      "unit": "cluster",
+      "scope": "brookton-twp",
+      "priority": "low",
+      "parcelCount": 1,
+      "ownerIds": [],
+      "hypothesis": "Unexpected absence of a tax join. Plat-key hypothesis listed first: TPL family is not wa_map, so this is a data-quality class, not a missing owner."
+    },
+    {
+      "id": "obs:unjoined_plat_hole:cathance-twp",
+      "observationType": "unjoined_plat_hole",
+      "unit": "cluster",
+      "scope": "cathance-twp",
+      "priority": "low",
+      "parcelCount": 2,
+      "ownerIds": [],
+      "hypothesis": "Unexpected absence of a tax join. Plat-key hypothesis listed first: TPL family is not wa_map, so this is a data-quality class, not a missing owner."
+    },
+    {
+      "id": "obs:unjoined_plat_hole:centerville-twp",
+      "observationType": "unjoined_plat_hole",
+      "unit": "cluster",
+      "scope": "centerville-twp",
+      "priority": "low",
+      "parcelCount": 9,
+      "ownerIds": [],
+      "hypothesis": "Unexpected absence of a tax join. Plat-key hypothesis listed first: TPL family is not wa_map, so this is a data-quality class, not a missing owner."
+    },
+    {
+      "id": "obs:unjoined_plat_hole:codyville-twp",
+      "observationType": "unjoined_plat_hole",
+      "unit": "cluster",
+      "scope": "codyville-twp",
+      "priority": "low",
+      "parcelCount": 5,
+      "ownerIds": [],
+      "hypothesis": "Unexpected absence of a tax join. Plat-key hypothesis listed first: TPL family is not wa_map, so this is a data-quality class, not a missing owner."
+    },
+    {
+      "id": "obs:unjoined_plat_hole:devereaux-twp",
+      "observationType": "unjoined_plat_hole",
+      "unit": "cluster",
+      "scope": "devereaux-twp",
+      "priority": "low",
+      "parcelCount": 2,
+      "ownerIds": [],
+      "hypothesis": "Unexpected absence of a tax join. Plat-key hypothesis listed first: TPL family is not wa_map, so this is a data-quality class, not a missing owner."
+    },
+    {
+      "id": "obs:unjoined_plat_hole:edmunds-twp",
+      "observationType": "unjoined_plat_hole",
+      "unit": "cluster",
+      "scope": "edmunds-twp",
+      "priority": "low",
+      "parcelCount": 1,
+      "ownerIds": [],
+      "hypothesis": "Unexpected absence of a tax join. Plat-key hypothesis listed first: TPL family is not wa_map, so this is a data-quality class, not a missing owner."
+    },
+    {
+      "id": "obs:unjoined_plat_hole:forest-city-twp",
+      "observationType": "unjoined_plat_hole",
+      "unit": "cluster",
+      "scope": "forest-city-twp",
+      "priority": "low",
+      "parcelCount": 5,
+      "ownerIds": [],
+      "hypothesis": "Unexpected absence of a tax join. Plat-key hypothesis listed first: TPL family is not wa_map, so this is a data-quality class, not a missing owner."
+    },
+    {
+      "id": "obs:unjoined_plat_hole:forest-twp",
+      "observationType": "unjoined_plat_hole",
+      "unit": "cluster",
+      "scope": "forest-twp",
+      "priority": "low",
+      "parcelCount": 1,
+      "ownerIds": [],
+      "hypothesis": "Unexpected absence of a tax join. Plat-key hypothesis listed first: TPL family is not wa_map, so this is a data-quality class, not a missing owner."
+    },
+    {
+      "id": "obs:unjoined_plat_hole:greenlaw-chopping-twp",
+      "observationType": "unjoined_plat_hole",
+      "unit": "cluster",
+      "scope": "greenlaw-chopping-twp",
+      "priority": "low",
+      "parcelCount": 1,
+      "ownerIds": [],
+      "hypothesis": "Unexpected absence of a tax join. Plat-key hypothesis listed first: TPL family is not wa_map, so this is a data-quality class, not a missing owner."
+    },
+    {
+      "id": "obs:unjoined_plat_hole:kossuth-twp",
+      "observationType": "unjoined_plat_hole",
+      "unit": "cluster",
+      "scope": "kossuth-twp",
+      "priority": "low",
+      "parcelCount": 2,
+      "ownerIds": [],
+      "hypothesis": "Unexpected absence of a tax join. Plat-key hypothesis listed first: TPL family is not wa_map, so this is a data-quality class, not a missing owner."
+    },
+    {
+      "id": "obs:unjoined_plat_hole:marion-twp",
+      "observationType": "unjoined_plat_hole",
+      "unit": "cluster",
+      "scope": "marion-twp",
+      "priority": "low",
+      "parcelCount": 12,
+      "ownerIds": [],
+      "hypothesis": "Unexpected absence of a tax join. Plat-key hypothesis listed first: TPL family is not wa_map, so this is a data-quality class, not a missing owner."
+    },
+    {
+      "id": "obs:unjoined_plat_hole:t18-md-bpp",
+      "observationType": "unjoined_plat_hole",
+      "unit": "cluster",
+      "scope": "t18-md-bpp",
+      "priority": "low",
+      "parcelCount": 2,
+      "ownerIds": [],
+      "hypothesis": "Unexpected absence of a tax join. Plat-key hypothesis listed first: TPL family is not wa_map, so this is a data-quality class, not a missing owner."
+    },
+    {
+      "id": "obs:unjoined_plat_hole:t24-md-bpp",
+      "observationType": "unjoined_plat_hole",
+      "unit": "cluster",
+      "scope": "t24-md-bpp",
+      "priority": "low",
+      "parcelCount": 1,
+      "ownerIds": [],
+      "hypothesis": "Unexpected absence of a tax join. Plat-key hypothesis listed first: TPL family is not wa_map, so this is a data-quality class, not a missing owner."
+    },
+    {
+      "id": "obs:unjoined_plat_hole:t26-ed-bpp",
+      "observationType": "unjoined_plat_hole",
+      "unit": "cluster",
+      "scope": "t26-ed-bpp",
+      "priority": "low",
+      "parcelCount": 4,
+      "ownerIds": [],
+      "hypothesis": "Unexpected absence of a tax join. Plat-key hypothesis listed first: TPL family is not wa_map, so this is a data-quality class, not a missing owner."
+    },
+    {
+      "id": "obs:unjoined_plat_hole:t6-nd-bpp",
+      "observationType": "unjoined_plat_hole",
+      "unit": "cluster",
+      "scope": "t6-nd-bpp",
+      "priority": "low",
+      "parcelCount": 1,
+      "ownerIds": [],
+      "hypothesis": "Unexpected absence of a tax join. Plat-key hypothesis listed first: TPL family is not wa_map, so this is a data-quality class, not a missing owner."
+    },
+    {
+      "id": "obs:unjoined_plat_hole:trescott-twp",
+      "observationType": "unjoined_plat_hole",
+      "unit": "cluster",
+      "scope": "trescott-twp",
+      "priority": "low",
+      "parcelCount": 4,
+      "ownerIds": [],
+      "hypothesis": "Unexpected absence of a tax join. Plat-key hypothesis listed first: TPL family is not wa_map, so this is a data-quality class, not a missing owner."
+    },
+    {
+      "id": "obs:unjoined_tax_records:ut-2025",
+      "observationType": "unjoined_tax_records",
+      "unit": "absence",
+      "scope": "ut",
+      "priority": "low",
+      "parcelCount": 0,
+      "ownerIds": [],
+      "hypothesis": "These are tax records without land geometry — not cheap land and not missing owners on a map."
+    },
+    {
+      "id": "obs:vacant_tract_among_improved:ALL OF IT EXCAVATION LLC",
+      "observationType": "vacant_tract_among_improved",
+      "unit": "owner",
+      "scope": "ut",
+      "priority": "low",
+      "parcelCount": 1,
+      "ownerIds": [
+        "ALL OF IT EXCAVATION LLC"
+      ],
+      "hypothesis": "A large vacant tract sits among improved neighbors. That is a land-use contrast, not a finding of error or wrongdoing."
+    },
+    {
+      "id": "obs:vacant_tract_among_improved:BASKAHEGAN CO",
+      "observationType": "vacant_tract_among_improved",
+      "unit": "owner",
+      "scope": "ut",
+      "priority": "suppressed",
+      "parcelCount": 3,
+      "ownerIds": [
+        "BASKAHEGAN CO"
+      ],
+      "hypothesis": "A large vacant tract sits among improved neighbors. That is a land-use contrast, not a finding of error or wrongdoing."
+    },
+    {
+      "id": "obs:vacant_tract_among_improved:BEAL TIMOTHY A & LYDIA J",
+      "observationType": "vacant_tract_among_improved",
+      "unit": "owner",
+      "scope": "ut",
+      "priority": "low",
+      "parcelCount": 1,
+      "ownerIds": [
+        "BEAL TIMOTHY A & LYDIA J"
+      ],
+      "hypothesis": "A large vacant tract sits among improved neighbors. That is a land-use contrast, not a finding of error or wrongdoing."
+    },
+    {
+      "id": "obs:vacant_tract_among_improved:BROOKS AND WALDEN LLC",
+      "observationType": "vacant_tract_among_improved",
+      "unit": "owner",
+      "scope": "ut",
+      "priority": "low",
+      "parcelCount": 1,
+      "ownerIds": [
+        "BROOKS AND WALDEN LLC"
+      ],
+      "hypothesis": "A large vacant tract sits among improved neighbors. That is a land-use contrast, not a finding of error or wrongdoing."
+    },
+    {
+      "id": "obs:vacant_tract_among_improved:DOWNEAST COASTAL CONSERVANCY",
+      "observationType": "vacant_tract_among_improved",
+      "unit": "owner",
+      "scope": "ut",
+      "priority": "low",
+      "parcelCount": 1,
+      "ownerIds": [
+        "DOWNEAST COASTAL CONSERVANCY"
+      ],
+      "hypothesis": "A large vacant tract sits among improved neighbors. That is a land-use contrast, not a finding of error or wrongdoing."
+    },
+    {
+      "id": "obs:vacant_tract_among_improved:DOWNEAST LAKES LAND TRUST",
+      "observationType": "vacant_tract_among_improved",
+      "unit": "owner",
+      "scope": "ut",
+      "priority": "low",
+      "parcelCount": 1,
+      "ownerIds": [
+        "DOWNEAST LAKES LAND TRUST"
+      ],
+      "hypothesis": "A large vacant tract sits among improved neighbors. That is a land-use contrast, not a finding of error or wrongdoing."
+    },
+    {
+      "id": "obs:vacant_tract_among_improved:MAINE STATE OF IF&W",
+      "observationType": "vacant_tract_among_improved",
+      "unit": "owner",
+      "scope": "ut",
+      "priority": "suppressed",
+      "parcelCount": 1,
+      "ownerIds": [
+        "MAINE STATE OF IF&W"
+      ],
+      "hypothesis": "A large vacant tract sits among improved neighbors. That is a land-use contrast, not a finding of error or wrongdoing."
+    },
+    {
+      "id": "obs:vacant_tract_among_improved:MOODY JOSHUA",
+      "observationType": "vacant_tract_among_improved",
+      "unit": "owner",
+      "scope": "ut",
+      "priority": "low",
+      "parcelCount": 1,
+      "ownerIds": [
+        "MOODY JOSHUA"
+      ],
+      "hypothesis": "A large vacant tract sits among improved neighbors. That is a land-use contrast, not a finding of error or wrongdoing."
+    },
+    {
+      "id": "obs:vacant_tract_among_improved:OLIVER KENNETH S & RONALD W",
+      "observationType": "vacant_tract_among_improved",
+      "unit": "owner",
+      "scope": "ut",
+      "priority": "low",
+      "parcelCount": 1,
+      "ownerIds": [
+        "OLIVER KENNETH S & RONALD W"
+      ],
+      "hypothesis": "A large vacant tract sits among improved neighbors. That is a land-use contrast, not a finding of error or wrongdoing."
+    },
+    {
+      "id": "obs:vacant_tract_among_improved:PASSAMAQUODDY INDIAN",
+      "observationType": "vacant_tract_among_improved",
+      "unit": "owner",
+      "scope": "ut",
+      "priority": "low",
+      "parcelCount": 1,
+      "ownerIds": [
+        "PASSAMAQUODDY INDIAN"
+      ],
+      "hypothesis": "A large vacant tract sits among improved neighbors. That is a land-use contrast, not a finding of error or wrongdoing."
+    },
+    {
+      "id": "obs:vacant_tract_among_improved:TYPHOON LLC",
+      "observationType": "vacant_tract_among_improved",
+      "unit": "owner",
+      "scope": "ut",
+      "priority": "suppressed",
+      "parcelCount": 1,
+      "ownerIds": [
+        "TYPHOON LLC"
+      ],
+      "hypothesis": "A large vacant tract sits among improved neighbors. That is a land-use contrast, not a finding of error or wrongdoing."
+    }
+  ]
+}
