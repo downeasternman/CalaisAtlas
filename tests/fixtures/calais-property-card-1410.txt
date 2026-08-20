@@ -1,0 +1,15 @@
+Sale Data
+Map Lot 	003-001-011 	Account 	1410 	Location 	Card 	1 	Of 	1 	9/12/2023
+STATE OF MAINE
+AUGUSTA ME 04333
+Inspection Witnessed By:
+X 	Date
+Notes:
+NORTH ST
+Property Data 	Assessment Record
+Neighborhood 94 Milltown
+Tree Growth Year 	0
+TG Updated/Year 	0
+TG Updated/Year 	0
+Zone/Land Use 	15 Coml & Instit.
+Secondary Zone

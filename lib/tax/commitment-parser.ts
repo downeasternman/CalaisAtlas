@@ -28,11 +28,16 @@ export interface ParsedCommitmentRow {
   assessedBuildingValue: string | null;
   assessedTotalValue: string | null;
   assessedExemptionValue: string | null;
+  taxAmount: string | null;
+  taxAcreage: string | null;
   hasTreeGrowth: boolean;
   taxYear: number | null;
   parseConfidence: number;
   attrsRaw: Record<string, unknown>;
 }
+
+/** Calais 2025 commitment mill rate (for optional consistency check only). */
+export const CALAIS_2025_MILL_RATE = 0.0145;
 
 const MAP_LOT_LINE_RE =
   /^\s*((?:\d{2,3}-\d{2,3}(?:-\d{2,3})?(?:-[A-Z][A-Z0-9-]*)?)|(?:\d{2}-\d{2,3}(?:-\d{1,3})?(?:-[A-Z])?)|(?:[RU]\d{1,2}-\d{1,3}(?:-\d{1,3})?(?:-[A-Z])?)|(?:[A-G]-\d{3,4}(?:-[A-Z0-9]+)?)|(?:[A-Z]\d-0[A-Z]\d-[A-Z0-9]+(?:\/[A-Z0-9]+)?)|(?:[A-G]-\d{3,4}(?:-[A-Z0-9]+)?(?:\+\d{2,4}(?:-[A-Z0-9]+)?)*)|(?:\d{2}-\d{2,3}(?:-\d{1,3})?(?:\+\d{1,3})+))\s*$/i;
@@ -42,6 +47,8 @@ const CUTLER_HEADER_RE =
 
 const DEED_REF_RE = /^B\d+/i;
 const MONEY_TOKEN_RE = /^[\d,]+(?:\.\d+)?$/;
+/** Tax billed always has cents in the Calais commitment book. */
+const TAX_AMOUNT_RE = /^\d{1,3}(?:,\d{3})*\.\d{2}$/;
 
 interface AccountBlock {
   accountNumber: string;
@@ -53,6 +60,7 @@ interface AccountBlock {
   headerBuilding: string | null;
   headerExempt: string | null;
   headerAssessment: string | null;
+  headerTax: string | null;
   mailLines: string[];
   bodyLines: string[];
 }
@@ -62,6 +70,7 @@ interface LotValues {
   building: string | null;
   exempt: string | null;
   assessment: string | null;
+  tax: string | null;
   source: string;
 }
 
@@ -105,7 +114,97 @@ function isValidAccountHeader(
   return false;
 }
 
+function cleanTaxAmount(value: string | undefined | null): string | null {
+  if (!value) return null;
+  const cleaned = value.replace(/,/g, "").replace(/\s/g, "").trim();
+  if (!/^\d+\.\d{2}$/.test(cleaned)) return null;
+  return cleaned;
+}
+
+function isTaxAmountToken(value: string): boolean {
+  return TAX_AMOUNT_RE.test(value.trim());
+}
+
+function isAcresOrHomesteadNoteLine(line: string): boolean {
+  const trimmed = line.trim();
+  if (!trimmed) return false;
+  if (/^acres\b/i.test(trimmed)) return true;
+  if (/\bhomestead\b/i.test(trimmed) && /acres|\d+\.\d+/i.test(trimmed)) return true;
+  if (/^\d+\.\d+\s+.*\bhomestead\b/i.test(trimmed)) return true;
+  if (/^\d+\.\d+\s+acres\b/i.test(trimmed)) return true;
+  return false;
+}
+
+function extractTaxAcreageFromLine(line: string): string | null {
+  const trimmed = line.trim();
+  const labeled = trimmed.match(/\bacres\b[\t :]+([\d.]+)/i);
+  if (labeled?.[1]) return labeled[1];
+  const leading = trimmed.match(/^([\d.]+)[\t ]+(?:\d+\s+)?homestead/i);
+  if (leading?.[1]) return leading[1];
+  const leadingAcres = trimmed.match(/^([\d.]+)[\t ]+acres\b/i);
+  if (leadingAcres?.[1]) return leadingAcres[1];
+  // "0.50 \t19 Homestead.......\tAcres"
+  const trailingAcres = trimmed.match(/^([\d.]+)[\t ].*\bacres\b/i);
+  if (trailingAcres?.[1]) return trailingAcres[1];
+  return null;
+}
+
+function extractTaxAmountFromLines(lines: string[]): string | null {
+  for (const line of lines) {
+    const trimmed = line.trim();
+    if (isTaxAmountToken(trimmed)) {
+      return cleanTaxAmount(trimmed);
+    }
+    const tokens = trimmed.split(/[\t ]+/).filter(Boolean);
+    for (const token of tokens) {
+      if (isTaxAmountToken(token)) {
+        return cleanTaxAmount(token);
+      }
+    }
+  }
+  return null;
+}
+
+function extractTaxAcreageFromLines(lines: string[]): string | null {
+  for (const line of lines) {
+    const acres = extractTaxAcreageFromLine(line);
+    if (acres) return acres;
+  }
+  return null;
+}
+
+function filterMailLines(lines: string[]): string[] {
+  return lines.filter((line) => {
+    const trimmed = line.trim();
+    if (!trimmed) return false;
+    if (isTaxAmountToken(trimmed)) return false;
+    if (isAcresOrHomesteadNoteLine(trimmed)) return false;
+    if (isTabValueRow(trimmed)) return false;
+    if (DEED_REF_RE.test(trimmed)) return false;
+    if (MAP_LOT_LINE_RE.test(trimmed)) return false;
+    return true;
+  });
+}
+
+function millRateCheck(
+  assessment: string | null,
+  tax: string | null,
+  millRate = CALAIS_2025_MILL_RATE,
+): { expected: number; delta: number; ok: boolean } | null {
+  if (!assessment || !tax) return null;
+  const a = Number(assessment);
+  const t = Number(tax);
+  if (!Number.isFinite(a) || !Number.isFinite(t) || a <= 0) return null;
+  const expected = Math.round(a * millRate * 100) / 100;
+  const delta = Math.abs(t - expected);
+  return { expected, delta, ok: delta <= 1 };
+}
+
 function extractOwnerFromHeaderRest(rest: string): string | null {
+  const withTax = rest.match(
+    /^(.+?)\s+([\d,]+)\s+([\d,]+)\s+([\d,]+)\s+([\d,]+)\s+(\d{1,3}(?:,\d{3})*\.\d{2})\s*$/,
+  );
+  if (withTax) return withTax[1]!.trim() || null;
   const inline = rest.match(/^(.+?)\s+([\d,]+)\s+([\d,]+)\s+([\d,]+)\s+([\d,]+)\s*$/);
   if (inline) return inline[1]!.trim() || null;
   // Land/building/exempt often appear as "NAME 0 0 16,300" or "NAME 325,300 0 494,100".
@@ -119,6 +218,9 @@ function extractOwnerFromHeaderRest(rest: string): string | null {
 }
 
 function parseHeaderLine(accountNumber: string, rest: string): Omit<AccountBlock, "bodyLines"> {
+  const withTax = rest.match(
+    /^(.+?)\s+([\d,]+)\s+([\d,]+)\s+([\d,]+)\s+([\d,]+)\s+(\d{1,3}(?:,\d{3})*\.\d{2})\b/,
+  );
   const inline = rest.match(/^(.+?)\s+([\d,]+)\s+([\d,]+)\s+([\d,]+)\s+([\d,]+)\b/);
   const ownerRaw = extractOwnerFromHeaderRest(rest);
   return {
@@ -127,10 +229,27 @@ function parseHeaderLine(accountNumber: string, rest: string): Omit<AccountBlock
     headerRest: rest,
     leadingMapLot: null,
     ownerRaw,
-    headerLand: inline ? cleanMoney(inline[2]) : null,
-    headerBuilding: inline ? cleanMoney(inline[3]) : null,
-    headerExempt: inline ? cleanMoney(inline[4]) : null,
-    headerAssessment: inline ? cleanMoney(inline[5]) : null,
+    headerLand: withTax
+      ? cleanMoney(withTax[2])
+      : inline
+        ? cleanMoney(inline[2])
+        : null,
+    headerBuilding: withTax
+      ? cleanMoney(withTax[3])
+      : inline
+        ? cleanMoney(inline[3])
+        : null,
+    headerExempt: withTax
+      ? cleanMoney(withTax[4])
+      : inline
+        ? cleanMoney(inline[4])
+        : null,
+    headerAssessment: withTax
+      ? cleanMoney(withTax[5])
+      : inline
+        ? cleanMoney(inline[5])
+        : null,
+    headerTax: withTax ? cleanTaxAmount(withTax[6]) : null,
     mailLines: [],
   };
 }
@@ -138,6 +257,7 @@ function parseHeaderLine(accountNumber: string, rest: string): Omit<AccountBlock
 function isTabValueRow(line: string): boolean {
   const trimmed = line.trim();
   return (
+    /^[\d,]+\s+[\d,]+\s+[\d,]+\s+[\d,]+\s+\d{1,3}(?:,\d{3})*\.\d{2}\s*$/.test(trimmed) ||
     /^[\d,]+\s+[\d,]+\s+[\d,]+\s+[\d,]+\s*$/.test(trimmed) ||
     /^[\d,]+\s+[\d,]+\s+[\d,]+\s*$/.test(trimmed)
   );
@@ -149,6 +269,8 @@ function isMailOrAddressLine(line: string): boolean {
   if (MAP_LOT_LINE_RE.test(trimmed)) return false;
   if (DEED_REF_RE.test(trimmed)) return false;
   if (/^acres\b/i.test(trimmed)) return false;
+  if (isAcresOrHomesteadNoteLine(trimmed)) return false;
+  if (isTaxAmountToken(trimmed)) return false;
   if (/^(soft|mixed|hard):/i.test(trimmed)) return false;
   if (isSubtotalLine(trimmed)) return false;
   if (/^\d{2,4}[\t ]+[A-Z]/.test(trimmed)) return false;
@@ -182,37 +304,58 @@ function segmentAccountBlocks(text: string, layout: CommitmentLayout = "by-name"
     }
 
     const landFirstMatch = trimmed.match(
-      /^(\d{1,3}(?:,\d{3})+)[\t ]+(\d{1,4})[\t ]+(.+)$/,
+      /^(\d{1,3}(?:,\d{3})+|\d{1,7})[\t ]+(\d{1,4})[\t ]+(.+)$/,
     );
+    const landFirstThreeMoney = landFirstMatch?.[3]?.match(
+      /^(.+?)\s+([\d,]+)\s+([\d,]+)\s+([\d,]+)\s*$/,
+    );
+    const landFirstRestForValidation =
+      landFirstThreeMoney?.[1]?.trim() ?? landFirstMatch?.[3] ?? "";
     if (
       landFirstMatch &&
-      isValidAccountHeader(landFirstMatch[2]!, landFirstMatch[3]!, layout)
+      isValidAccountHeader(landFirstMatch[2]!, landFirstRestForValidation, layout)
     ) {
-      if (current) blocks.push(current);
-      const parsed = parseHeaderLine(landFirstMatch[2]!, landFirstMatch[3]!);
-      const leadingLand = cleanMoney(landFirstMatch[1]!);
-      // Land-first MRS layouts often trail building/exempt/assessment (3 money tokens).
-      const threeMoney = landFirstMatch[3]!.match(
-        /^(.+?)\s+([\d,]+)\s+([\d,]+)\s+([\d,]+)\s*$/,
-      );
-      if (threeMoney && !parsed.headerAssessment) {
-        current = {
-          ...parsed,
-          ownerRaw: threeMoney[1]!.trim(),
-          headerLand: leadingLand,
-          headerBuilding: cleanMoney(threeMoney[2]!),
-          headerExempt: cleanMoney(threeMoney[3]!),
-          headerAssessment: cleanMoney(threeMoney[4]!),
-          bodyLines: [],
-        };
-      } else {
-        current = {
-          ...parsed,
-          headerLand: parsed.headerLand ?? leadingLand,
-          bodyLines: [],
-        };
+      const landToken = landFirstMatch[1]!;
+      const landHasComma = landToken.includes(",");
+      const landNum = Number(landToken.replace(/,/g, ""));
+      const landFirstAccountNum = Number(landFirstMatch[2]!);
+      // Without a thousands comma, prefer account-first when the first token looks
+      // like the account id (Lubec: `1507 193 COUNTY ROAD LLC`), not land
+      // (`500 1318 STATE OF MAINE`).
+      const accountFirstAlt = trimmed.match(/^(\d{1,4})[\t ]+(.+)$/);
+      const preferAccountFirst =
+        !landHasComma &&
+        Number.isFinite(landNum) &&
+        Number.isFinite(landFirstAccountNum) &&
+        landToken.replace(/,/g, "").length <= 4 &&
+        landNum >= landFirstAccountNum &&
+        !!accountFirstAlt &&
+        isValidAccountHeader(accountFirstAlt[1]!, accountFirstAlt[2]!, layout);
+
+      if (!preferAccountFirst) {
+        if (current) blocks.push(current);
+        const parsed = parseHeaderLine(landFirstMatch[2]!, landFirstMatch[3]!);
+        const leadingLand = cleanMoney(landFirstMatch[1]!);
+        if (landFirstThreeMoney && !parsed.headerAssessment) {
+          current = {
+            ...parsed,
+            ownerRaw: landFirstThreeMoney[1]!.trim(),
+            headerLand: leadingLand,
+            headerBuilding: cleanMoney(landFirstThreeMoney[2]!),
+            headerExempt: cleanMoney(landFirstThreeMoney[3]!),
+            headerAssessment: cleanMoney(landFirstThreeMoney[4]!),
+            headerTax: parsed.headerTax,
+            bodyLines: [],
+          };
+        } else {
+          current = {
+            ...parsed,
+            headerLand: parsed.headerLand ?? leadingLand,
+            bodyLines: [],
+          };
+        }
+        continue;
       }
-      continue;
     }
 
     const headerMatch = trimmed.match(/^(\d{1,4})[\t ]+(.+)$/);
@@ -301,9 +444,77 @@ function findMapLotsInBlock(block: AccountBlock): Array<{ raw: string; normalize
   return lots;
 }
 
+/**
+ * Calais commitment pages usually bind one Acres line to the next map-lot line.
+ * Prefer those pairs so foreign lots swallowed by a bad block do not inherit values.
+ */
+function selectMapLotsForBlock(
+  block: AccountBlock,
+  lots: Array<{ raw: string; normalized: string; index: number }>,
+): Array<{ raw: string; normalized: string; index: number }> {
+  if (lots.length <= 1) return lots;
+
+  const acresBound: Array<{ raw: string; normalized: string; index: number }> = [];
+  for (let i = 0; i < block.bodyLines.length; i++) {
+    const line = block.bodyLines[i]!;
+    if (!/\bacres\b/i.test(line) && !extractTaxAcreageFromLine(line)) continue;
+    for (let j = i + 1; j < block.bodyLines.length; j++) {
+      const next = block.bodyLines[j]!;
+      if (!MAP_LOT_LINE_RE.test(next)) {
+        if (/^\d{1,4}[\t ]+[A-Z]/.test(next.trim())) break;
+        continue;
+      }
+      const match = next.match(MAP_LOT_LINE_RE);
+      if (!match?.[1]) break;
+      for (const piece of expandCompoundMapLots(match[1])) {
+        const normalized = normalizeMapBkLot(piece);
+        if (!normalized) continue;
+        acresBound.push({ raw: piece, normalized, index: j });
+      }
+      break;
+    }
+  }
+
+  if (acresBound.length > 0) {
+    const seen = new Set<string>();
+    return acresBound.filter((lot) => {
+      if (seen.has(lot.normalized)) return false;
+      seen.add(lot.normalized);
+      return true;
+    });
+  }
+
+  // No Acres binding: if lots span different map sheets, keep only the first lot.
+  const sheets = new Set(
+    lots.map((lot) => lot.normalized.split("-")[0] ?? lot.normalized),
+  );
+  if (sheets.size > 1) return lots.slice(0, 1);
+
+  return lots;
+}
+
+function isLikelyZipAssessment(value: string | null): boolean {
+  if (!value) return false;
+  // Maine mail zips scraped by columnar fallback (e.g. AUGUSTA ME 04333).
+  return /^0\d{4}$/.test(value);
+}
+
 function extractTabValueRow(lines: string[], headerLand?: string | null): LotValues | null {
   for (const line of lines) {
     const trimmed = line.trim();
+    const five = trimmed.match(
+      /^([\d,]+)\s+([\d,]+)\s+([\d,]+)\s+([\d,]+)\s+(\d{1,3}(?:,\d{3})*\.\d{2})\s*$/,
+    );
+    if (five) {
+      const land = cleanMoney(five[1]);
+      const building = cleanMoney(five[2]);
+      const exempt = cleanMoney(five[3]);
+      const assessment = cleanMoney(five[4]);
+      const tax = cleanTaxAmount(five[5]);
+      if (isValidMoney(land) || isValidMoney(building) || isValidMoney(assessment)) {
+        return { land, building, exempt, assessment, tax, source: "tab_row_with_tax" };
+      }
+    }
     const four = trimmed.match(/^([\d,]+)\s+([\d,]+)\s+([\d,]+)\s+([\d,]+)\s*$/);
     if (four) {
       const land = cleanMoney(four[1]);
@@ -311,11 +522,30 @@ function extractTabValueRow(lines: string[], headerLand?: string | null): LotVal
       const exempt = cleanMoney(four[3]);
       const assessment = cleanMoney(four[4]);
       if (isValidMoney(land) || isValidMoney(building) || isValidMoney(assessment)) {
-        return { land, building, exempt, assessment, source: "tab_row" };
+        return { land, building, exempt, assessment, tax: null, source: "tab_row" };
       }
     }
-    // Land already on header; body has building / exempt / assessment.
+    // Land already on header; body has building / exempt / assessment [/ tax].
     if (headerLand) {
+      const threePlusTax = trimmed.match(
+        /^([\d,]+)\s+([\d,]+)\s+([\d,]+)\s+(\d{1,3}(?:,\d{3})*\.\d{2})\s*$/,
+      );
+      if (threePlusTax) {
+        const building = cleanMoney(threePlusTax[1]);
+        const exempt = cleanMoney(threePlusTax[2]);
+        const assessment = cleanMoney(threePlusTax[3]);
+        const tax = cleanTaxAmount(threePlusTax[4]);
+        if (isValidMoney(assessment) || isValidMoney(building)) {
+          return {
+            land: headerLand,
+            building,
+            exempt,
+            assessment,
+            tax,
+            source: "tab_row_land_first_tax",
+          };
+        }
+      }
       const three = trimmed.match(/^([\d,]+)\s+([\d,]+)\s+([\d,]+)\s*$/);
       if (three) {
         const building = cleanMoney(three[1]);
@@ -327,6 +557,7 @@ function extractTabValueRow(lines: string[], headerLand?: string | null): LotVal
             building,
             exempt,
             assessment,
+            tax: null,
             source: "tab_row_land_first",
           };
         }
@@ -348,6 +579,7 @@ function extractColumnarValues(lines: string[]): LotValues | null {
           building: null,
           exempt: "0",
           assessment,
+          tax: null,
           source: "assessment_only",
         };
       }
@@ -360,9 +592,11 @@ function extractColumnarValues(lines: string[]): LotValues | null {
     if (!trimmed || isSubtotalLine(trimmed)) continue;
     if (/^(soft|mixed|hard|acres):/i.test(trimmed)) continue;
     if (DEED_REF_RE.test(trimmed)) continue;
+    if (isTaxAmountToken(trimmed)) continue;
 
     const tokens = trimmed.split(/[\t ]+/).filter(Boolean);
     for (const token of tokens) {
+      if (isTaxAmountToken(token)) continue;
       const money = parseMoneyToken(token);
       if (money && isValidMoney(money)) moneyLines.push(money);
     }
@@ -382,15 +616,18 @@ function extractColumnarValues(lines: string[]): LotValues | null {
     const assessment =
       uniqueLarge[2] ??
       (land && building ? String(Number(land) + Number(building)) : uniqueLarge[0] ?? null);
-    return { land, building, exempt: "0", assessment, source: "columnar" };
+    if (isLikelyZipAssessment(assessment)) return null;
+    return { land, building, exempt: "0", assessment, tax: null, source: "columnar" };
   }
 
   if (uniqueLarge.length === 1) {
+    if (isLikelyZipAssessment(uniqueLarge[0]!)) return null;
     return {
       land: uniqueLarge[0],
       building: "0",
       exempt: "0",
       assessment: uniqueLarge[0],
+      tax: null,
       source: "columnar_single",
     };
   }
@@ -437,6 +674,7 @@ function extractLotValues(
       building: block.headerBuilding,
       exempt: block.headerExempt,
       assessment: block.headerAssessment,
+      tax: block.headerTax,
       source: "header_inline",
     };
   }
@@ -449,8 +687,11 @@ function extractLotValues(
   const preTab = extractTabValueRow(preLotSpan, block.headerLand);
   if (preTab) return preTab;
 
-  const columnar = extractColumnarValues(span);
-  if (columnar) return columnar;
+  // Never columnar-scrape when the account header already has an assessment.
+  if (!(block.headerAssessment && isValidMoney(block.headerAssessment))) {
+    const columnar = extractColumnarValues(span);
+    if (columnar) return columnar;
+  }
 
   if (headerExtractedLand && isValidMoney(headerExtractedLand)) {
     return {
@@ -458,6 +699,7 @@ function extractLotValues(
       building: "0",
       exempt: "0",
       assessment: headerExtractedLand,
+      tax: null,
       source: "header_land_tail",
     };
   }
@@ -511,8 +753,17 @@ export function parseCommitmentText(
   for (const block of blocks) {
     const resolvedOwner = resolveBlockOwner(block, layout);
     const ownerName = resolvedOwner.ownerName;
-    const mailAddress = block.mailLines.length > 0 ? block.mailLines.join(", ") : null;
-    const lots = findMapLotsInBlock(block);
+    const allLines = [
+      block.headerLine,
+      ...block.mailLines,
+      ...block.bodyLines,
+    ];
+    const cleanedMail = filterMailLines(block.mailLines);
+    const mailAddress = cleanedMail.length > 0 ? cleanedMail.join(", ") : null;
+    const blockTax =
+      block.headerTax ?? extractTaxAmountFromLines(allLines);
+    const blockAcres = extractTaxAcreageFromLines(allLines);
+    const lots = selectMapLotsForBlock(block, findMapLotsInBlock(block));
     if (lots.length === 0) continue;
 
     for (const lot of lots) {
@@ -525,16 +776,33 @@ export function parseCommitmentText(
         lots.length,
         resolvedOwner.extractedLand,
       );
-      const assessedLandValue = values?.land ?? null;
-      const assessedBuildingValue = values?.building ?? null;
-      const assessedTotalValue = values?.assessment ?? null;
+      let assessedLandValue = values?.land ?? null;
+      let assessedBuildingValue = values?.building ?? null;
+      let assessedTotalValue = values?.assessment ?? null;
+      if (isLikelyZipAssessment(assessedTotalValue)) {
+        assessedTotalValue = null;
+        assessedLandValue = null;
+        assessedBuildingValue = null;
+      }
       const assessedExemptionValue = normalizeExemptionValue(values?.exempt ?? null);
       const lotSpanLines = getLotContextLines(block, lot.index);
+      const taxAmount =
+        values?.tax ??
+        extractTaxAmountFromLines(lotSpanLines) ??
+        blockTax;
+      const taxAcreage =
+        extractTaxAcreageFromLines(lotSpanLines) ?? blockAcres;
       const forestEnrollment: ForestEnrollment =
         parseForestEnrollmentFromLines(lotSpanLines);
       const lotSpanText = lotSpanLines.join("\n");
       const hasTreeGrowth = hasTreeGrowthEnrollment(forestEnrollment, lotSpanText);
-      const homesteadLabel = detectHomesteadLabel(lotSpanLines);
+      const homesteadLabel = detectHomesteadLabel([
+        ...lotSpanLines,
+        ...block.mailLines,
+        ...block.bodyLines,
+      ]);
+      const valueSource = values?.source ?? null;
+      const taxMillCheck = millRateCheck(assessedTotalValue, taxAmount);
       const parseConfidence = scoreRow(
         ownerName,
         assessedTotalValue,
@@ -555,18 +823,21 @@ export function parseCommitmentText(
         assessedBuildingValue,
         assessedTotalValue,
         assessedExemptionValue,
+        taxAmount,
+        taxAcreage,
         hasTreeGrowth,
         taxYear,
         parseConfidence,
         attrsRaw: {
           mapLotRaw: lot.raw,
           accountLine: block.headerLine,
-          valueSource: values?.source ?? null,
-          mailLines: block.mailLines,
+          valueSource,
+          mailLines: cleanedMail,
           forestEnrollment,
           homesteadLabel,
           ownerSource: resolvedOwner.ownerSource,
           situsLabel: resolvedOwner.situsLabel,
+          taxMillCheck,
         },
       };
 

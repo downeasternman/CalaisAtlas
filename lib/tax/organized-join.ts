@@ -38,6 +38,8 @@ export interface JoinedOrganizedParcel {
   assessedBuildingValue: string | null;
   assessedTotalValue: string | null;
   assessedExemptionValue: string | null;
+  taxAmount: string | null;
+  taxAcreage: string | null;
   hasTreeGrowth: boolean;
   taxYear: number | null;
   joinConfidence: number | null;
@@ -85,6 +87,20 @@ function joinKeysForGeometry(geocode: string, mapBkLot: string | null): string[]
     .filter(Boolean);
 }
 
+/**
+ * Parent joins only when geometry is a suffix extension of the tax lot
+ * (condo / unit: 003-001-024-A → 003-001-024), not siblings sharing a map block.
+ */
+export function isSuffixParentMapLot(
+  geometryLot: string | null | undefined,
+  taxLot: string | null | undefined,
+): boolean {
+  const geom = normalizeMapBkLot(geometryLot);
+  const tax = normalizeMapBkLot(taxLot);
+  if (!geom || !tax || geom === tax) return false;
+  return geom.startsWith(`${tax}-`);
+}
+
 function lookupTaxRecord(
   geocode: string,
   mapBkLot: string | null,
@@ -102,6 +118,9 @@ function lookupTaxRecord(
     if (!record || !hasValidOwner(record)) continue;
 
     const joinMethod: JoinMethod = i === 0 ? "map_lot" : "map_lot_parent";
+    if (joinMethod === "map_lot_parent" && !isSuffixParentMapLot(mapBkLot, record.mapLot)) {
+      continue;
+    }
     const joinConfidence =
       joinMethod === "map_lot_parent" && !hasValidAssessment(record)
         ? 0.55
@@ -143,6 +162,8 @@ export function joinOrganizedTaxToGeometry(
       assessedBuildingValue: tax?.assessedBuildingValue ?? null,
       assessedTotalValue,
       assessedExemptionValue: tax?.assessedExemptionValue ?? null,
+      taxAmount: tax?.taxAmount ?? null,
+      taxAcreage: tax?.taxAcreage ?? null,
       hasTreeGrowth: tax?.hasTreeGrowth ?? false,
       taxYear: tax?.taxYear ?? null,
       joinConfidence,

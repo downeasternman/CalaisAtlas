@@ -12,16 +12,17 @@ An interactive geographic atlas for **Calais, Maine** — combining public parce
 
 A hybrid atlas and parcel research tool for the City of Calais. Explore the city on a full-bleed map, then inspect ownership and tax attributes where public data is available. Place-name search is the primary jump path.
 
-Parcel fills are colored by how **assessed total value** ranks among other Calais parcels with a parsed assessment: **lowest blue, highest red**. Parcels without a valid assessed total stay gray.
+Parcel fills are colored by **assessed total ÷ GIS acreage** percentile **within** improved (building > $0) vs unimproved (building $0) cohorts: **lowest blue, highest red**. Fully tax-exempt parcels use a distinct purple fill; homestead exemptions are marked with a star. Parcels missing a valid total or GIS acres stay gray.
 
 ## Data policy
 
 - Only **publicly obtainable, no-cost** sources are used.
 - Every dataset displays **source name** and **as-of date**.
 - Parcel geometry: Maine GeoLibrary organized parcels (Calais / GEOCODE `29070`).
-- Tax/ownership: City of Calais 2025-26 Real Estate Tax Commitment PDF.
+- Tax/ownership: City of Calais 2025-26 Real Estate Tax Commitment PDF (primary).
+- Owner backup: 2023 City of Calais property cards fill `ownerName` only when the commitment join left the parcel ownerless (exact map/lot; never overwrites).
 - Parsed tax values are never invented — null on parse or join failure.
-- Percentile ranks are computed only among parcels with a valid assessed total.
+- Percentile ranks are computed within improved/unimproved cohorts on assessed total per GIS acre; fully exempt parcels are excluded from ranking.
 
 ## Development gates
 
@@ -34,6 +35,7 @@ Work proceeds in gated phases. Each phase stops for review before the next.
 | **C** | Place-name search (Calais-only; no municipality filter) | Complete |
 | **D** | Calais geometry + commitment join | Complete |
 | **E** | Assessed-total percentile choropleth, legend, tests | Complete |
+| **F** | Per-acre cohort choropleth, exempt fill, homestead ★, toggle | Complete |
 
 ## Stack (v1)
 
@@ -60,7 +62,7 @@ cp .env.example .env
 pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+After `pnpm phase:calais` (or `pnpm etl:merge:parcels && pnpm tiles:parcels`), open [http://localhost:3000](http://localhost:3000).
 
 ### Scripts
 
@@ -80,7 +82,6 @@ Open [http://localhost:3000](http://localhost:3000).
 - Ownership/deed history timelines
 - Multi-parcel comparison
 - Other Washington County towns or Unorganized Territory
-- Value-per-acre map coloring
 - User accounts or paywalls
 - Print/PDF export
 - Final product branding

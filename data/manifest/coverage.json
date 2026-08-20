@@ -1,7 +1,7 @@
 {
   "version": 1,
   "description": "Per-municipality coverage status for parcel geometry, ownership, and tax data",
-  "updatedAt": "2026-08-20T15:11:33.349Z",
+  "updatedAt": "2026-08-20T18:42:03.736Z",
   "municipalities": {
     "calais": {
       "name": "Calais",
@@ -9,8 +9,8 @@
       "hasOwnership": true,
       "hasTaxAssessment": true,
       "parcelCount": 2771,
-      "notes": "Calais parcels; tax from 2025-26 RE commitment book (2530/2771 joined).",
-      "taxParseRate": 0.9130277878022375
+      "notes": "Calais parcels; tax from 2025-26 RE commitment book (2030/2771 joined).",
+      "taxParseRate": 0.7325875135330205
     }
   }
 }

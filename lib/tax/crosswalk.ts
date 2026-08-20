@@ -8,6 +8,7 @@ export type JoinMethod =
   | "map_lot_parent"
   | "property_id"
   | "plat_crosswalk"
+  | "property_card"
   | "unjoined";
 
 export interface MapSheetEntry {

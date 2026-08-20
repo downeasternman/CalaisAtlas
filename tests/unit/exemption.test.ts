@@ -21,8 +21,10 @@ describe("normalizeExemptionValue", () => {
 });
 
 describe("detectHomesteadLabel", () => {
-  it("detects homestead exempt text in lot lines", () => {
+  it("detects homestead wording in lot lines", () => {
     expect(detectHomesteadLabel(["1.00 01 Homestead Exempt"])).toBe(true);
-    expect(detectHomesteadLabel(["10 Homestead"])).toBe(false);
+    expect(detectHomesteadLabel(["0.50 \t19 Homestead.......\tAcres"])).toBe(true);
+    expect(detectHomesteadLabel(["10 Homestead"])).toBe(true);
+    expect(detectHomesteadLabel(["Soft: 12.0"])).toBe(false);
   });
 });

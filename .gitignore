@@ -37,6 +37,7 @@ yarn-error.log*
 # data artifacts
 /data/raw/
 /data/processed/
+/data/*.zip
 
 # local tile tooling binaries
 /tools/pmtiles-bin/

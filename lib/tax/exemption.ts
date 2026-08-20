@@ -1,4 +1,4 @@
-const HOMESTEAD_LABEL_RE = /homestead\s+exempt/i;
+const HOMESTEAD_LABEL_RE = /homestead/i;
 
 export function hasTaxExemption(
   assessedExemptionValue: string | null | undefined,

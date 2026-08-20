@@ -24,6 +24,8 @@
     "etl:org:download": "tsx scripts/etl/tax/download-organized-pdf.ts",
     "etl:org:parse": "tsx scripts/etl/tax/parse-organized-pdf.ts",
     "etl:org:join": "tsx scripts/etl/tax/join-organized-tax.ts",
+    "etl:org:cards:parse": "tsx scripts/etl/tax/parse-property-cards.ts",
+    "etl:org:cards:backup": "tsx scripts/etl/tax/backup-owners-from-cards.ts",
     "etl:org:report": "tsx scripts/etl/tax/report-organized-coverage.ts",
     "etl:merge:parcels": "tsx scripts/etl/tax/merge-parcel-datasets.ts",
     "tiles:parcels": "tsx scripts/tiles/build-parcels.ts",

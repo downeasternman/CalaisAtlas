@@ -31,6 +31,22 @@ export function sanitizeOwnerName(raw: string | null | undefined): SanitizedOwne
     if (land && isValidMoney(land)) extractedLand = land;
   }
 
+  const zeroColsAssessment = text.match(ZERO_COLS_WITH_ASSESSMENT_RE);
+  if (zeroColsAssessment) {
+    text = zeroColsAssessment[1]!.trim();
+    const land = cleanMoneyToken(zeroColsAssessment[2]!);
+    if (land && isValidMoney(land)) extractedLand = land;
+  }
+
+  const inlineThree = text.match(/^(.+?)\s+([\d,]+)\s+([\d,]+)\s+([\d,]+)\s*$/);
+  if (inlineThree) {
+    text = inlineThree[1]!.trim();
+    const last = cleanMoneyToken(inlineThree[4]!);
+    const first = cleanMoneyToken(inlineThree[2]!);
+    if (last && isValidMoney(last) && Number(last) > 0) extractedLand = last;
+    else if (first && isValidMoney(first) && Number(first) > 0) extractedLand = first;
+  }
+
   const debrisIdx = text.search(COLUMNAR_DEBRIS_RE);
   if (debrisIdx > 0) {
     text = text.slice(0, debrisIdx).trim();
@@ -40,13 +56,6 @@ export function sanitizeOwnerName(raw: string | null | undefined): SanitizedOwne
   if (tabMoney) {
     text = tabMoney[1]!.trim();
     const land = cleanMoneyToken(tabMoney[2]!);
-    if (land && isValidMoney(land)) extractedLand = land;
-  }
-
-  const zeroColsAssessment = text.match(ZERO_COLS_WITH_ASSESSMENT_RE);
-  if (zeroColsAssessment) {
-    text = zeroColsAssessment[1]!.trim();
-    const land = cleanMoneyToken(zeroColsAssessment[2]!);
     if (land && isValidMoney(land)) extractedLand = land;
   }
 

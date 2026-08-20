@@ -15,6 +15,17 @@
       "joinMethod": "map_lot",
       "asOfDate": "2025-04-01",
       "notes": "2025-26 real estate commitment book."
+    },
+    {
+      "id": "org-calais-property-cards-2023",
+      "territoryType": "organized",
+      "municipalityId": "calais",
+      "name": "City of Calais — 2023 Property Cards",
+      "urls": [],
+      "parserId": "calais-property-card-v1",
+      "joinMethod": "property_card",
+      "asOfDate": "2023-09-01",
+      "notes": "Local 2023 Vision/Trio property card PDF zip. Owner-only backup for parcels missing a commitment owner; never overwrites 2025-26 commitment ownership."
     }
   ]
 }

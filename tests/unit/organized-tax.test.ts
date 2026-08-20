@@ -7,6 +7,7 @@ import {
   joinOrganizedTaxToGeometry,
   organizedParcelId,
   parentMapJoinKeys,
+  isSuffixParentMapLot,
 } from "@/lib/tax/organized-join";
 import { sanitizeOwnerName } from "@/lib/tax/owner-normalize";
 import { isValidOwnerName } from "@/lib/tax/owner-validate";
@@ -180,6 +181,51 @@ describe("parseCommitmentText", () => {
     expect(row?.ownerName).not.toMatch(/CAMINO/i);
     expect(row?.assessedTotalValue).toBe("849400");
   });
+
+  it("parses Calais PRESTON tax billed, acres, clean mail, and homestead", () => {
+    const rows = parseCommitmentText(fixture("calais-block-preston.txt"), "29070", 2025);
+    const row = rows.find((r) => r.mapLot === "003-003-003");
+    expect(row?.accountNumber).toBe("2179");
+    expect(row?.ownerName?.toUpperCase()).toContain("PRESTON");
+    expect(row?.assessedTotalValue).toBe("50600");
+    expect(row?.taxAmount).toBe("733.70");
+    expect(row?.taxAcreage).toBe("0.50");
+    expect(row?.attrsRaw.homesteadLabel).toBe(true);
+    expect(row?.mailAddress).toMatch(/REBECCA/i);
+    expect(row?.mailAddress).toMatch(/CALAIS ME 04619/i);
+    expect(row?.mailAddress).not.toMatch(/733\.70/);
+    expect(row?.mailAddress).not.toMatch(/Homestead/i);
+    expect(row?.mailAddress).not.toMatch(/Acres/i);
+  });
+
+  it("parses Calais ACKLEY five-column tax and homestead acres line", () => {
+    const rows = parseCommitmentText(fixture("calais-block-ackley.txt"), "29070", 2025);
+    const row = rows.find((r) => r.mapLot === "010-004-013");
+    expect(row?.taxAmount).toBe("1812.50");
+    expect(row?.taxAcreage).toBe("0.76");
+    expect(row?.assessedExemptionValue).toBe("25000");
+    expect(row?.attrsRaw.homesteadLabel).toBe(true);
+  });
+
+  it("segments Calais STAPLES bleed: account 2411 keeps only 005-005-021", () => {
+    const rows = parseCommitmentText(fixture("calais-block-staples-bleed.txt"), "29070", 2025);
+    const staples = rows.filter((r) => r.accountNumber === "2411");
+    expect(staples).toHaveLength(1);
+    expect(staples[0]?.mapLot).toBe("005-005-021");
+    expect(staples[0]?.assessedTotalValue).toBe("111300");
+    expect(staples[0]?.taxAmount).toBe("1613.85");
+    expect(staples[0]?.mailAddress?.toUpperCase()).toMatch(/CALAIS|PRICE|04619/);
+    expect(staples[0]?.attrsRaw.accountLine?.toUpperCase()).toContain("STAPLES");
+
+    const state1038 = rows.find((r) => r.accountNumber === "1038");
+    expect(state1038?.mapLot).toBe("008-005-002-A");
+    expect(state1038?.ownerName?.toUpperCase()).toContain("STATE OF MAINE");
+
+    const state1318 = rows.find((r) => r.accountNumber === "1318");
+    expect(state1318?.mapLot).toBe("017-005");
+
+    expect(rows.find((r) => r.mapLot === "003-001-011")).toBeUndefined();
+  });
 });
 
 describe("sanitizeOwnerName", () => {
@@ -272,5 +318,48 @@ describe("joinOrganizedTaxToGeometry", () => {
     expect(joined[0]?.ownerName).toBe("PARENT OWNER LLC");
     expect(joined[0]?.assessedTotalValue).toBeNull();
     expect(parentMapJoinKeys("29260", "004-011-00A")).toContain(parentKey.toUpperCase());
+  });
+
+  it("does not parent-join sibling lots that share a map-block prefix", () => {
+    expect(isSuffixParentMapLot("003-001-011", "003-001-024")).toBe(false);
+    expect(isSuffixParentMapLot("003-001-024-A", "003-001-024")).toBe(true);
+
+    const taxRows = [
+      {
+        id: "tax-bailey",
+        accountNumber: "2152",
+        mapJoinKey: organizedMapJoinKey("29070", "003-001-024")!,
+        mapLot: "003-001-024",
+        ownerName: "BAILEY, ANGELA M",
+        mailAddress: null,
+        assessedLandValue: "50000",
+        assessedBuildingValue: "0",
+        assessedTotalValue: "50000",
+        assessedExemptionValue: null,
+        hasTreeGrowth: false,
+        taxYear: 2025,
+        parseConfidence: 0.9,
+        attrsRaw: {},
+      },
+    ];
+    const lookups = buildOrganizedTaxLookups(taxRows);
+    const joined = joinOrganizedTaxToGeometry(
+      [
+        {
+          id: "org-calais-sibling",
+          municipalityId: "calais",
+          municipalityName: "Calais",
+          geocode: "29070",
+          mapBkLot: "003-001-011",
+          mapJoinKey: organizedMapJoinKey("29070", "003-001-011"),
+          stateId: null,
+          propLoc: null,
+        },
+      ],
+      lookups,
+    );
+
+    expect(joined[0]?.joinMethod).toBe("unjoined");
+    expect(joined[0]?.ownerName).toBeNull();
   });
 });

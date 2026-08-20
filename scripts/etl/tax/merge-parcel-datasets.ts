@@ -2,9 +2,19 @@
  * Write Calais joined parcels into parcels.json + coverage.
  */
 import path from "node:path";
+import { formatGisAcreage, gisAcresFromGeometry } from "@/lib/geo/gis-acreage";
+import {
+  COHORT_NONE,
+  NO_VALUE_PCT,
+  computeCalaisValuePerAcrePercentiles,
+} from "@/lib/map/parcel-valuation";
+import { hasAcreageDiscrepancy } from "@/lib/tax/acreage-compare";
 import { ensureDirs, readJson, writeJson } from "../paths";
-import { ORGANIZED_PARCELS_JOINED_JSON, PARCELS_JSON } from "./paths";
-import { NO_VALUE_PCT, computeCalaisValuePercentiles } from "@/lib/map/parcel-valuation";
+import {
+  ORGANIZED_PARCELS_GEOJSON,
+  ORGANIZED_PARCELS_JOINED_JSON,
+  PARCELS_JSON,
+} from "./paths";
 
 type ParcelRecord = Record<string, unknown>;
 
@@ -34,6 +44,19 @@ async function readJoinedOrEmpty(filePath: string): Promise<ParcelRecord[]> {
   }
 }
 
+async function loadGisAcresByParcelId(): Promise<Map<string, string>> {
+  const acresById = new Map<string, string>();
+  const geojson = await readJson<GeoJSON.FeatureCollection>(ORGANIZED_PARCELS_GEOJSON);
+  for (const feature of geojson.features) {
+    const id = String(feature.properties?.id ?? "");
+    if (!id) continue;
+    const acres = gisAcresFromGeometry(feature.geometry);
+    const formatted = formatGisAcreage(acres);
+    if (formatted) acresById.set(id, formatted);
+  }
+  return acresById;
+}
+
 async function main() {
   await ensureDirs(path.dirname(PARCELS_JSON));
 
@@ -41,17 +64,57 @@ async function main() {
   const calaisParcels = organizedParcels.filter(
     (p) => String(p.municipalityId ?? "") === "calais",
   );
-  const ranks = computeCalaisValuePercentiles(
-    calaisParcels.map((p) => ({
+  const gisAcresById = await loadGisAcresByParcelId();
+
+  const withAcres = calaisParcels.map((p) => {
+    const id = String(p.id ?? "");
+    const gisAcreage = gisAcresById.get(id) ?? null;
+    const taxAcreage =
+      p.taxAcreage == null || p.taxAcreage === "" ? null : String(p.taxAcreage);
+    return {
+      ...p,
+      gisAcreage,
+      acreage: gisAcreage,
+      taxAcreage,
+      acreageDiscrepancy: hasAcreageDiscrepancy(gisAcreage, taxAcreage),
+    };
+  });
+  console.log(
+    `  GIS acres: ${gisAcresById.size}/${calaisParcels.length} parcels with positive area`,
+  );
+
+  const ranks = computeCalaisValuePerAcrePercentiles(
+    withAcres.map((p) => ({
       id: String(p.id ?? ""),
+      ownerName: p.ownerName == null ? null : String(p.ownerName),
       assessedTotalValue:
         p.assessedTotalValue == null ? null : String(p.assessedTotalValue),
+      assessedLandValue:
+        p.assessedLandValue == null ? null : String(p.assessedLandValue),
+      assessedBuildingValue:
+        p.assessedBuildingValue == null ? null : String(p.assessedBuildingValue),
+      assessedExemptionValue:
+        p.assessedExemptionValue == null ? null : String(p.assessedExemptionValue),
+      gisAcreage: p.gisAcreage == null ? null : String(p.gisAcreage),
+      attrsRaw:
+        p.attrsRaw && typeof p.attrsRaw === "object"
+          ? (p.attrsRaw as Record<string, unknown>)
+          : null,
     })),
   );
-  const merged = calaisParcels.map((p) => ({
-    ...p,
-    valuePct: ranks.get(String(p.id ?? "")) ?? NO_VALUE_PCT,
-  }));
+
+  const merged = withAcres.map((p) => {
+    const id = String(p.id ?? "");
+    const attrs = ranks.get(id);
+    return {
+      ...p,
+      valuePct: attrs?.valuePct ?? NO_VALUE_PCT,
+      valuePerAcre: attrs?.valuePerAcre ?? null,
+      cohort: attrs?.cohort ?? COHORT_NONE,
+      fullyExempt: attrs?.fullyExempt ?? false,
+      homestead: attrs?.homestead ?? false,
+    };
+  });
 
   await writeJson(PARCELS_JSON, merged);
   console.log(`  wrote ${merged.length} Calais parcels`);
@@ -100,19 +163,8 @@ async function main() {
         .toUpperCase()
         .startsWith("WAP"),
     ).length;
-    if (muniId === "baring-plt") {
-      const taxLinked = merged.filter(
-        (p) => p.taxMunicipalityId === "baring-plt" && p.assessedTotalValue != null,
-      );
-      entry.notes =
-        wapCount > 0
-          ? `Baring GIS uses WAP plat numbering (${wapCount} parcels); valuation book uses WA011/WA029 map sheets. ${taxLinked.length} tax-linked parcels with Baring mail address (see Day Block / Edmunds geometry).`
-          : entry.notes;
-    } else {
-      entry.notes =
-        withTax.length > 0
-          ? `UT parcels from MRS; tax from 2025 valuation book (${withTax.length}/${muniParcels.length} joined)`
-          : "UT parcel geometry available; tax join pending";
+    if (wapCount > 0) {
+      entry.notes = `Includes ${wapCount} WAP-plat parcels; tax joins use WA map keys where available.`;
     }
   }
 

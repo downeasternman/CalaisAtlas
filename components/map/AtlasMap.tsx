@@ -7,6 +7,11 @@ import Map, { NavigationControl, type MapRef } from "react-map-gl/maplibre";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { CALAIS_BBOX } from "@/lib/geo/calais";
 import { bboxToFitBounds } from "@/lib/geo/bbox";
+import { LAYER_IDS } from "@/lib/map/layers";
+import {
+  cohortVisibilityFilter,
+  homesteadVisibilityFilter,
+} from "@/lib/map/parcel-valuation";
 import { buildAtlasStyle } from "@/lib/map/style";
 import { applyMunicipalityEmphasis } from "@/lib/map/municipality-emphasis";
 import {
@@ -15,7 +20,10 @@ import {
 } from "@/lib/map/interactions";
 import type { MapFlyTarget } from "@/lib/types/explorer";
 import { MapAttribution } from "./MapAttribution";
-import { ParcelValuationLegend } from "./ParcelValuationLegend";
+import {
+  ParcelValuationLegend,
+  type CohortVisibility,
+} from "./ParcelValuationLegend";
 
 let protocolRegistered = false;
 
@@ -41,6 +49,7 @@ export function AtlasMap({
 }: AtlasMapProps) {
   const mapRef = useRef<MapRef>(null);
   const [asOfDate, setAsOfDate] = useState<string | null>(null);
+  const [cohortVisibility, setCohortVisibility] = useState<CohortVisibility>("both");
   const mounted = useSyncExternalStore(
     () => () => {},
     () => true,
@@ -89,6 +98,26 @@ export function AtlasMap({
     if (!mapReady) return;
     const map = mapRef.current?.getMap();
     if (!map) return;
+
+    const fillFilter = cohortVisibilityFilter(cohortVisibility);
+    if (map.getLayer(LAYER_IDS.PARCEL_FILL)) {
+      map.setFilter(LAYER_IDS.PARCEL_FILL, fillFilter);
+    }
+    if (map.getLayer(LAYER_IDS.PARCEL_LINE)) {
+      map.setFilter(LAYER_IDS.PARCEL_LINE, fillFilter);
+    }
+    if (map.getLayer(LAYER_IDS.PARCEL_HOMESTEAD)) {
+      map.setFilter(
+        LAYER_IDS.PARCEL_HOMESTEAD,
+        homesteadVisibilityFilter(cohortVisibility),
+      );
+    }
+  }, [mapReady, cohortVisibility]);
+
+  useEffect(() => {
+    if (!mapReady) return;
+    const map = mapRef.current?.getMap();
+    if (!map) return;
     return setupParcelClickHandler(map, onParcelSelect);
   }, [mapReady, onParcelSelect]);
 
@@ -132,7 +161,10 @@ export function AtlasMap({
         <NavigationControl position="top-right" showCompass={false} />
       </Map>
       <MapAttribution asOfDate={asOfDate} />
-      <ParcelValuationLegend />
+      <ParcelValuationLegend
+        cohortVisibility={cohortVisibility}
+        onCohortVisibilityChange={setCohortVisibility}
+      />
     </div>
   );
 }

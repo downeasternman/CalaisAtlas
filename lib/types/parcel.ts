@@ -13,6 +13,11 @@ export interface Parcel {
   assessedTotalValue: string | null;
   assessedExemptionValue: string | null;
   valuePct: number | null;
+  valuePerAcre: number | null;
+  /** -1 none, 0 unimproved ($0 building), 1 improved */
+  cohort: number | null;
+  fullyExempt: boolean | null;
+  homestead: boolean | null;
   hasTreeGrowth: boolean | null;
   taxYear: number | null;
   acreage: string | null;
@@ -32,6 +37,7 @@ export interface Parcel {
     | "map_lot_parent"
     | "property_id"
     | "plat_crosswalk"
+    | "property_card"
     | "unjoined"
     | null;
   taxMunicipalityId: string | null;

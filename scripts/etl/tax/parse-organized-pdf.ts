@@ -51,12 +51,38 @@ async function main() {
     assessedBuildingValue: row.assessedBuildingValue,
     assessedTotalValue: row.assessedTotalValue,
     assessedExemptionValue: row.assessedExemptionValue,
+    taxAmount: row.taxAmount,
+    taxAcreage: row.taxAcreage,
     hasTreeGrowth: row.hasTreeGrowth,
     taxYear: row.taxYear,
     parseConfidence: row.parseConfidence,
     attrsRaw: row.attrsRaw,
     geomParcelId: null,
   }));
+
+  const byAccount = new Map<string, string[]>();
+  for (const record of taxRecords) {
+    const account = record.accountNumber ?? "";
+    if (!account) continue;
+    const lots = byAccount.get(account) ?? [];
+    lots.push(record.mapLot ?? "");
+    byAccount.set(account, lots);
+  }
+  let multiLotAccounts = 0;
+  let multiSheetAccounts = 0;
+  let millCheckFailures = 0;
+  for (const lots of byAccount.values()) {
+    if (lots.length > 1) {
+      multiLotAccounts += 1;
+      const sheets = new Set(lots.map((lot) => lot.split("-")[0] ?? lot));
+      if (sheets.size > 1) multiSheetAccounts += 1;
+    }
+  }
+  for (const record of taxRecords) {
+    const check = (record.attrsRaw as { taxMillCheck?: { ok?: boolean } } | null)
+      ?.taxMillCheck;
+    if (check && check.ok === false) millCheckFailures += 1;
+  }
 
   const batches = [
     {
@@ -76,6 +102,9 @@ async function main() {
             ? taxRecords.reduce((sum, r) => sum + (r.parseConfidence ?? 0), 0) /
               taxRecords.length
             : null,
+        multiLotAccounts,
+        multiSheetAccounts,
+        millCheckFailures,
       },
       createdAt: new Date().toISOString(),
     },
@@ -86,6 +115,9 @@ async function main() {
   await writeJson(organizedBatchesJson(townId), batches);
 
   console.log(`  ${taxRecords.length} tax rows parsed for ${town.name}`);
+  console.log(
+    `  multi-lot accounts: ${multiLotAccounts} (multi-sheet: ${multiSheetAccounts}); mill-check failures: ${millCheckFailures}`,
+  );
   console.log(`  wrote ${organizedTaxRecordsJson(townId)}`);
 }
 
