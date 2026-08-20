@@ -31,7 +31,7 @@ Work proceeds in gated phases. Each phase stops for review before the next.
 |-------|--------|--------|
 | **A** | Scaffold — identity, Calais-only scripts, new repo | Complete |
 | **B** | Calais boundary & basemap tiles | Complete |
-| **C** | Place-name search (Calais-only; no municipality filter) | Planned |
+| **C** | Place-name search (Calais-only; no municipality filter) | Complete |
 | **D** | Calais geometry + commitment join | Planned |
 | **E** | Assessed-total percentile choropleth, legend, tests | Planned |
 

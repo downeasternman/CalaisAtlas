@@ -11,6 +11,7 @@ import {
   writeJson,
 } from "./paths";
 import { normalizePlaceName } from "../../lib/geo/normalize";
+import { CALAIS_MUNICIPALITY_ID } from "../../lib/geo/calais";
 
 type MunicipalityFeature = GeoJSON.Feature & {
   properties: {
@@ -123,7 +124,7 @@ async function main() {
       name,
       nameNormalized: normalizePlaceName(name),
       placeType: "populated_place",
-      municipalityId: null,
+      municipalityId: CALAIS_MUNICIPALITY_ID,
       rank: placeType === "city" ? 60 : placeType === "town" ? 50 : 30,
       centroid,
       bbox: null,

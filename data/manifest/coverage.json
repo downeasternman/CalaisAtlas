@@ -1,7 +1,7 @@
 {
   "version": 1,
   "description": "Per-municipality coverage status for parcel geometry, ownership, and tax data",
-  "updatedAt": "2026-08-20T14:45:31.370Z",
+  "updatedAt": "2026-08-20T14:55:27.129Z",
   "municipalities": {
     "calais": {
       "name": "Calais",

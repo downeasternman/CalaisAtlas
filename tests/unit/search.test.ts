@@ -4,33 +4,23 @@ import { searchPlaces, type SearchablePlace } from "@/lib/search/rank";
 
 const samplePlaces: SearchablePlace[] = [
   {
-    id: "muni-machias",
-    name: "Machias",
-    nameNormalized: "machias",
-    placeType: "municipality",
-    municipalityId: "machias",
-    rank: 100,
-    centroid: [-67.46, 44.71],
-    bbox: [-67.5, 44.65, -67.4, 44.75],
-  },
-  {
     id: "muni-calais",
     name: "Calais",
     nameNormalized: "calais",
     placeType: "municipality",
     municipalityId: "calais",
     rank: 100,
-    centroid: [-67.28, 45.19],
-    bbox: [-67.35, 45.1, -67.2, 45.25],
+    centroid: [-67.21, 45.13],
+    bbox: [-67.3056, 45.072, -67.1227, 45.1918],
   },
   {
-    id: "osm-1",
-    name: "Machiasport",
-    nameNormalized: "machiasport",
+    id: "osm-milltown",
+    name: "Milltown",
+    nameNormalized: "milltown",
     placeType: "populated_place",
-    municipalityId: null,
+    municipalityId: "calais",
     rank: 50,
-    centroid: [-67.4, 44.68],
+    centroid: [-67.22, 45.17],
     bbox: null,
   },
 ];
@@ -43,8 +33,8 @@ describe("normalizePlaceName", () => {
 
 describe("searchPlaces", () => {
   it("ranks exact municipality matches highest", () => {
-    const results = searchPlaces(samplePlaces, "Machias");
-    expect(results[0]?.name).toBe("Machias");
+    const results = searchPlaces(samplePlaces, "Calais");
+    expect(results[0]?.name).toBe("Calais");
     expect(results[0]?.placeType).toBe("municipality");
   });
 
@@ -54,18 +44,11 @@ describe("searchPlaces", () => {
   });
 
   it("requires at least 2 characters", () => {
-    expect(searchPlaces(samplePlaces, "M")).toHaveLength(0);
+    expect(searchPlaces(samplePlaces, "C")).toHaveLength(0);
   });
 
-  it("scopes search to selected municipality when filter active", () => {
-    const scoped = searchPlaces(samplePlaces, "machias", {
-      municipalityId: "calais",
-    });
-    expect(scoped).toHaveLength(0);
-
-    const inTown = searchPlaces(samplePlaces, "calais", {
-      municipalityId: "calais",
-    });
-    expect(inTown.some((r) => r.name === "Calais")).toBe(true);
+  it("finds Calais populated places without a town filter", () => {
+    const results = searchPlaces(samplePlaces, "mill");
+    expect(results.some((r) => r.name === "Milltown")).toBe(true);
   });
 });

@@ -1,27 +1,20 @@
 import { test, expect } from "@playwright/test";
 
-test.describe("Phase C filter and search", () => {
+test.describe("Phase C place search", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/");
     await expect(page.locator(".maplibregl-canvas")).toBeVisible({ timeout: 15000 });
   });
 
-  test("place search and municipality filter are visible", async ({ page }) => {
+  test("place search is visible and town filter is absent", async ({ page }) => {
     await expect(page.getByLabel("Search places")).toBeVisible();
-    await expect(page.getByLabel("Town")).toBeVisible();
+    await expect(page.getByLabel("Town")).toHaveCount(0);
   });
 
-  test("municipality filter zooms map when a town is selected", async ({ page }) => {
-    const filter = page.getByLabel("Town");
-    await filter.selectOption({ label: "Machias" });
-    await page.waitForTimeout(1200);
-    await expect(filter).toHaveValue("machias");
-  });
-
-  test("place search returns results for Machias", async ({ page }) => {
+  test("place search returns results for Calais", async ({ page }) => {
     const search = page.getByLabel("Search places");
-    await search.fill("Machias");
+    await search.fill("Calais");
     await expect(page.getByRole("listbox")).toBeVisible({ timeout: 5000 });
-    await expect(page.getByRole("option", { name: /Machias/i })).toBeVisible();
+    await expect(page.getByRole("option", { name: /Calais/i })).toBeVisible();
   });
 });

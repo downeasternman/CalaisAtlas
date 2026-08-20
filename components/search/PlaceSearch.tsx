@@ -5,11 +5,10 @@ import type { PlaceSearchResult } from "@/lib/types/explorer";
 import { SearchResults } from "./SearchResults";
 
 type PlaceSearchProps = {
-  municipalityId: string | null;
   onPlaceSelect: (place: PlaceSearchResult) => void;
 };
 
-export function PlaceSearch({ municipalityId, onPlaceSelect }: PlaceSearchProps) {
+export function PlaceSearch({ onPlaceSelect }: PlaceSearchProps) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<PlaceSearchResult[]>([]);
   const [open, setOpen] = useState(false);
@@ -26,7 +25,6 @@ export function PlaceSearch({ municipalityId, onPlaceSelect }: PlaceSearchProps)
       setLoading(true);
       try {
         const params = new URLSearchParams({ q: query.trim() });
-        if (municipalityId) params.set("municipalityId", municipalityId);
         const res = await fetch(`/api/places/search?${params}`, {
           signal: controller.signal,
         });
@@ -48,7 +46,7 @@ export function PlaceSearch({ municipalityId, onPlaceSelect }: PlaceSearchProps)
       clearTimeout(timer);
       controller.abort();
     };
-  }, [query, municipalityId]);
+  }, [query]);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -90,7 +88,7 @@ export function PlaceSearch({ municipalityId, onPlaceSelect }: PlaceSearchProps)
           }
         }}
         onFocus={() => results.length > 0 && setOpen(true)}
-        placeholder="Town, village, place…"
+        placeholder="Place in Calais…"
         autoComplete="off"
         className="mt-1 w-full rounded border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-2 text-sm text-[var(--color-text-primary)] shadow-sm placeholder:text-[var(--color-text-secondary)] focus:border-[var(--color-ocean-mid)] focus:outline-none focus:ring-1 focus:ring-[var(--color-ocean-mid)]"
       />
