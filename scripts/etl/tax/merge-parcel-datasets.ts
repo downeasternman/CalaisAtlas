@@ -2,6 +2,7 @@
  * Write Calais joined parcels into parcels.json + coverage.
  */
 import path from "node:path";
+import { polygonCentroid } from "@/lib/analytics/centroid";
 import { formatGisAcreage, gisAcresFromGeometry } from "@/lib/geo/gis-acreage";
 import {
   COHORT_NONE,
@@ -57,6 +58,75 @@ async function loadGisAcresByParcelId(): Promise<Map<string, string>> {
   return acresById;
 }
 
+function geometryCentroid(geometry: GeoJSON.Geometry | null): [number, number] | null {
+  if (!geometry) return null;
+  if (geometry.type === "Polygon") {
+    const c = polygonCentroid(geometry);
+    return c ? [c.lon, c.lat] : null;
+  }
+  if (geometry.type === "MultiPolygon") {
+    const first = geometry.coordinates[0];
+    if (!first) return null;
+    const c = polygonCentroid({ type: "Polygon", coordinates: first });
+    return c ? [c.lon, c.lat] : null;
+  }
+  return null;
+}
+
+function geometryBbox(geometry: GeoJSON.Geometry | null): [number, number, number, number] | null {
+  if (!geometry) return null;
+  let minX = Infinity;
+  let minY = Infinity;
+  let maxX = -Infinity;
+  let maxY = -Infinity;
+
+  const visit = (coords: number[]) => {
+    const x = coords[0]!;
+    const y = coords[1]!;
+    if (x < minX) minX = x;
+    if (y < minY) minY = y;
+    if (x > maxX) maxX = x;
+    if (y > maxY) maxY = y;
+  };
+
+  const walk = (geom: GeoJSON.Geometry) => {
+    if (geom.type === "Polygon") {
+      for (const ring of geom.coordinates) {
+        for (const coord of ring) visit(coord);
+      }
+    } else if (geom.type === "MultiPolygon") {
+      for (const poly of geom.coordinates) {
+        for (const ring of poly) {
+          for (const coord of ring) visit(coord);
+        }
+      }
+    }
+  };
+
+  walk(geometry);
+  if (!Number.isFinite(minX)) return null;
+  return [minX, minY, maxX, maxY];
+}
+
+async function loadGeometryMetaByParcelId(): Promise<
+  Map<string, { centroid: [number, number] | null; bbox: [number, number, number, number] | null }>
+> {
+  const meta = new Map<
+    string,
+    { centroid: [number, number] | null; bbox: [number, number, number, number] | null }
+  >();
+  const geojson = await readJson<GeoJSON.FeatureCollection>(ORGANIZED_PARCELS_GEOJSON);
+  for (const feature of geojson.features) {
+    const id = String(feature.properties?.id ?? "");
+    if (!id) continue;
+    meta.set(id, {
+      centroid: geometryCentroid(feature.geometry),
+      bbox: geometryBbox(feature.geometry),
+    });
+  }
+  return meta;
+}
+
 async function main() {
   await ensureDirs(path.dirname(PARCELS_JSON));
 
@@ -65,18 +135,22 @@ async function main() {
     (p) => String(p.municipalityId ?? "") === "calais",
   );
   const gisAcresById = await loadGisAcresByParcelId();
+  const geometryMetaById = await loadGeometryMetaByParcelId();
 
   const withAcres = calaisParcels.map((p) => {
     const id = String(p.id ?? "");
     const gisAcreage = gisAcresById.get(id) ?? null;
     const taxAcreage =
       p.taxAcreage == null || p.taxAcreage === "" ? null : String(p.taxAcreage);
+    const geomMeta = geometryMetaById.get(id);
     return {
       ...p,
       gisAcreage,
       acreage: gisAcreage,
       taxAcreage,
       acreageDiscrepancy: hasAcreageDiscrepancy(gisAcreage, taxAcreage),
+      centroid: geomMeta?.centroid ?? null,
+      bbox: geomMeta?.bbox ?? null,
     };
   });
   console.log(
@@ -111,7 +185,9 @@ async function main() {
       valuePct: attrs?.valuePct ?? NO_VALUE_PCT,
       valuePerAcre: attrs?.valuePerAcre ?? null,
       cohort: attrs?.cohort ?? COHORT_NONE,
-      fullyExempt: attrs?.fullyExempt ?? false,
+      bookFullyExempt: attrs?.bookFullyExempt ?? false,
+      likelyPublicOwner: attrs?.likelyPublicOwner ?? false,
+      fullyExempt: attrs?.bookFullyExempt ?? false,
       homestead: attrs?.homestead ?? false,
     };
   });

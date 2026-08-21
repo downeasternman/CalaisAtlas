@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export type CohortVisibility = "both" | "improved" | "unimproved";
 
@@ -37,20 +37,24 @@ export function ParcelValuationLegend({
 }: ParcelValuationLegendProps) {
   const [open, setOpen] = useState(true);
 
+  useEffect(() => {
+    setOpen(window.matchMedia("(min-width: 768px)").matches);
+  }, []);
+
   return (
     <div className="pointer-events-none absolute bottom-2 right-2 z-10 max-w-[15.5rem] md:bottom-3 md:right-3">
       <div className="pointer-events-auto rounded border border-[var(--color-border)] bg-[var(--color-surface-elevated)]/90 shadow-sm backdrop-blur-sm">
         <button
           type="button"
           onClick={() => setOpen((value) => !value)}
-          className="flex w-full items-center justify-between gap-2 px-2.5 py-1.5 text-left text-[10px] font-medium text-[var(--color-text-primary)] md:text-xs"
+          className="flex w-full items-center justify-between gap-2 px-2.5 py-1.5 text-left text-xs font-medium text-[var(--color-text-primary)] md:text-xs"
           aria-expanded={open}
         >
           Assessed value / acre
           <span className="text-[var(--color-text-secondary)]">{open ? "−" : "+"}</span>
         </button>
         {open ? (
-          <div className="space-y-2 border-t border-[var(--color-border)] px-2.5 py-2 text-[10px] leading-snug text-[var(--color-text-secondary)] md:text-[11px]">
+          <div className="space-y-2 border-t border-[var(--color-border)] px-2.5 py-2 text-xs leading-snug text-[var(--color-text-secondary)] md:text-[11px]">
             <div
               className="flex gap-1"
               role="group"
@@ -92,9 +96,9 @@ export function ParcelValuationLegend({
                 aria-hidden
               />
               <div>
-                <div className="text-[var(--color-text-primary)]">Fully tax-exempt</div>
-                <div className="text-[9px] italic md:text-[10px]">
-                  Exemption ≥ assessed total
+                <div className="text-[var(--color-text-primary)]">Fully tax-exempt (book)</div>
+                <div className="text-[10px] italic md:text-[11px]">
+                  Exemption ≥ assessed total in commitment book
                 </div>
               </div>
             </div>
@@ -118,16 +122,14 @@ export function ParcelValuationLegend({
 
             <div className="flex items-start gap-2">
               <span
-                className="mt-0.5 inline-block h-2.5 w-2.5 shrink-0 rounded-full border"
-                style={{
-                  backgroundColor: "var(--color-accent-gold)",
-                  borderColor: "var(--color-ocean-deep)",
-                }}
+                className="mt-0.5 inline-block shrink-0 text-sm leading-none text-[var(--color-accent-gold)]"
                 aria-hidden
-              />
+              >
+                ★
+              </span>
               <div>
                 <div className="text-[var(--color-text-primary)]">Homestead exemption</div>
-                <div className="text-[9px] italic md:text-[10px]">
+                <div className="text-[10px] italic md:text-[11px]">
                   $25k / $31k exemption in commitment book
                 </div>
               </div>

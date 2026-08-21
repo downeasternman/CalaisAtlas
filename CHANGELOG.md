@@ -28,9 +28,29 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 - Commitment land-first headers accept land without thousands commas; Acres→map-lot binding; ZIP-like columnar assessments rejected
 - `map_lot_parent` joins only for suffix/condo lots (not siblings sharing a map-block prefix)
 
-### Fixed
+### Added (launch readiness G0–G2)
 
-- Block bleed that attached STAPLES (and similar accounts) to foreign map lots when the next land-first header had no comma in land
+- CI workflow (lint, test:ci, script typecheck, fixture bootstrap, build)
+- Fixture bootstrap (`pnpm dev:bootstrap`) and committed runtime/tile fixtures for clean-clone dev
+- Unified property search (`/api/search`) for address, owner, map/lot, account, and places
+- Shareable parcel URLs (`?parcel=`), copy link, mobile bottom-sheet panel, map onboarding hint
+- Data status modal, public disclaimer, field-level parcel warnings, `/api/meta/health`
+- Release manifest packaging (`pnpm release:package`) and [docs/DEPLOYMENT.md](./docs/DEPLOYMENT.md)
+- MIT license
+
+### Changed (launch readiness G0–G2)
+
+- `phase:calais` now includes property-card backup, search index, parent-join audit, and release packaging
+- Purple map fill uses book-fully-exempt only; public-owner heuristics stay in cohort colors with panel warnings
+- Homestead map markers render as ★ symbols
+- Tile build reads baked valuation fields only (no percentile recompute)
+- PMTiles conversion resolves binary cross-platform via `PMTILES_BIN` / PATH / `tools/pmtiles-bin/`
+
+### Fixed (launch readiness G0–G2)
+
+- Production TypeScript build (`RobbinstonMergedRecord` missing `taxAmount` / `taxAcreage`)
+- Parcel API returns 503 when runtime data is missing instead of silent empty results
+
 - Over-join that painted BAILEY (and similar) onto sibling `003-001-*` parcels via parent map-lot keys
 - Basemap drew road lines without street-name labels despite OSM `name` in tiles
 

@@ -1,0 +1,176 @@
+[
+  {
+    "id": "muni-calais",
+    "name": "Calais",
+    "nameNormalized": "calais",
+    "placeType": "municipality",
+    "municipalityId": "calais",
+    "rank": 100,
+    "centroid": [
+      -67.2141309048919,
+      45.1319124132419
+    ],
+    "bbox": [
+      -67.3055920058261,
+      45.0719920692988,
+      -67.1226698039577,
+      45.191832757185
+    ]
+  },
+  {
+    "id": "osm-158853089",
+    "name": "Robbinston",
+    "nameNormalized": "robbinston",
+    "placeType": "populated_place",
+    "municipalityId": "calais",
+    "rank": 30,
+    "centroid": [
+      -67.1094283,
+      45.0781324
+    ],
+    "bbox": null
+  },
+  {
+    "id": "osm-158915640",
+    "name": "Baring Plantation",
+    "nameNormalized": "baring plantation",
+    "placeType": "populated_place",
+    "municipalityId": "calais",
+    "rank": 30,
+    "centroid": [
+      -67.3167798,
+      45.1364018
+    ],
+    "bbox": null
+  },
+  {
+    "id": "osm-204489936",
+    "name": "St. Stephen",
+    "nameNormalized": "st stephen",
+    "placeType": "populated_place",
+    "municipalityId": "calais",
+    "rank": 50,
+    "centroid": [
+      -67.2760077,
+      45.1926679
+    ],
+    "bbox": null
+  },
+  {
+    "id": "osm-1311414002",
+    "name": "Oak Haven",
+    "nameNormalized": "oak haven",
+    "placeType": "populated_place",
+    "municipalityId": "calais",
+    "rank": 30,
+    "centroid": [
+      -67.1826596,
+      45.2044634
+    ],
+    "bbox": null
+  },
+  {
+    "id": "osm-1311422322",
+    "name": "Bartletts Mills",
+    "nameNormalized": "bartletts mills",
+    "placeType": "populated_place",
+    "municipalityId": "calais",
+    "rank": 30,
+    "centroid": [
+      -67.1268232,
+      45.2051598
+    ],
+    "bbox": null
+  },
+  {
+    "id": "osm-1312252230",
+    "name": "Bayside",
+    "nameNormalized": "bayside",
+    "placeType": "populated_place",
+    "municipalityId": "calais",
+    "rank": 30,
+    "centroid": [
+      -67.1136129,
+      45.1366769
+    ],
+    "bbox": null
+  },
+  {
+    "id": "osm-5964911273",
+    "name": "Calais",
+    "nameNormalized": "calais",
+    "placeType": "populated_place",
+    "municipalityId": "calais",
+    "rank": 50,
+    "centroid": [
+      -67.2781391,
+      45.1890175
+    ],
+    "bbox": null
+  },
+  {
+    "id": "osm-12854506866",
+    "name": "Four Corners",
+    "nameNormalized": "four corners",
+    "placeType": "populated_place",
+    "municipalityId": "calais",
+    "rank": 30,
+    "centroid": [
+      -67.3190912,
+      45.192173
+    ],
+    "bbox": null
+  },
+  {
+    "id": "osm-12854506872",
+    "name": "Crocker Hill",
+    "nameNormalized": "crocker hill",
+    "placeType": "populated_place",
+    "municipalityId": "calais",
+    "rank": 30,
+    "centroid": [
+      -67.256539,
+      45.1912182
+    ],
+    "bbox": null
+  },
+  {
+    "id": "osm-12854506875",
+    "name": "The Ledge",
+    "nameNormalized": "the ledge",
+    "placeType": "populated_place",
+    "municipalityId": "calais",
+    "rank": 30,
+    "centroid": [
+      -67.2042116,
+      45.1758883
+    ],
+    "bbox": null
+  },
+  {
+    "id": "osm-12854506877",
+    "name": "Champlain",
+    "nameNormalized": "champlain",
+    "placeType": "populated_place",
+    "municipalityId": "calais",
+    "rank": 30,
+    "centroid": [
+      -67.1718998,
+      45.1686921
+    ],
+    "bbox": null
+  },
+  {
+    "id": "osm-12854506885",
+    "name": "Five Corners",
+    "nameNormalized": "five corners",
+    "placeType": "populated_place",
+    "municipalityId": "calais",
+    "rank": 30,
+    "centroid": [
+      -67.3056916,
+      45.1965832
+    ],
+    "bbox": null
+  }
+]

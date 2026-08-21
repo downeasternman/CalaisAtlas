@@ -10,7 +10,11 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test": "vitest run",
+    "test:ci": "vitest run --maxWorkers=1",
     "test:watch": "vitest",
+    "typecheck:scripts": "tsc -p tsconfig.scripts.json --noEmit",
+    "dev:bootstrap": "tsx scripts/dev/bootstrap-fixtures.ts",
+    "fixtures:generate": "tsx scripts/dev/generate-fixtures.ts",
     "test:e2e": "playwright test",
     "etl:boundaries": "tsx scripts/etl/download-boundaries.ts",
     "etl:osm": "tsx scripts/etl/download-osm.ts",
@@ -28,8 +32,10 @@
     "etl:org:cards:backup": "tsx scripts/etl/tax/backup-owners-from-cards.ts",
     "etl:org:report": "tsx scripts/etl/tax/report-organized-coverage.ts",
     "etl:merge:parcels": "tsx scripts/etl/tax/merge-parcel-datasets.ts",
+    "etl:search:index": "tsx scripts/etl/build-parcel-search-index.ts",
     "tiles:parcels": "tsx scripts/tiles/build-parcels.ts",
-    "phase:calais": "pnpm etl:org:geometry && pnpm etl:org:download --town=calais && pnpm etl:org:parse --town=calais && pnpm etl:org:join --town=calais && pnpm etl:merge:parcels && pnpm tiles:parcels && pnpm etl:org:report --town=calais"
+    "release:package": "tsx scripts/release/package-calais-release.ts",
+    "phase:calais": "pnpm etl:org:geometry && pnpm etl:org:download --town=calais && pnpm etl:org:parse --town=calais && pnpm etl:org:join --town=calais && pnpm etl:org:cards:parse && pnpm etl:org:cards:backup && pnpm etl:merge:parcels && pnpm etl:search:index && pnpm tiles:parcels && pnpm etl:org:report --town=calais && pnpm exec tsx scripts/etl/tax/audit-parent-joins.ts && pnpm release:package"
   },
   "dependencies": {
     "@types/geojson": "^7946.0.16",

@@ -9,7 +9,15 @@ export async function readProcessedJson<T>(filename: string): Promise<T> {
     return cache.get(key) as T;
   }
   const filePath = path.join(process.cwd(), "data", "processed", filename);
-  const raw = await readFile(filePath, "utf8");
+  let raw: string;
+  try {
+    raw = await readFile(filePath, "utf8");
+  } catch (err) {
+    const error = err instanceof Error ? err : new Error(String(err));
+    (error as NodeJS.ErrnoException).code =
+      (err as NodeJS.ErrnoException)?.code ?? "ENOENT";
+    throw error;
+  }
   const data = JSON.parse(raw) as T;
   cache.set(key, data);
   return data;

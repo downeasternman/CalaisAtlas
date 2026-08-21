@@ -1,11 +1,12 @@
 "use client";
 
+import { useState } from "react";
 import type { ReactNode } from "react";
 import type { ParcelWithSources } from "@/lib/types/parcel";
-import { CONFIDENCE_LABELS, scoreToLevel } from "@/lib/tax/confidence";
 import { forestEnrollmentFromAttrs } from "@/lib/tax/tree-growth";
 import { isValidAccountNumber } from "@/lib/tax/owner-validate";
 import { SourceCitation } from "@/components/source/SourceCitation";
+import { PublicDisclaimer } from "@/components/meta/PublicDisclaimer";
 
 type ParcelDetailPanelProps = {
   parcel: ParcelWithSources | null;
@@ -80,13 +81,13 @@ function formatForestEnrollment(parcel: ParcelWithSources): string | null {
   return parts.join(" · ");
 }
 
-function Field({
-  label,
-  children,
-}: {
-  label: string;
-  children: ReactNode;
-}) {
+function cohortLabel(cohort: number | null | undefined): string {
+  if (cohort === 1) return "improved";
+  if (cohort === 0) return "unimproved";
+  return "comparable";
+}
+
+function Field({ label, children }: { label: string; children: ReactNode }) {
   return (
     <div>
       <dt className="text-[11px] uppercase tracking-wide text-[var(--color-text-secondary)]">
@@ -103,9 +104,11 @@ export function ParcelDetailPanel({
   error,
   onClose,
 }: ParcelDetailPanelProps) {
+  const [dataQualityOpen, setDataQualityOpen] = useState(false);
+  const [copied, setCopied] = useState(false);
+
   if (!loading && !parcel && !error) return null;
 
-  const confidenceLevel = scoreToLevel(parcel?.joinConfidence ?? null);
   const forestSummary = parcel ? formatForestEnrollment(parcel) : null;
   const isHomestead =
     parcel?.homestead === true || parcel?.attrsRaw?.homesteadLabel === true;
@@ -120,41 +123,59 @@ export function ParcelDetailPanel({
     !mailLines.some((line) => line.toUpperCase() === situs.toUpperCase()) &&
     !parcel?.ownerName?.toUpperCase().includes(situs.toUpperCase());
 
-  const percentileLabel =
+  const percentileSentence =
     parcel?.valuePct != null && parcel.valuePct >= 0
-      ? `${
-          parcel.cohort === 1
-            ? "Improved"
-            : parcel.cohort === 0
-              ? "Unimproved"
-              : "Cohort"
-        } $/acre · ${formatOrdinalPercentile(parcel.valuePct)}`
+      ? `Assessed at the ${formatOrdinalPercentile(parcel.valuePct)} percentile among ${cohortLabel(parcel.cohort)} Calais parcels by value per GIS acre.`
       : null;
+
+  const copyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      setCopied(false);
+    }
+  };
 
   return (
     <aside
-      className="parcel-detail-panel motion-slide-up absolute bottom-4 left-4 z-20 w-[min(100%,22rem)] rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-elevated)]/95 p-4 shadow-lg backdrop-blur-sm"
+      className="parcel-detail-panel motion-slide-up fixed inset-x-0 bottom-0 z-20 max-h-[70vh] overflow-y-auto rounded-t-lg border border-[var(--color-border)] bg-[var(--color-surface-elevated)]/95 p-4 shadow-lg backdrop-blur-sm md:absolute md:inset-x-auto md:bottom-4 md:left-4 md:right-auto md:max-h-[calc(100%-2rem)] md:w-[min(100%,22rem)] md:rounded-lg"
       aria-label="Parcel details"
     >
+      <div className="mx-auto mb-3 h-1 w-10 rounded-full bg-[var(--color-border)] md:hidden" />
+
       <div className="mb-3 flex items-start justify-between gap-3">
         <div>
           <h2 className="font-[family-name:var(--font-fraunces)] text-lg text-[var(--color-ocean-deep)]">
-            {parcel?.mapLot ?? "Parcel"}
+            {situs || parcel?.mapLot || "Parcel"}
           </h2>
+          {parcel?.mapLot ? (
+            <p className="text-sm text-[var(--color-text-secondary)]">{parcel.mapLot}</p>
+          ) : null}
           {parcel?.municipalityName ? (
-            <p className="text-sm text-[var(--color-text-secondary)]">
-              {parcel.municipalityName}
-            </p>
+            <p className="text-xs text-[var(--color-text-secondary)]">{parcel.municipalityName}</p>
           ) : null}
         </div>
-        <button
-          type="button"
-          onClick={onClose}
-          className="rounded px-2 py-1 text-sm text-[var(--color-text-secondary)] hover:bg-[var(--color-land-paper)]"
-          aria-label="Close parcel details"
-        >
-          Close
-        </button>
+        <div className="flex shrink-0 gap-1">
+          {parcel ? (
+            <button
+              type="button"
+              onClick={copyLink}
+              className="min-h-[44px] rounded px-2 py-1 text-sm text-[var(--color-text-secondary)] hover:bg-[var(--color-land-paper)]"
+            >
+              {copied ? "Copied" : "Copy link"}
+            </button>
+          ) : null}
+          <button
+            type="button"
+            onClick={onClose}
+            className="min-h-[44px] rounded px-2 py-1 text-sm text-[var(--color-text-secondary)] hover:bg-[var(--color-land-paper)]"
+            aria-label="Close parcel details"
+          >
+            Close
+          </button>
+        </div>
       </div>
 
       {loading ? <p className="text-sm text-[var(--color-text-secondary)]">Loading…</p> : null}
@@ -162,6 +183,49 @@ export function ParcelDetailPanel({
 
       {parcel && !loading ? (
         <dl className="space-y-3">
+          {parcel.taxAmount != null && parcel.taxAmount !== "" ? (
+            <Field label="Tax billed">
+              <span className="text-base font-semibold text-[var(--color-ocean-deep)]">
+                {formatCurrency(parcel.taxAmount, 2)}
+              </span>
+              {parcel.taxYear ? (
+                <span className="ml-1 text-xs font-normal text-[var(--color-text-secondary)]">
+                  ({parcel.taxYear})
+                </span>
+              ) : null}
+            </Field>
+          ) : null}
+
+          {parcel.assessedTotalValue ? (
+            <Field label="Assessed total">
+              <span className="font-medium">
+                {formatCurrency(parcel.assessedTotalValue)}
+                {parcel.taxYear && !parcel.taxAmount ? ` (${parcel.taxYear})` : ""}
+              </span>
+              {parcel.valuePerAcre != null && parcel.valuePerAcre > 0 ? (
+                <div className="mt-0.5 text-xs text-[var(--color-text-secondary)]">
+                  {formatCurrency(String(Math.round(parcel.valuePerAcre)))}/acre (GIS)
+                </div>
+              ) : null}
+              {percentileSentence ? (
+                <div className="mt-0.5 text-xs text-[var(--color-text-secondary)]">
+                  {percentileSentence}
+                </div>
+              ) : null}
+              {parcel.bookFullyExempt || parcel.fullyExempt ? (
+                <div className="mt-0.5 text-xs text-[var(--color-text-secondary)]">
+                  Fully tax-exempt in commitment book
+                </div>
+              ) : null}
+            </Field>
+          ) : parcel.ownerName ? (
+            <Field label="Assessed total">
+              <span className="text-[var(--color-text-secondary)]">
+                Not available from tax source
+              </span>
+            </Field>
+          ) : null}
+
           {parcel.accountNumber &&
           (isValidAccountNumber(parcel.accountNumber) ||
             isUtAccountNumber(parcel.accountNumber)) ? (
@@ -193,51 +257,6 @@ export function ParcelDetailPanel({
           {situsDistinct ? (
             <Field label="Location">
               <span className="text-[var(--color-text-secondary)]">{situs}</span>
-            </Field>
-          ) : null}
-
-          {parcel.taxAmount != null && parcel.taxAmount !== "" ? (
-            <Field label="Tax billed">
-              <span className="text-base font-semibold text-[var(--color-ocean-deep)]">
-                {formatCurrency(parcel.taxAmount, 2)}
-              </span>
-              {parcel.taxYear ? (
-                <span className="ml-1 text-xs font-normal text-[var(--color-text-secondary)]">
-                  ({parcel.taxYear})
-                </span>
-              ) : null}
-            </Field>
-          ) : null}
-
-          {parcel.assessedTotalValue ? (
-            <Field label="Assessed total">
-              <span className="font-medium">
-                {formatCurrency(parcel.assessedTotalValue)}
-                {parcel.taxYear && !parcel.taxAmount
-                  ? ` (${parcel.taxYear})`
-                  : ""}
-              </span>
-              {parcel.valuePerAcre != null && parcel.valuePerAcre > 0 ? (
-                <div className="mt-0.5 text-xs text-[var(--color-text-secondary)]">
-                  {formatCurrency(String(Math.round(parcel.valuePerAcre)))}/acre (GIS)
-                  {percentileLabel ? ` · ${percentileLabel}` : ""}
-                </div>
-              ) : percentileLabel ? (
-                <div className="mt-0.5 text-xs text-[var(--color-text-secondary)]">
-                  {percentileLabel}
-                </div>
-              ) : null}
-              {parcel.fullyExempt ? (
-                <div className="mt-0.5 text-xs text-[var(--color-text-secondary)]">
-                  Tax-exempt
-                </div>
-              ) : null}
-            </Field>
-          ) : parcel.ownerName ? (
-            <Field label="Assessed total">
-              <span className="text-[var(--color-text-secondary)]">
-                Not available from tax source
-              </span>
             </Field>
           ) : null}
 
@@ -280,33 +299,54 @@ export function ParcelDetailPanel({
                 {parcel.taxAcreage ? (
                   <div>Tax book: {formatAcres(parcel.taxAcreage)}</div>
                 ) : null}
-                {parcel.acreageDiscrepancy ? (
-                  <div className="text-[10px] italic">
-                    GIS and tax-book acreage disagree (not resolved)
-                  </div>
-                ) : null}
               </div>
             </Field>
           ) : null}
         </dl>
       ) : null}
 
-      {parcel?.joinMethod && parcel.joinMethod !== "unjoined" && parcel.ownerName ? (
-        <p className="mt-3 text-xs text-[var(--color-text-secondary)]">
-          {parcel.assessedTotalValue ? CONFIDENCE_LABELS[confidenceLevel] : null}
-          {parcel.joinMethod === "map_lot" && parcel.territoryType === "organized"
-            ? " · joined via map/lot"
-            : ""}
-          {parcel.joinMethod === "map_lot_parent"
-            ? " · tax record matched via parent map/lot"
-            : ""}
-          {parcel.joinMethod === "property_id"
-            ? " · joined via property ID + map/lot index"
-            : ""}
-          {parcel.joinMethod === "property_card"
-            ? " · owner from 2023 property card (backup)"
-            : ""}
-        </p>
+      {parcel?.warnings && parcel.warnings.length > 0 ? (
+        <div className="mt-3 space-y-1">
+          {parcel.warnings.map((warning) => (
+            <p
+              key={warning.code}
+              className={`text-xs ${warning.severity === "warn" ? "text-amber-800" : "text-[var(--color-text-secondary)]"}`}
+            >
+              {warning.message}
+            </p>
+          ))}
+        </div>
+      ) : null}
+
+      {parcel ? (
+        <div className="mt-3 border-t border-[var(--color-border)] pt-2">
+          <button
+            type="button"
+            onClick={() => setDataQualityOpen((v) => !v)}
+            className="flex w-full items-center justify-between py-1 text-left text-xs font-medium text-[var(--color-text-primary)]"
+            aria-expanded={dataQualityOpen}
+          >
+            Data quality
+            <span>{dataQualityOpen ? "−" : "+"}</span>
+          </button>
+          {dataQualityOpen ? (
+            <div className="space-y-1 pt-1 text-xs text-[var(--color-text-secondary)]">
+              {parcel.joinMethod && parcel.joinMethod !== "unjoined" ? (
+                <p>
+                  Join method: {parcel.joinMethod.replace(/_/g, " ")}
+                  {parcel.joinConfidence != null
+                    ? ` · confidence ${Math.round(parcel.joinConfidence * 100)}%`
+                    : ""}
+                </p>
+              ) : (
+                <p>Tax record not joined to this parcel geometry.</p>
+              )}
+              {parcel.acreageDiscrepancy ? (
+                <p>GIS and tax-book acreage disagree (not resolved).</p>
+              ) : null}
+            </div>
+          ) : null}
+        </div>
       ) : null}
 
       {parcel?.taxSource && parcel.ownerName ? (
@@ -319,6 +359,10 @@ export function ParcelDetailPanel({
           <SourceCitation label="Parcel boundary" source={parcel.geometrySource} />
         </div>
       ) : null}
+
+      <div className="mt-3 border-t border-[var(--color-border)] pt-3">
+        <PublicDisclaimer compact />
+      </div>
     </aside>
   );
 }

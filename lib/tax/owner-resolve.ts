@@ -13,6 +13,7 @@ export interface CommitmentAccountBlock {
   headerRest: string;
   ownerRaw: string | null;
   mailLines: string[];
+  bodyLines?: string[];
 }
 
 export interface ResolvedCommitmentOwner {
@@ -24,7 +25,7 @@ export interface ResolvedCommitmentOwner {
 
 const JOINT_TENANCY_RE = /\b(JT|ET\s+AL|ET\s+UX|ET\s+VIR)\b/i;
 const CITY_STATE_ZIP_RE = /\b[A-Z]{2}\s+\d{5}(?:-\d{4})?\b/;
-const ENTITY_RE = /\b(LLC|INC|TRUST|ESTATE|HEIRS|LTD|BANK|PLT)\b/i;
+const ENTITY_RE = /\b(LLC|INC|TRUST|ESTATE|HEIRS|LTD|BANK|PLT|PARTNERSHIP)\b/i;
 const LAST_FIRST_RE = /^[A-Z][A-Za-z.'-]+,\s*[A-Z]/;
 const ACCOUNT_PREFIX_RE = /^(\d{3,5})\s+(.+)$/;
 
@@ -92,7 +93,50 @@ function trySanitizeOwnerLine(line: string): string | null {
   return null;
 }
 
+function isWsPartnershipHeader(text: string): boolean {
+  return /^W\/S\s+[A-Z]/i.test(text.trim());
+}
+
+function resolveWsPartnershipOwner(block: CommitmentAccountBlock): string | null {
+  const headerTrim = block.headerRest.trim();
+  if (!isWsPartnershipHeader(headerTrim)) return null;
+
+  const parts = [headerTrim];
+  const continuationLines = [...block.mailLines, ...(block.bodyLines ?? [])];
+  for (const line of continuationLines) {
+    const trimmed = line.trim();
+    if (!trimmed) continue;
+    if (/^\d{2,3}-\d{2,3}(?:-\d{2,3}){0,2}(?:-\d{1,3})?\s*$/i.test(trimmed)) continue;
+    if (/^0[\t ]+[\d,]+\s*$/.test(trimmed)) break;
+    if (/^[\d,]+\s+[\d,]+\s+[\d,]+\s*$/.test(trimmed)) break;
+    if (DEED_REF_RE.test(trimmed)) break;
+    if (isTaxAmountToken(trimmed)) break;
+    if (/^MARKETPLACE\b/i.test(trimmed) || /^LIMITED\b/i.test(trimmed) || /^PARTNERSHIP\b/i.test(trimmed)) {
+      parts.push(trimmed);
+      continue;
+    }
+    break;
+  }
+  return parts.join(" ").replace(/\s+/g, " ").trim() || null;
+}
+
+function isTaxAmountToken(value: string): boolean {
+  return /^\d{1,3}(?:,\d{3})*\.\d{2}$/.test(value.trim());
+}
+
+const DEED_REF_RE = /^B\d+/i;
+
 function resolveByNameBlockOwner(block: CommitmentAccountBlock): ResolvedCommitmentOwner {
+  const wsOwner = resolveWsPartnershipOwner(block);
+  if (wsOwner) {
+    return {
+      ownerName: wsOwner,
+      extractedLand: null,
+      ownerSource: "entity-line",
+      situsLabel: null,
+    };
+  }
+
   const fromHeader = sanitizeOwnerName(block.headerRest);
 
   if (block.ownerRaw) {

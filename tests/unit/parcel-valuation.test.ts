@@ -139,7 +139,7 @@ describe("computeCalaisValuePerAcrePercentiles", () => {
     expect(ranks.get("vac-high")?.valuePct).toBe(100);
   });
 
-  it("excludes public and fully exempt from ranking and flags homestead", () => {
+  it("ranks public owners in cohort but flags likelyPublicOwner; book exempt stays unranked", () => {
     const ranks = computeCalaisValuePerAcrePercentiles([
       {
         id: "city",
@@ -165,12 +165,14 @@ describe("computeCalaisValuePerAcrePercentiles", () => {
       },
     ]);
 
-    expect(ranks.get("city")?.fullyExempt).toBe(true);
-    expect(ranks.get("city")?.valuePct).toBe(NO_VALUE_PCT);
+    expect(ranks.get("city")?.likelyPublicOwner).toBe(true);
+    expect(ranks.get("city")?.bookFullyExempt).toBe(false);
+    expect(ranks.get("city")?.fullyExempt).toBe(false);
+    expect(ranks.get("city")?.valuePct).toBe(100);
 
     expect(ranks.get("homestead")?.homestead).toBe(true);
     expect(ranks.get("homestead")?.fullyExempt).toBe(false);
-    expect(ranks.get("homestead")?.valuePct).toBe(100);
+    expect(ranks.get("homestead")?.valuePct).toBe(50);
 
     expect(ranks.get("taxable")?.fullyExempt).toBe(false);
     expect(ranks.get("taxable")?.valuePct).toBe(0);

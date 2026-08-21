@@ -1,7 +1,7 @@
 const EXEMPTION_LABEL_RE = /homestead|veteran|vet-nme|exempt|post ww/i;
 const STREET_WORD_RE =
   /\b(ROAD|RD|ST|STREET|LN|LANE|DRIVE|DR|AVE|COVE|HIGHWAY|HWY|WAY|AVENUE|CIRCLE|COURT|CT|PLACE|TRAIL|BOULEVARD|ROUTE|POINT|APT|APARTMENT|CAMINO|ESPLENDORA)\b/i;
-const ENTITY_RE = /\b(LLC|INC|TRUST|ESTATE|L\.L\.C\.|HEIRS|LTD|BANK|PLT)\b/i;
+const ENTITY_RE = /\b(LLC|INC|TRUST|ESTATE|L\.L\.C\.|HEIRS|LTD|BANK|PLT|PARTNERSHIP|LIMITED)\b/i;
 const LAST_FIRST_RE = /^[A-Z][A-Za-z.'-]+,\s*[A-Z]/;
 const JOINT_TENANCY_RE = /\b(JT|ET\s+AL|ET\s+UX|ET\s+VIR)\b/i;
 const ADDRESS_FRAGMENT_RE = /^(?:NO\.|N\.|S\.|E\.|W\.|#)\s+/i;
@@ -36,6 +36,8 @@ export function isLikelySitusOrMailHeader(name: string): boolean {
 }
 
 export function hasPersonOrEntitySignal(name: string): boolean {
+  const trimmed = name.trim();
+  if (/^W\/S\s/i.test(trimmed) && ENTITY_RE.test(trimmed)) return true;
   if (ENTITY_RE.test(name)) return true;
   if (JOINT_TENANCY_RE.test(name)) return true;
   if (LAST_FIRST_RE.test(name.trim())) return true;

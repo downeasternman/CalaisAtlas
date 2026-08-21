@@ -73,24 +73,29 @@ function parcelLayers(): StyleSpecification["layers"] {
     },
     {
       id: LAYER_IDS.PARCEL_HOMESTEAD,
-      type: "circle",
+      type: "symbol",
       source: SOURCE_IDS.PARCELS,
       "source-layer": "homestead-points",
       minzoom: 11,
-      paint: {
-        "circle-radius": [
+      layout: {
+        "text-field": "★",
+        "text-size": [
           "interpolate",
           ["linear"],
           ["zoom"],
           11,
-          3.5,
+          12,
           14,
-          6,
+          18,
         ],
-        "circle-color": "#c9a227",
-        "circle-stroke-color": "#1a2a32",
-        "circle-stroke-width": 1.25,
-        "circle-opacity": 0.95,
+        "text-font": ["Noto Sans Regular"],
+        "text-allow-overlap": true,
+        "text-ignore-placement": true,
+      },
+      paint: {
+        "text-color": "#c9a227",
+        "text-halo-color": "#1a2a32",
+        "text-halo-width": 1.25,
       },
     },
   ];

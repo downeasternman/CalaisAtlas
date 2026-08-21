@@ -1,0 +1,14 @@
+{
+  "releaseId": "fixture-dev",
+  "generatedAt": "2026-08-21T16:39:34.837Z",
+  "parcelCount": 25,
+  "withOwner": 21,
+  "withAssessment": 17,
+  "ranked": 15,
+  "cardBackups": 1,
+  "sourceDates": {
+    "commitment": "2025-26",
+    "propertyCards": "2023",
+    "geometry": null
+  }
+}

@@ -1,4 +1,8 @@
-import { isSubtotalLine, preprocessCommitmentText } from "./commitment-preprocess";
+import {
+  isCommitmentPageNoiseLine,
+  isSubtotalLine,
+  preprocessCommitmentText,
+} from "./commitment-preprocess";
 import { sanitizeOwnerName } from "./owner-normalize";
 import {
   hasPersonOrEntitySignal,
@@ -40,7 +44,7 @@ export interface ParsedCommitmentRow {
 export const CALAIS_2025_MILL_RATE = 0.0145;
 
 const MAP_LOT_LINE_RE =
-  /^\s*((?:\d{2,3}-\d{2,3}(?:-\d{2,3})?(?:-[A-Z][A-Z0-9-]*)?)|(?:\d{2}-\d{2,3}(?:-\d{1,3})?(?:-[A-Z])?)|(?:[RU]\d{1,2}-\d{1,3}(?:-\d{1,3})?(?:-[A-Z])?)|(?:[A-G]-\d{3,4}(?:-[A-Z0-9]+)?)|(?:[A-Z]\d-0[A-Z]\d-[A-Z0-9]+(?:\/[A-Z0-9]+)?)|(?:[A-G]-\d{3,4}(?:-[A-Z0-9]+)?(?:\+\d{2,4}(?:-[A-Z0-9]+)?)*)|(?:\d{2}-\d{2,3}(?:-\d{1,3})?(?:\+\d{1,3})+))\s*$/i;
+  /^\s*((?:\d{2,3}-\d{2,3}(?:-\d{2,3})?(?:-[A-Z][A-Z0-9-]*)?)|(?:\d{2,3}-\d{2,3}-\d{2,3}-\d{1,3})|(?:\d{2}-\d{2,3}(?:-\d{1,3})?(?:-[A-Z])?)|(?:[RU]\d{1,2}-\d{1,3}(?:-\d{1,3})?(?:-[A-Z])?)|(?:[A-G]-\d{3,4}(?:-[A-Z0-9]+)?)|(?:[A-Z]\d-0[A-Z]\d-[A-Z0-9]+(?:\/[A-Z0-9]+)?)|(?:[A-G]-\d{3,4}(?:-[A-Z0-9]+)?(?:\+\d{2,4}(?:-[A-Z0-9]+)?)*)|(?:\d{2}-\d{2,3}(?:-\d{1,3})?(?:\+\d{1,3})+))\s*$/i;
 
 const CUTLER_HEADER_RE =
   /^(\d{2}-\d{2}-\d{1,3}(?:-[A-Z])?)\s+(\d{2,4})\s+(.+)$/i;
@@ -103,6 +107,8 @@ function isValidAccountHeader(
 ): boolean {
   const trimmed = rest.trim();
   if (!trimmed || !/^[A-Z0-9]/.test(trimmed)) return false;
+  // Calais partnership parcels: "W/S CALAIS PROPERTIES", "W/S SOUTH STREET MARKETPLACE".
+  if (/^W\/S\s+[A-Z]/i.test(trimmed)) return true;
   if (isStreetOnly(trimmed) && layout !== "map-lot") return false;
   if (/acres/i.test(trimmed) && !/,/.test(trimmed)) return false;
   if (layout === "map-lot") return true;
@@ -279,6 +285,31 @@ function isMailOrAddressLine(line: string): boolean {
   return true;
 }
 
+/** Calais map-lot pages place the lot line immediately before the next land-first account row. */
+function stealTrailingMapLotLine(block: AccountBlock | null): string | null {
+  if (!block || block.bodyLines.length === 0) return null;
+  const lastLine = block.bodyLines[block.bodyLines.length - 1]!.trim();
+  if (!MAP_LOT_LINE_RE.test(lastLine)) return null;
+  block.bodyLines.pop();
+  return lastLine;
+}
+
+function startAccountBlock(
+  blocks: AccountBlock[],
+  current: AccountBlock | null,
+  next: Omit<AccountBlock, "bodyLines">,
+  landFirstRest?: string,
+): AccountBlock {
+  const carryMapLot =
+    landFirstRest !== undefined && /^W\/S\s/i.test(landFirstRest.trim());
+  const carriedMapLot = carryMapLot ? stealTrailingMapLotLine(current) : null;
+  if (current) blocks.push(current);
+  return {
+    ...next,
+    bodyLines: carriedMapLot ? [carriedMapLot] : [],
+  };
+}
+
 function segmentAccountBlocks(text: string, layout: CommitmentLayout = "by-name"): AccountBlock[] {
   const lines = text.split("\n");
   const blocks: AccountBlock[] = [];
@@ -289,17 +320,23 @@ function segmentAccountBlocks(text: string, layout: CommitmentLayout = "by-name"
     const trimmed = line.trim();
     if (!trimmed) continue;
 
+    if (isCommitmentPageNoiseLine(trimmed)) {
+      if (current) {
+        blocks.push(current);
+        current = null;
+      }
+      continue;
+    }
+
     const cutlerHeaderMatch = trimmed.match(CUTLER_HEADER_RE);
     if (
       cutlerHeaderMatch &&
       isValidAccountHeader(cutlerHeaderMatch[2]!, cutlerHeaderMatch[3]!, layout)
     ) {
-      if (current) blocks.push(current);
-      current = {
+      current = startAccountBlock(blocks, current, {
         ...parseHeaderLine(cutlerHeaderMatch[2]!, cutlerHeaderMatch[3]!),
         leadingMapLot: cutlerHeaderMatch[1]!.trim(),
-        bodyLines: [],
-      };
+      });
       continue;
     }
 
@@ -333,26 +370,33 @@ function segmentAccountBlocks(text: string, layout: CommitmentLayout = "by-name"
         isValidAccountHeader(accountFirstAlt[1]!, accountFirstAlt[2]!, layout);
 
       if (!preferAccountFirst) {
-        if (current) blocks.push(current);
         const parsed = parseHeaderLine(landFirstMatch[2]!, landFirstMatch[3]!);
         const leadingLand = cleanMoney(landFirstMatch[1]!);
         if (landFirstThreeMoney && !parsed.headerAssessment) {
-          current = {
-            ...parsed,
-            ownerRaw: landFirstThreeMoney[1]!.trim(),
-            headerLand: leadingLand,
-            headerBuilding: cleanMoney(landFirstThreeMoney[2]!),
-            headerExempt: cleanMoney(landFirstThreeMoney[3]!),
-            headerAssessment: cleanMoney(landFirstThreeMoney[4]!),
-            headerTax: parsed.headerTax,
-            bodyLines: [],
-          };
+          current = startAccountBlock(
+            blocks,
+            current,
+            {
+              ...parsed,
+              ownerRaw: landFirstThreeMoney[1]!.trim(),
+              headerLand: leadingLand,
+              headerBuilding: cleanMoney(landFirstThreeMoney[2]!),
+              headerExempt: cleanMoney(landFirstThreeMoney[3]!),
+              headerAssessment: cleanMoney(landFirstThreeMoney[4]!),
+              headerTax: parsed.headerTax,
+            },
+            landFirstRestForValidation,
+          );
         } else {
-          current = {
-            ...parsed,
-            headerLand: parsed.headerLand ?? leadingLand,
-            bodyLines: [],
-          };
+          current = startAccountBlock(
+            blocks,
+            current,
+            {
+              ...parsed,
+              headerLand: parsed.headerLand ?? leadingLand,
+            },
+            landFirstRestForValidation,
+          );
         }
         continue;
       }
@@ -360,11 +404,9 @@ function segmentAccountBlocks(text: string, layout: CommitmentLayout = "by-name"
 
     const headerMatch = trimmed.match(/^(\d{1,4})[\t ]+(.+)$/);
     if (headerMatch && isValidAccountHeader(headerMatch[1]!, headerMatch[2]!, layout)) {
-      if (current) blocks.push(current);
-      current = {
+      current = startAccountBlock(blocks, current, {
         ...parseHeaderLine(headerMatch[1]!, headerMatch[2]!),
-        bodyLines: [],
-      };
+      });
       continue;
     }
 
@@ -477,11 +519,21 @@ function selectMapLotsForBlock(
 
   if (acresBound.length > 0) {
     const seen = new Set<string>();
-    return acresBound.filter((lot) => {
+    const filtered = acresBound.filter((lot) => {
       if (seen.has(lot.normalized)) return false;
       seen.add(lot.normalized);
       return true;
     });
+    const leadingBodyLine = block.bodyLines[0]?.trim();
+    if (leadingBodyLine && MAP_LOT_LINE_RE.test(leadingBodyLine)) {
+      for (const piece of expandCompoundMapLots(leadingBodyLine.match(MAP_LOT_LINE_RE)?.[1] ?? leadingBodyLine)) {
+        const normalized = normalizeMapBkLot(piece);
+        if (!normalized || seen.has(normalized)) continue;
+        seen.add(normalized);
+        filtered.unshift({ raw: piece, normalized, index: 0 });
+      }
+    }
+    return filtered;
   }
 
   // No Acres binding: if lots span different map sheets, keep only the first lot.

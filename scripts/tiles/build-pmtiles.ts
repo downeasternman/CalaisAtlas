@@ -3,6 +3,7 @@
  * then convert to PMTiles with the local go-pmtiles binary.
  */
 import { spawnSync } from "node:child_process";
+import { existsSync } from "node:fs";
 import { readFile, writeFile, unlink } from "node:fs/promises";
 import path from "node:path";
 import { gzipSync } from "node:zlib";
@@ -43,6 +44,28 @@ function bboxTiles(
 
 function tmsY(z: number, y: number): number {
   return 2 ** z - 1 - y;
+}
+
+export function resolvePmtilesBinary(): string {
+  if (process.env.PMTILES_BIN && existsSync(process.env.PMTILES_BIN)) {
+    return process.env.PMTILES_BIN;
+  }
+
+  const binName = process.platform === "win32" ? "pmtiles.exe" : "pmtiles";
+  const localBin = path.join(ROOT, "tools", "pmtiles-bin", binName);
+  if (existsSync(localBin)) return localBin;
+
+  const which = spawnSync(process.platform === "win32" ? "where" : "which", ["pmtiles"], {
+    encoding: "utf8",
+  });
+  if (which.status === 0) {
+    const candidate = which.stdout.trim().split(/\r?\n/)[0];
+    if (candidate && existsSync(candidate)) return candidate;
+  }
+
+  throw new Error(
+    "pmtiles binary not found. Set PMTILES_BIN, install go-pmtiles, or place binary in tools/pmtiles-bin/",
+  );
 }
 
 export async function buildPmtilesFromLayers(options: {
@@ -160,7 +183,7 @@ export async function buildPmtilesFromLayers(options: {
   await writeFile(mbtilesPath, Buffer.from(data));
   console.log(`  wrote ${mbtilesPath} (${tileCount} tiles)`);
 
-  const pmtilesBin = path.join(ROOT, "tools", "pmtiles-bin", "pmtiles.exe");
+  const pmtilesBin = resolvePmtilesBinary();
   const convert = spawnSync(pmtilesBin, ["convert", mbtilesPath, pmtilesPath], {
     encoding: "utf8",
   });

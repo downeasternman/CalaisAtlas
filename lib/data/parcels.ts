@@ -1,8 +1,10 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { readProcessedJson } from "./reader";
+import type { DatasetStatus, DataLoadState } from "./load-state";
 import type { Parcel, ParcelWithSources } from "@/lib/types/parcel";
 import type { Source } from "@/lib/types/source";
+import { getParcelWarnings } from "@/lib/parcel/provenance";
 
 type SourcesManifest = {
   sources: Source[];
@@ -26,16 +28,35 @@ type TaxSourcesManifest = {
 type MunicipalityRow = { id: string; name: string };
 
 let parcelCache: Parcel[] | null = null;
+let parcelById: Map<string, Parcel> | null = null;
+let parcelLoadState: DataLoadState = "missing";
+let parcelLoadError: string | null = null;
 let sourcesCache: Map<string, Source> | null = null;
 let taxSourcesCache: Map<string, Source> | null = null;
 let municipalityNames: Map<string, string> | null = null;
+
+export async function getParcelsLoadStatus(): Promise<DatasetStatus> {
+  await loadParcels();
+  return {
+    state: parcelLoadState,
+    count: parcelCache?.length ?? 0,
+    errorMessage: parcelLoadError,
+  };
+}
 
 async function loadParcels(): Promise<Parcel[]> {
   if (parcelCache) return parcelCache;
   try {
     parcelCache = await readProcessedJson<Parcel[]>("parcels.json");
-  } catch {
+    parcelById = new Map(parcelCache.map((p) => [p.id, p]));
+    parcelLoadState = "ok";
+    parcelLoadError = null;
+  } catch (err) {
+    parcelLoadState =
+      err instanceof Error && "code" in err && err.code === "ENOENT" ? "missing" : "error";
+    parcelLoadError = err instanceof Error ? err.message : "Unknown error";
     parcelCache = [];
+    parcelById = new Map();
   }
   return parcelCache;
 }
@@ -91,14 +112,16 @@ async function loadMunicipalityNames(): Promise<Map<string, string>> {
     const rows = await readProcessedJson<MunicipalityRow[]>("municipalities.json");
     municipalityNames = new Map(rows.map((r) => [r.id, r.name]));
   } catch {
-    municipalityNames = new Map();
+    municipalityNames = new Map([["calais", "Calais"]]);
   }
   return municipalityNames;
 }
 
 export async function getParcelById(id: string): Promise<ParcelWithSources | null> {
   const parcels = await loadParcels();
-  const parcel = parcels.find((p) => p.id === id);
+  if (parcelLoadState !== "ok") return null;
+
+  const parcel = parcelById?.get(id) ?? parcels.find((p) => p.id === id);
   if (!parcel) return null;
 
   const [sources, taxSources, muniNames] = await Promise.all([
@@ -110,7 +133,7 @@ export async function getParcelById(id: string): Promise<ParcelWithSources | nul
   const taxSourceId = parcel.taxSourceId ?? parcel.sourceId;
   const geometrySourceId = parcel.geometrySourceId ?? "megis-organized-parcels";
 
-  return {
+  const enriched: ParcelWithSources = {
     ...parcel,
     municipalityName: parcel.municipalityId
       ? (muniNames.get(parcel.municipalityId) ?? null)
@@ -130,10 +153,18 @@ export async function getParcelById(id: string): Promise<ParcelWithSources | nul
         ingestedAt: null,
       },
   };
+
+  return {
+    ...enriched,
+    warnings: getParcelWarnings(enriched),
+  };
 }
 
 export function clearParcelCache() {
   parcelCache = null;
+  parcelById = null;
+  parcelLoadState = "missing";
+  parcelLoadError = null;
   sourcesCache = null;
   taxSourcesCache = null;
   municipalityNames = null;

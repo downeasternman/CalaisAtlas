@@ -10,9 +10,9 @@ An interactive geographic atlas for **Calais, Maine** — combining public parce
 
 ## What this is
 
-A hybrid atlas and parcel research tool for the City of Calais. Explore the city on a full-bleed map, then inspect ownership and tax attributes where public data is available. Place-name search is the primary jump path.
+A hybrid atlas and parcel research tool for the City of Calais. Explore the city on a full-bleed map, then inspect ownership and tax attributes where public data is available. **Property search** (address, owner, map/lot, account, or place) is the primary jump path.
 
-Parcel fills are colored by **assessed total ÷ GIS acreage** percentile **within** improved (building > $0) vs unimproved (building $0) cohorts: **lowest blue, highest red**. Fully tax-exempt parcels use a distinct purple fill; homestead exemptions are marked with a star. Parcels missing a valid total or GIS acres stay gray.
+Parcel fills are colored by **assessed total ÷ GIS acreage** percentile **within** improved (building > $0) vs unimproved (building $0) cohorts: **lowest blue, highest red**. Book-fully-exempt parcels use a distinct purple fill; public-owner heuristics stay in cohort colors with panel warnings. Homestead exemptions are marked with a ★ on the map. Parcels missing a valid total or GIS acres stay gray.
 
 ## Data policy
 
@@ -54,15 +54,18 @@ Work proceeds in gated phases. Each phase stops for review before the next.
 - pnpm 10+
 - PostgreSQL 16 + PostGIS 3 (optional in early phases)
 
-### Setup
+### Setup (fixtures — no ETL required)
 
 ```bash
 pnpm install
 cp .env.example .env
+pnpm dev:bootstrap
 pnpm dev
 ```
 
-After `pnpm phase:calais` (or `pnpm etl:merge:parcels && pnpm tiles:parcels`), open [http://localhost:3000](http://localhost:3000).
+See [docs/DEPLOYMENT.md](./docs/DEPLOYMENT.md) for full data rebuild and deploy notes.
+
+After `pnpm phase:calais` (full local ETL), open [http://localhost:3000](http://localhost:3000).
 
 ### Scripts
 
@@ -71,7 +74,10 @@ After `pnpm phase:calais` (or `pnpm etl:merge:parcels && pnpm tiles:parcels`), o
 | `pnpm dev` | Start development server |
 | `pnpm build` | Production build |
 | `pnpm lint` | Run ESLint |
-| `pnpm test` | Run unit tests (Vitest) |
+| `pnpm dev:bootstrap` | Copy committed runtime/tile fixtures into `data/processed` and `public/tiles` |
+| `pnpm test:ci` | Unit tests (single worker, CI-safe) |
+| `pnpm typecheck:scripts` | Typecheck ETL scripts |
+| `pnpm release:package` | Write `data/manifest/release.json` with checksums |
 | `pnpm test:e2e` | Run end-to-end tests (Playwright) |
 | `pnpm phase:b` | Calais boundaries + OSM + basemap tiles |
 | `pnpm phase:c` | Normalize place-name search index |
@@ -88,4 +94,4 @@ After `pnpm phase:calais` (or `pnpm etl:merge:parcels && pnpm tiles:parcels`), o
 
 ## License
 
-TBD.
+MIT — see [LICENSE](./LICENSE).

@@ -226,6 +226,26 @@ describe("parseCommitmentText", () => {
 
     expect(rows.find((r) => r.mapLot === "003-001-011")).toBeUndefined();
   });
+
+  it("segments Calais VOSE page bleed: Stephen Vose only on 037-100-003-1; South Street on W/S accounts", () => {
+    const rows = parseCommitmentText(fixture("calais-block-vose-southstreet-bleed.txt"), "29070", 2025);
+    const vose = rows.filter((r) => r.accountNumber === "247");
+    expect(vose).toHaveLength(1);
+    expect(vose[0]?.mapLot).toBe("037-100-003-1");
+    expect(vose[0]?.ownerName?.toUpperCase()).toContain("VOSE");
+    expect(vose[0]?.assessedTotalValue).toBe("219500");
+    expect(vose[0]?.mailAddress?.toUpperCase()).toContain("HAMPDEN");
+
+    const lot005 = rows.find((r) => r.mapLot === "012-008-005");
+    expect(lot005?.accountNumber).toBe("1276");
+    expect(lot005?.ownerName?.toUpperCase()).toMatch(/SOUTH STREET|MARKETPLACE/);
+    expect(lot005?.ownerName?.toUpperCase()).not.toContain("VOSE");
+    expect(lot005?.taxAmount).toBe("1937.20");
+
+    const lot004 = rows.find((r) => r.mapLot === "012-008-004");
+    expect(lot004?.accountNumber).toBe("1276");
+    expect(lot004?.ownerName?.toUpperCase()).not.toContain("VOSE");
+  });
 });
 
 describe("sanitizeOwnerName", () => {

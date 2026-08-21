@@ -9,7 +9,7 @@ test.describe("Phase F — per-acre cohort choropleth", () => {
     await expect(page.getByRole("button", { name: "Assessed value / acre" })).toBeVisible();
     await expect(page.getByRole("group", { name: "Cohort visibility" })).toBeVisible();
     await expect(page.getByRole("button", { name: "Both", pressed: true })).toBeVisible();
-    await expect(page.getByText("Fully tax-exempt")).toBeVisible();
+    await expect(page.getByText("Fully tax-exempt (book)")).toBeVisible();
     await expect(page.getByText("Homestead exemption")).toBeVisible();
     await expect(page.getByText("$25k / $31k exemption in commitment book")).toBeVisible();
     await expect(page.getByText("Lowest $/ac").first()).toBeVisible();

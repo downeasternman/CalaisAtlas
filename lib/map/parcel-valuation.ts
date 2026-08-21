@@ -48,6 +48,11 @@ export type ParcelValuationAttrs = {
   valuePct: number;
   valuePerAcre: number | null;
   cohort: ParcelCohort;
+  /** Book-based full exemption (exemption ≥ total or land+building rule). */
+  bookFullyExempt: boolean;
+  /** Public/institutional owner heuristic — panel warning only. */
+  likelyPublicOwner: boolean;
+  /** @deprecated Use bookFullyExempt for map fill. Kept for API parity. */
   fullyExempt: boolean;
   homestead: boolean;
 };
@@ -144,6 +149,15 @@ export function isMapTaxExempt(input: {
   assessedBuildingValue?: string | null;
 }): boolean {
   if (isPublicTaxExemptOwner(input.ownerName)) return true;
+  return isBookFullyExempt(input);
+}
+
+export function isBookFullyExempt(input: {
+  assessedExemptionValue?: string | null;
+  assessedTotalValue?: string | null;
+  assessedLandValue?: string | null;
+  assessedBuildingValue?: string | null;
+}): boolean {
   if (isFullyExempt(input.assessedExemptionValue, input.assessedTotalValue)) return true;
   if (
     isExemptByLandBuilding(
@@ -272,13 +286,14 @@ export function computeCalaisValuePerAcrePercentiles(
   const unimproved: Array<{ id: string; value: number }> = [];
 
   for (const parcel of parcels) {
-    const fullyExempt = isMapTaxExempt(parcel);
+    const likelyPublicOwner = isPublicTaxExemptOwner(parcel.ownerName);
+    const bookFullyExempt = isBookFullyExempt(parcel);
     const homestead = isHomesteadExemption(
       parcel.assessedExemptionValue,
       parcel.attrsRaw,
     );
     const cohort = classifyBuildingCohort(parcel.assessedBuildingValue);
-    const vpa = fullyExempt
+    const vpa = bookFullyExempt
       ? null
       : valuePerAcre(parcel.assessedTotalValue, parcel.gisAcreage);
 
@@ -286,11 +301,13 @@ export function computeCalaisValuePerAcrePercentiles(
       valuePct: NO_VALUE_PCT,
       valuePerAcre: vpa,
       cohort,
-      fullyExempt,
+      bookFullyExempt,
+      likelyPublicOwner,
+      fullyExempt: bookFullyExempt,
       homestead,
     });
 
-    if (fullyExempt) continue;
+    if (bookFullyExempt) continue;
     if (vpa == null) continue;
     if (cohort === COHORT_IMPROVED) {
       improved.push({ id: parcel.id, value: vpa });
@@ -332,7 +349,7 @@ function propNumber(key: string, fallback: number): ExpressionSpecification {
 export function parcelValuationFillExpression(): ExpressionSpecification {
   return [
     "case",
-    ["==", propNumber("fullyExempt", 0), 1],
+    ["==", propNumber("bookFullyExempt", 0), 1],
     PARCEL_VALUATION_COLORS.exempt.fill,
     ["==", propNumber("valuePct", NO_VALUE_PCT), NO_VALUE_PCT],
     PARCEL_VALUATION_COLORS.none.fill,
@@ -357,7 +374,7 @@ export function parcelValuationFillExpression(): ExpressionSpecification {
 export function parcelValuationLineExpression(): ExpressionSpecification {
   return [
     "case",
-    ["==", propNumber("fullyExempt", 0), 1],
+    ["==", propNumber("bookFullyExempt", 0), 1],
     PARCEL_VALUATION_COLORS.exempt.line,
     ["==", propNumber("valuePct", NO_VALUE_PCT), NO_VALUE_PCT],
     PARCEL_VALUATION_COLORS.none.line,
@@ -388,7 +405,7 @@ export function cohortVisibilityFilter(
     mode === "improved" ? COHORT_IMPROVED : COHORT_UNIMPROVED;
   return [
     "any",
-    ["==", propNumber("fullyExempt", 0), 1],
+    ["==", propNumber("bookFullyExempt", 0), 1],
     ["==", propNumber("cohort", COHORT_NONE), COHORT_NONE],
     ["==", propNumber("cohort", COHORT_NONE), cohort],
   ] as unknown as FilterSpecification;

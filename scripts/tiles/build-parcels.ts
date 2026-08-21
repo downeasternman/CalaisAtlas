@@ -8,7 +8,6 @@ import {
   COHORT_NONE,
   NO_VALUE_PCT,
   cohortOrMissing,
-  computeCalaisValuePerAcrePercentiles,
   flagOrMissing,
   valuePctOrMissing,
 } from "@/lib/map/parcel-valuation";
@@ -19,15 +18,10 @@ import { PROCESSED_DIR, TILES_DIR, ensureDirs, readJson } from "../etl/paths";
 type ParcelMeta = {
   id: string;
   municipalityId: string;
-  ownerName?: string | null;
-  assessedTotalValue: string | null;
-  assessedLandValue?: string | null;
-  assessedBuildingValue?: string | null;
-  assessedExemptionValue?: string | null;
-  gisAcreage?: string | null;
-  attrsRaw?: Record<string, unknown> | null;
+  mapLot?: string | null;
   valuePct?: number | null;
   cohort?: number | null;
+  bookFullyExempt?: boolean | null;
   fullyExempt?: boolean | null;
   homestead?: boolean | null;
 };
@@ -62,8 +56,6 @@ async function main() {
 
   const geojson = await loadOrganizedGeoJson();
   const parcels = await readJson<ParcelMeta[]>(path.join(PROCESSED_DIR, "parcels.json"));
-
-  const ranks = computeCalaisValuePerAcrePercentiles(parcels);
   const parcelMeta = new Map(parcels.map((p) => [p.id, p]));
 
   const parcelFeatures: GeoJSON.Feature[] = [];
@@ -72,20 +64,20 @@ async function main() {
   for (const f of geojson.features) {
     const id = String(f.properties?.id ?? "");
     const meta = parcelMeta.get(id);
-    const ranked = ranks.get(id);
-    const valuePct = valuePctOrMissing(
-      meta?.valuePct ?? ranked?.valuePct ?? NO_VALUE_PCT,
-    );
-    const cohort = cohortOrMissing(meta?.cohort ?? ranked?.cohort ?? COHORT_NONE);
-    const fullyExempt = flagOrMissing(meta?.fullyExempt ?? ranked?.fullyExempt);
-    const homestead = flagOrMissing(meta?.homestead ?? ranked?.homestead);
+    if (!meta) continue;
+
+    const valuePct = valuePctOrMissing(meta.valuePct ?? NO_VALUE_PCT);
+    const cohort = cohortOrMissing(meta.cohort ?? COHORT_NONE);
+    const bookFullyExempt = flagOrMissing(meta.bookFullyExempt ?? meta.fullyExempt ?? false);
+    const homestead = flagOrMissing(meta.homestead ?? false);
     const props = {
       id,
       municipalityId: String(f.properties?.municipalityId ?? meta?.municipalityId ?? ""),
-      mapLot: String(f.properties?.mapBkLot ?? ""),
+      mapLot: String(f.properties?.mapBkLot ?? meta?.mapLot ?? ""),
       valuePct,
       cohort,
-      fullyExempt,
+      bookFullyExempt,
+      fullyExempt: bookFullyExempt,
       homestead,
     };
 

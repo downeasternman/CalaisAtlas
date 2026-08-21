@@ -17,6 +17,8 @@ export interface Parcel {
   /** -1 none, 0 unimproved ($0 building), 1 improved */
   cohort: number | null;
   fullyExempt: boolean | null;
+  bookFullyExempt?: boolean | null;
+  likelyPublicOwner?: boolean | null;
   homestead: boolean | null;
   hasTreeGrowth: boolean | null;
   taxYear: number | null;
@@ -48,11 +50,20 @@ export interface Parcel {
   sourceId: string | null;
   attrsRaw: Record<string, unknown> | null;
   updatedAt: string | null;
+  centroid?: [number, number] | null;
+  bbox?: [number, number, number, number] | null;
 }
+
+export type ParcelWarning = {
+  code: string;
+  message: string;
+  severity: "info" | "warn";
+};
 
 export interface ParcelWithSources extends Parcel {
   taxSource: Source | null;
   geometrySource: Source | null;
   municipalityName: string | null;
   taxMunicipalityName: string | null;
+  warnings?: ParcelWarning[];
 }
